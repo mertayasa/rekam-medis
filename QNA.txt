@@ -1,0 +1,3 @@
+1. Perlukah forgot password sama register ?
+2. Perlukah pakai email ?
+3. Apa aja isi jabatan ?
