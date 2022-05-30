@@ -12,14 +12,13 @@ use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
-    public function index($page = null)
+    public function index()
     {
-        $page = $page == null ?  'index' : $page;
         $data = [
             'profile' => Auth::user()
         ];
 
-        return view('profile.'.$page, $data);
+        return view('profile.index', $data);
     }
     
     public function edit()

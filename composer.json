@@ -12,7 +12,8 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "laravelcollective/html": "^6.2"
+        "laravelcollective/html": "^6.2",
+        "yajra/laravel-datatables": "^1.5"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -32,7 +33,11 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
+        },
+        "files": [
+            "app/Helpers/Constant.php",
+            "app/Helpers/Helpers.php"
+        ]
     },
     "scripts": {
         "post-autoload-dump": [

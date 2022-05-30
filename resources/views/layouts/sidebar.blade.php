@@ -1,4 +1,12 @@
-<div class="col-md-3">
+<div class="col-md-2 mb-3">
+    <h5>Master</h5>
+    <ul class="list-group">
+        <a class="text-decoration-none" href="{{ route('pasien.index') }}">
+            <li class="list-group-item {{ (Request::is('*pasien*') || Request::is('*rekam-medis*')) ? 'bg-light' : '' }}">Pasien</li>
+        </a>
+    </ul>
+    
+    <h5 class="mt-4">Biodata</h5>
     <ul class="list-group">
         <a class="text-decoration-none" href="{{ route('profile.index') }}">
             <li class="list-group-item {{ Request::is('profile') ? 'bg-light' : '' }}">Biodata</li>

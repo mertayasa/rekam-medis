@@ -23,10 +23,12 @@
             background-color: white;
         }
     </style>
+    <link rel="stylesheet" type="text/css" href=" {{ asset('plugin/datatable/datatables.min.css') }}">
+    <link href="{{ asset('plugin/sweetalert2/dist/sweetalert2.css') }}" rel="stylesheet">   
     @stack('styles')
 </head>
 <body>
-    <div id="app">
+    <div id="app" x-data="{}">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -38,14 +40,14 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+                    {{-- <ul class="navbar-nav me-auto">
                         <li class="nav-item active">
                             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                           </li>
                           <li class="nav-item">
                             <a class="nav-link" href="#">Link</a>
                           </li>
-                    </ul>
+                    </ul> --}}
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
@@ -99,8 +101,158 @@
                     </div>
                 </div>
             </div> --}}
-            @yield('content')
+            <div class="container">
+                <div class="row justify-content-center">
+                    @include('layouts.sidebar')
+                    <div class="col-md-10">
+                        @yield('content')
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
+
+    <script src="{{ asset('plugin/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('plugin/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('plugin/datatable/datatables.min.js') }}"></script>
+    <script src="{{ asset('plugin/sweetalert2/dist/sweetalert2.min.js') }}"></script>
+    <script defer src="{{ asset('plugin/alpinejs/alpine.min.js') }}"></script>
+    <script>
+        const baseUrl = "{{ url('/') }}"
+
+        function deleteModel(deleteUrl, tableId, additionalMethod = null) {
+            Swal.fire({
+                title: "Warning",
+                text: "Yakin menghapus data?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#169b6b',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: deleteUrl,
+                        dataType: "Json",
+                        data: {
+                            "_token": "{{ csrf_token() }}"
+                        },
+                        method: "delete",
+                        success: function(data) {
+                            if (data.code == 1) {
+                                Swal.fire(
+                                    'Berhasil',
+                                    data.message,
+                                    'success'
+                                )
+
+                                if (additionalMethod != null) {
+                                    additionalMethod.apply(this, [data.args])
+                                }
+
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: data.message
+                                })
+                            }
+
+                            $('#' + tableId).DataTable().ajax.reload();
+                        }
+                    })
+                }
+            })
+        }
+
+        function showToast(code, text) {
+            if (code == 1) {
+                toastr.success(text)
+            }
+
+            if (code == 0) {
+                toastr.error(text)
+            }
+        }
+
+        function showSwalAlert(type, message){
+            const title = type == 'success' ? 'Success' : (type == 'error' ? 'Oppps..' : 'Warning')
+            return Swal.fire({
+                title: title,
+                text: message,
+                icon: type,
+            })
+        }
+
+        function numberFormat(num){
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")
+        }
+
+        function clearErrorMessage() {
+            const invalidFeedback = document.getElementsByClassName('invalid-feedback')
+
+            for (let invalid = 0; invalid < invalidFeedback.length; invalid++) {
+                const element = invalidFeedback[invalid]
+                const targetField = element.getAttribute('error-name')
+                const inputElement = document.querySelectorAll(`[name="${targetField}"]`)
+                element.innerHTML = ''
+                for (let inputEl = 0; inputEl < inputElement.length; inputEl++) {
+                    if (inputElement[inputEl] != undefined) {
+                        inputElement[inputEl].classList.remove('is-invalid')
+                    }
+                }
+
+            }
+        }
+
+        function showValidationMessage(errors) {
+            Object.keys(errors).forEach(function(key) {
+                let errorSpan = document.querySelectorAll(`[error-name="${key}"]`)
+                let errorInput = document.querySelectorAll(`[name="${key}"]`)
+
+                for (let eInput = 0; eInput < errorInput.length; eInput++) {
+                    const selectedErrorInput = errorInput[eInput];
+                    selectedErrorInput.classList.add('is-invalid')
+                }
+
+                for (let eSpan = 0; eSpan < errorSpan.length; eSpan++) {
+                    const selectedErrorSpan = errorSpan[eSpan];
+                    if (selectedErrorSpan != undefined) {
+                        selectedErrorSpan.innerHTML = errors[key][0]
+                    } else {
+                        showToast(0, 'Terjadi kesalahan pada sistem')
+                    }
+                }
+
+            })
+        }
+
+        function isNull(value) {
+            if (value == '' || value == undefined || value == null) {
+                return true
+            }
+
+            return false;
+        }
+
+        function showPassword(id) {
+            var passWordEl = document.getElementById(id);
+            if (passWordEl.type === "password") {
+                passWordEl.type = "text";
+            } else {
+                passWordEl.type = "password";
+            }
+        }
+
+        const numberOnlyInput = document.getElementsByClassName('number-only')
+        for (let index = 0; index < numberOnlyInput.length; index++) {
+            const numberOnly = numberOnlyInput[index];
+            numberOnly.addEventListener('input', function(element) {
+                element.target.value = element.target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')
+            })
+        }
+    </script>
+    @stack('scripts')
 </body>
 </html>
