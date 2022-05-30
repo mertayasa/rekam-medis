@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\PasienDataTable;
+use App\Http\Requests\PasienRequest;
 use App\Models\Pasien;
 use Exception;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ class PasienController extends Controller
         return view('pasien.create');
     }
 
-    public function store(Request $request)
+    public function store(PasienRequest $request)
     {
         //
     }
