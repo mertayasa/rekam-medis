@@ -19,6 +19,7 @@ class CreateOpsiIntervensisTable extends Migration
             $table->unsignedBigInteger('id_intervensi');
             $table->string('value')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('id_intervensi')->references('id')->on('intervensi');
         });

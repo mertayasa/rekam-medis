@@ -18,6 +18,7 @@ class CreateIntervensisTable extends Migration
             $table->string('value')->nullable();
             $table->text('keterangan');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

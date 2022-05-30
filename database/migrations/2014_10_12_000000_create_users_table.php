@@ -26,7 +26,9 @@ class CreateUsersTable extends Migration
             $table->text('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->rememberToken();
-            // $table->timestamps();
+            $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

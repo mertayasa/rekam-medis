@@ -17,6 +17,7 @@ class CreateKondisiKlinisTable extends Migration
             $table->id();
             $table->string('value')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

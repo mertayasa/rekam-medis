@@ -20,6 +20,7 @@ class CreateRekamMedisTable extends Migration
             $table->string('key', 100);
             $table->longText('value');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

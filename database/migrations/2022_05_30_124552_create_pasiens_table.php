@@ -30,6 +30,7 @@ class CreatePasiensTable extends Migration
             // $table->text('keluhan_utama')->nullable();
             // $table->string('diagnosa_medis')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
