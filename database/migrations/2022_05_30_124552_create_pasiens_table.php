@@ -27,8 +27,8 @@ class CreatePasiensTable extends Migration
             $table->string('hubungan_wali', 100)->nullable();
             $table->string('kontak_wali', 100)->nullable();
             $table->string('no_rm', 100)->nullable();
-            $table->text('keluhan_utama')->nullable();
-            $table->string('diagnosa_medis')->nullable();
+            // $table->text('keluhan_utama')->nullable();
+            // $table->string('diagnosa_medis')->nullable();
             $table->timestamps();
         });
     }

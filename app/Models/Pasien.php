@@ -22,8 +22,8 @@ class Pasien extends Model
         'tanggal_keluar',
         'nama_wali',
         'hubungan_wali',
-        'keluhan_utama',
-        'diagnosa_medis',
+        // 'keluhan_utama',
+        // 'diagnosa_medis',
         'kontak_wali',
         'no_rm',
     ];

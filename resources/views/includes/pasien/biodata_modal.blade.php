@@ -51,12 +51,12 @@
                     <tr>
                         <td>Diagnosa Medis</td>
                         <td width="50" class="text-center">:</td>
-                        <td x-text="$store.pasienModal.pasien.diagnosa_medis"></td>
+                        <td x-text="$store.pasienModal.pasien.diagnosa_medis ?? '-'"></td>
                     </tr>
                     <tr>
                         <td>Keluhan Utama</td>
                         <td width="50" class="text-center">:</td>
-                        <td x-text="$store.pasienModal.pasien.keluhan_utama"></td>
+                        <td x-text="$store.pasienModal.pasien.keluhan_utama?.asd?.asdasd?.asd ?? '-'"></td>
                     </tr>
                     <tr>
                         <td>Nama Wali</td>
@@ -76,7 +76,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>
@@ -102,7 +102,6 @@
                         .then(response => response.json())
                         .then(data => {
                             this.pasien = data
-                            console.log(data);
                             $('#pasienDetail').modal('show')
                         })
                         .catch((error) => {

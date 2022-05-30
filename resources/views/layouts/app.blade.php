@@ -103,7 +103,9 @@
             </div> --}}
             <div class="container">
                 <div class="row justify-content-center">
-                    @include('layouts.sidebar')
+                    @auth
+                        @include('layouts.sidebar')
+                    @endauth
                     <div class="col-md-10">
                         @yield('content')
                     </div>

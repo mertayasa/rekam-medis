@@ -28,7 +28,7 @@ class PasienController extends Controller
 
     public function create()
     {
-        //
+        return view('pasien.create');
     }
 
     public function store(Request $request)

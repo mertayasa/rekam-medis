@@ -28,9 +28,9 @@ class PasienFactory extends Factory
             'tanggal_masuk' => Carbon::now()->subDay(rand(30, 50)),
             'tanggal_keluar' => Carbon::now()->subDay(rand(10, 20)),
             'nama_wali' => $this->faker->name(),
-            'hubungan_wali' => 'Keluarga',
-            'keluhan_utama' => $hubungan[rand(0,5)],
-            'diagnosa_medis' => $this->faker->sentence(),
+            'hubungan_wali' => $hubungan[rand(0,5)],
+            // 'keluhan_utama' => $this->faker->sentence(),
+            // 'diagnosa_medis' => $this->faker->sentence(),
             'kontak_wali' => $this->faker->e164PhoneNumber(),
             'no_rm' => rand(1, 99),
         ];
