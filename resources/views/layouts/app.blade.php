@@ -72,7 +72,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('profile.index') }}">
-                                        Profil
+                                        Biodata
                                     </a>
 
                                     <a class="dropdown-item text-danger" href="{{ route('logout') }}"
@@ -88,6 +88,7 @@
                             </li>
                         @endguest
                     </ul>
+                    
                 </div>
             </div>
         </nav>
@@ -115,7 +116,7 @@
     </div>
 
     <script src="{{ asset('plugin/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ asset('plugin/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    {{-- <script src="{{ asset('plugin/bootstrap/dist/js/bootstrap.min.js') }}"></script> --}}
     <script src="{{ asset('plugin/datatable/datatables.min.js') }}"></script>
     <script src="{{ asset('plugin/sweetalert2/dist/sweetalert2.min.js') }}"></script>
     <script defer src="{{ asset('plugin/alpinejs/alpine.min.js') }}"></script>
