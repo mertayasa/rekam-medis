@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class PasienRequest extends FormRequest
 {
@@ -30,13 +32,21 @@ class PasienRequest extends FormRequest
             'tempat_lahir' => ['required', 'max:255'],
             'tanggal_lahir' => ['required', 'date'],
             'alamat' => ['required', 'max:255'],
-            'no_hp' => ['required', 'max:15'],
+            'no_hp' => ['required', 'max:18'],
             'tanggal_masuk' => ['required', 'date'],
             'tanggal_keluar' => ['required', 'date'],
             'nama_wali' => ['required', 'max:100'],
-            'hubungan_wali' => ['required', Rule::in(['Ayah', 'Ibu', 'Kakak', 'Adik', 'Lainnya'])],
+            'hubungan_wali' => ['required', Rule::in(['Ayah', 'Ibu', 'Kakak', 'Adik', 'Kakek', 'Nenek', 'Lainnya'])],
             'kontak_wali' => ['required', 'max:255'],
             'no_rm' => ['required', 'max:255'],
         ];
+    }
+
+    protected function failedValidation(Validator $validator) {
+        throw new HttpResponseException(
+            response()->json([
+                'message' => $validator->errors()
+            ], 422)
+        );
     }
 }

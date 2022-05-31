@@ -16,10 +16,10 @@ class Pasien extends Model
     protected $fillable = [
         'nama',
         'jenis_kelamin',
+        'no_hp',
         'tempat_lahir',
         'tanggal_lahir',
         'alamat',
-        'no_hp',
         'tanggal_masuk',
         'tanggal_keluar',
         'nama_wali',

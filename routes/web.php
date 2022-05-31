@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RekamMedisController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -42,11 +43,11 @@ Route::group(['middleware' => 'auth'], function (){
 
     Route::group(['prefix' => 'rekam-medis', 'as' => 'rekam.'], function () {
         Route::group(['prefix' => 'edit'], function () {
-            Route::get('pengkajian', [ProfileController::class, 'editPengkajian'])->name('edit_pengkajian');
+            Route::get('pengkajian/{pasien}', [RekamMedisController::class, 'editPengkajian'])->name('edit_pengkajian');
         });
 
         Route::group(['prefix' => 'update'], function () {
-            Route::get('pengkajian', [ProfileController::class, 'updatePengkajian'])->name('update_pengkajian');
+            Route::get('pengkajian', [RekamMedisController::class, 'updatePengkajian'])->name('update_pengkajian');
         });
     });
 });

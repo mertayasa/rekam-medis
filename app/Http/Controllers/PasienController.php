@@ -34,7 +34,19 @@ class PasienController extends Controller
 
     public function store(PasienRequest $request)
     {
-        //
+        try{
+            $pasien = Pasien::create($request->validated());
+            session()->flash('success', 'Pasien berhasil ditambahkan');
+        }catch(Exception $e){
+            Log::error($e);
+            return response(['message' => 'Terjadi kesalahan pada server'], 500);
+        }
+
+        return response([
+            'message' => 'Berhasil menyimpan data', 
+            'redirect_to' => route('pasien.index'),
+            'redirect_to_rmedis' => route('rekam.edit_pengkajian', $pasien->id),
+        ], 200);
     }
 
     public function show(Pasien $pasien)

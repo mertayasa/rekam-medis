@@ -11,6 +11,7 @@
             </div>
         </div>
         <div class="card-body">
+            @include('layouts.flash')
             @include('pasien.datatable')
         </div>
     </div>

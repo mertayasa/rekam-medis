@@ -10,11 +10,11 @@
     <title>Sistem Informasi Rekam Medis</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}
+    {{-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> --}}
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -115,11 +115,12 @@
         </main>
     </div>
 
-    <script src="{{ asset('plugin/jquery/dist/jquery.min.js') }}"></script>
-    {{-- <script src="{{ asset('plugin/bootstrap/dist/js/bootstrap.min.js') }}"></script> --}}
+    <script src="{{ asset('plugin/jquery/dist/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('plugin/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('plugin/datatable/datatables.min.js') }}"></script>
     <script src="{{ asset('plugin/sweetalert2/dist/sweetalert2.min.js') }}"></script>
     <script defer src="{{ asset('plugin/alpinejs/alpine.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
     <script>
         const baseUrl = "{{ url('/') }}"
 
@@ -210,24 +211,28 @@
         }
 
         function showValidationMessage(errors) {
+            const divValidation = document.getElementById('divValidation')
+            const ulValidation = document.getElementById('ulValidation')
+
+            divValidation.classList.remove('d-none')
+
             Object.keys(errors).forEach(function(key) {
-                let errorSpan = document.querySelectorAll(`[error-name="${key}"]`)
-                let errorInput = document.querySelectorAll(`[name="${key}"]`)
+                // let errorSpan = document.querySelectorAll(`[error-name="${key}"]`)
+                // let errorInput = document.querySelectorAll(`[name="${key}"]`)
 
-                for (let eInput = 0; eInput < errorInput.length; eInput++) {
-                    const selectedErrorInput = errorInput[eInput];
-                    selectedErrorInput.classList.add('is-invalid')
-                }
+                // for (let eInput = 0; eInput < errorInput.length; eInput++) {
+                //     const selectedErrorInput = errorInput[eInput];
+                //     selectedErrorInput.classList.add('is-invalid')
+                // }
 
-                for (let eSpan = 0; eSpan < errorSpan.length; eSpan++) {
-                    const selectedErrorSpan = errorSpan[eSpan];
-                    if (selectedErrorSpan != undefined) {
-                        selectedErrorSpan.innerHTML = errors[key][0]
-                    } else {
-                        showToast(0, 'Terjadi kesalahan pada sistem')
-                    }
-                }
-
+                // for (let eSpan = 0; eSpan < errorSpan.length; eSpan++) {
+                //     const selectedErrorSpan = errorSpan[eSpan];
+                //     if (selectedErrorSpan != undefined) {
+                //         selectedErrorSpan.innerHTML = errors[key][0]
+                //     } else {
+                //         showToast(0, 'Terjadi kesalahan pada sistem')
+                //     }
+                // }
             })
         }
 
@@ -255,6 +260,45 @@
                 element.target.value = element.target.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')
             })
         }
+
+        function clearFlash(){
+            Alpine.store('global').isFlash = false
+            Alpine.store('global').flashData = []
+        }
+
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('global', {
+                isFlash: false,
+                flashClass: 'error',
+                flashData: [],
+                showFlash: function(message, flashType) {
+                    this.isFlash = true
+                    switch(flashType) {
+                        case 'success':
+                            this.flashClass = 'bg-success'
+                            break
+                        case 'error':
+                            this.flashClass = 'bg-danger'
+                            break
+                        case 'warning':
+                            this.flashClass = 'bg-warning'
+                            break
+                        case 'info':
+                            this.flashClass = 'bg-info'
+                            break
+                        default:
+                            this.flashClass = 'bg-danger'
+                            break
+                    }
+                    
+                    if(typeof message === 'object') {
+                        this.flashData = message
+                    }else{
+                        this.flashData.push(message)
+                    }
+                },
+            })
+        })
     </script>
     @stack('scripts')
 </body>

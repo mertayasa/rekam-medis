@@ -24,4 +24,13 @@ class RekamMedis extends Model
     {
         return $this->belongsTo(Pasien::class, 'id_pasien');
     }
+
+    public function getValue($group, $value = null)
+    {
+        if($value == null) {
+            return $this->where('group', $group)->get();
+        } else {
+            return $this->where('group', $group)->where('key', $value)->first();
+        }
+    }
 }
