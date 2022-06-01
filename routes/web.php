@@ -44,10 +44,12 @@ Route::group(['middleware' => 'auth'], function (){
     Route::group(['prefix' => 'rekam-medis', 'as' => 'rekam.'], function () {
         Route::group(['prefix' => 'edit'], function () {
             Route::get('pengkajian/{pasien}', [RekamMedisController::class, 'editPengkajian'])->name('edit_pengkajian');
+            Route::get('diagnosa/{pasien}', [RekamMedisController::class, 'editDiagnosa'])->name('edit_diagnosa');
         });
 
         Route::group(['prefix' => 'update'], function () {
-            Route::get('pengkajian', [RekamMedisController::class, 'updatePengkajian'])->name('update_pengkajian');
+            Route::patch('pengkajian/{pasien}', [RekamMedisController::class, 'updatePengkajian'])->name('update_pengkajian');
+            Route::patch('diagnosa/{pasien}', [RekamMedisController::class, 'updatePengkajian'])->name('update_diagnosa');
         });
     });
 });

@@ -25,12 +25,28 @@ class RekamMedis extends Model
         return $this->belongsTo(Pasien::class, 'id_pasien');
     }
 
-    public function getValue($group, $value = null)
+    static function getData($group, $id_pasien, $value = null)
     {
-        if($value == null) {
-            return $this->where('group', $group)->get();
+        $result = [];
+
+        if ($value == null) {
+            $data = self::where('id_pasien', $id_pasien)->where('group', $group)->get();
         } else {
-            return $this->where('group', $group)->where('key', $value)->first();
+            $data = self::where('id_pasien', $id_pasien)->where('group', $group)->where('key', $value)->first();
         }
+
+        if ($data instanceof \Illuminate\Support\Collection) {
+            foreach ($data as $item) {
+                $result[$item->key] = $item->value == 'true' || $item->value == 'false' ? (bool) $item->value : $item->value;
+            }
+        } else {
+            if ($data) {
+                return $data->value == 'true' || $data->value == 'false' ? (bool) $data->value : $data->value;
+            }
+
+            return null;
+        }
+
+        return $result;
     }
 }

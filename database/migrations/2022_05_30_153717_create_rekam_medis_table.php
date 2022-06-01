@@ -21,6 +21,8 @@ class CreateRekamMedisTable extends Migration
             $table->longText('value');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('id_pasien')->references('id')->on('pasien')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
