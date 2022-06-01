@@ -28,24 +28,28 @@
                     {!! Form::label('alamat', 'Alamat', ['class' => 'mb-1']) !!}
                     {!! Form::text('alamat', null, ['class' => 'form-control', 'id' => 'alamat']) !!}
                 </div>
-                <div class="col-12 mt-2  pb-3 pb-md-0 row">
-                    <div class="col-6">
-                        {!! Form::label('tempat_lahir', 'Tempat Lahir', ['class' => 'mb-1']) !!}
-                        {!! Form::text('tempat_lahir', null, ['class' => 'form-control', 'id' => 'tempat_lahir']) !!}
-                    </div>
-                    <div class="col-6">
-                        {!! Form::label('tanggal_lahir', 'Tanggal Lahir', ['class' => 'mb-1']) !!}
-                        {!! Form::date('tanggal_lahir', null, ['class' => 'form-control', 'id' => 'tanggal_lahir']) !!}
+                <div class="col-12 mt-2  pb-3 pb-md-0">
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-3">
+                            {!! Form::label('tempat_lahir', 'Tempat Lahir', ['class' => 'mb-1']) !!}
+                            {!! Form::text('tempat_lahir', null, ['class' => 'form-control', 'id' => 'tempat_lahir']) !!}
+                        </div>
+                        <div class="col-12 col-md-6">
+                            {!! Form::label('tanggal_lahir', 'Tanggal Lahir', ['class' => 'mb-1']) !!}
+                            {!! Form::date('tanggal_lahir', null, ['class' => 'form-control', 'id' => 'tanggal_lahir']) !!}
+                        </div>
                     </div>
                 </div>
-                <div class="col-12 mt-2  pb-3 pb-md-0 row">
-                    <div class="col-6">
-                        {!! Form::label('tanggal_masuk', 'Tanggal Masuk', ['class' => 'mb-1']) !!}
-                        {!! Form::date('tanggal_masuk', null, ['class' => 'form-control', 'id' => 'tanggal_masuk']) !!}
-                    </div>
-                    <div class="col-6">
-                        {!! Form::label('tanggal_keluar', 'Tanggal Keluar (Kosongkan apabila belum keluar)', ['class' => 'mb-1']) !!}
-                        {!! Form::date('tanggal_keluar', null, ['class' => 'form-control', 'id' => 'tanggal_keluar']) !!}
+                <div class="col-12 mt-2  pb-3 pb-md-0">
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-3">
+                            {!! Form::label('tanggal_masuk', 'Tanggal Masuk', ['class' => 'mb-1']) !!}
+                            {!! Form::date('tanggal_masuk', null, ['class' => 'form-control', 'id' => 'tanggal_masuk']) !!}
+                        </div>
+                        <div class="col-12 col-md-6">
+                            {!! Form::label('tanggal_keluar', 'Tanggal Keluar (Kosongkan apabila belum keluar)', ['class' => 'mb-1']) !!}
+                            {!! Form::date('tanggal_keluar', null, ['class' => 'form-control', 'id' => 'tanggal_keluar']) !!}
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 mt-2  pb-3 pb-md-0">
