@@ -144,4 +144,29 @@ class RekamMedisController extends Controller
 
         return view('rekam-medis.edit.diagnosa', $data);
     }
+
+    public function updateDiagnosa(Request $request, Pasien $pasien)
+    {
+        
+    }
+
+    public function editLuaran(Pasien $pasien)
+    {
+        
+    }
+
+    public function updateLuaran(Request $request, Pasien $pasien)
+    {
+        
+    }
+
+    public function editEvaluasi(Pasien $pasien)
+    {
+        
+    }
+
+    public function updateEvaluasi(Request $request, Pasien $pasien)
+    {
+        
+    }
 }
