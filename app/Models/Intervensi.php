@@ -20,6 +20,6 @@ class Intervensi extends Model
     
     public function opsi_intervensi()
     {
-        return $this->hasMany(OpsiIntervensi::class, 'intervensi_id');
+        return $this->hasMany(OpsiIntervensi::class, 'id_intervensi');
     }
 }

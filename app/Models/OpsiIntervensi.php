@@ -23,4 +23,14 @@ class OpsiIntervensi extends Model
     {
         return $this->belongsTo(Intervensi::class, 'id_intervensi');
     }
+
+    public function opsi_child()
+    {
+        return $this->hasMany(OpsiIntervensi::class, 'id_parent');
+    }
+
+    public function opsi_parent()
+    {
+        return $this->belongsTo(OpsiIntervensi::class, 'id_parent');
+    }
 }

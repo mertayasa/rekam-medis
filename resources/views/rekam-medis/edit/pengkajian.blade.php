@@ -105,7 +105,7 @@
                     Simpan
                 </button>
                 <button type="button" x-bind:disabled="$store.pengkajian.is_submitable == false" class="btn btn-sm btn-warning" data-edit-rdiagnosa="true" x-on:click="$store.pengkajian.store($event)">
-                    Simpan & Tambah Rekam Medis
+                    Simpan & Edit Kajian
                 </button>
             </div>
         </div>
@@ -192,7 +192,6 @@
                             // console.log(data);
                             const isEditRmedis = event.target.getAttribute('data-edit-rdiagnosa')
                             if (isEditRmedis == 'true') {
-                                console.log('asdssa');
                                 return window.location.href = data.redirect_to_rdiagnosa
                             }
 
