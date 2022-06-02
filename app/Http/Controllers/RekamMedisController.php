@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DiagnosaRequest;
+use App\Http\Requests\EvaluasiRequest;
 use App\Http\Requests\LuaranRequest;
 use App\Http\Requests\RekamMedisRequest;
 use App\Models\Etiologi;
@@ -189,7 +190,7 @@ class RekamMedisController extends Controller
         $tanda_minor = $common_data['tanda_minor'];
         $etiologi = $common_data['etiologi'];
         $etiologi = Etiologi::all();
-        $intervensi = Intervensi::with('opsi_intervensi', 'opsi_intervensi.opsi_child')->get(['id', 'value', 'keterangan']);
+        $intervensi = Intervensi::with('opsi_intervensi', 'opsi_intervensi.opsi_child')->get(['id', 'value', 'keterangan', 'url_youtube']);
 
         $etiologi = $etiologi->map(function ($etio) use($pengkajian) {
             if(isset($pengkajian['etiologi']) && in_array($etio->id, json_decode($pengkajian['etiologi']))){
@@ -220,9 +221,17 @@ class RekamMedisController extends Controller
                     }
                 }
             }
+
+            if($inter->url_youtube){
+                $url_yt = explode('/', $inter->url_youtube);
+                $inter->id_youtube = end($url_yt);
+            }
+
             
             return $inter;
         });
+
+        // dd($intervensi);
 
         $luaran['intervensi_child'] = json_decode($luaran['intervensi_child']);
         
@@ -295,34 +304,38 @@ class RekamMedisController extends Controller
 
             DB::transaction(function () use($pasien, $to_update, $to_update_pengkajian) {
                 foreach ($to_update_pengkajian as $key => $kajian) {
-                    RekamMedis::updateOrCreate(
-                        [
-                            'id_pasien' => $pasien->id,
-                            'group' => 'pengkajian',
-                            'key' => $key
-                        ],
-                        [
-                            'id_pasien' => $pasien->id,
-                            'group' => 'pengkajian',
-                            'key' => $key,
-                            'value' => is_array($kajian) ? json_encode($kajian) : $kajian,
-                        ]
-                    );
+                    if($kajian != null){
+                        RekamMedis::updateOrCreate(
+                            [
+                                'id_pasien' => $pasien->id,
+                                'group' => 'pengkajian',
+                                'key' => $key
+                            ],
+                            [
+                                'id_pasien' => $pasien->id,
+                                'group' => 'pengkajian',
+                                'key' => $key,
+                                'value' => is_array($kajian) ? json_encode($kajian) : $kajian,
+                            ]
+                        );
+                    }
                 }
                 foreach ($to_update as $key => $value) {
-                    RekamMedis::updateOrCreate(
-                        [
-                            'id_pasien' => $pasien->id,
-                            'group' => 'luaran',
-                            'key' => $key
-                        ],
-                        [
-                            'id_pasien' => $pasien->id,
-                            'group' => 'luaran',
-                            'key' => $key,
-                            'value' => is_array($value) ? json_encode($value) : $value,
-                        ]
-                    );
+                    if($value != null){
+                        RekamMedis::updateOrCreate(
+                            [
+                                'id_pasien' => $pasien->id,
+                                'group' => 'luaran',
+                                'key' => $key
+                            ],
+                            [
+                                'id_pasien' => $pasien->id,
+                                'group' => 'luaran',
+                                'key' => $key,
+                                'value' => is_array($value) ? json_encode($value) : $value,
+                            ]
+                        );
+                    }
                 }
             }, 5);
         }catch(Exception $e){
@@ -346,18 +359,57 @@ class RekamMedisController extends Controller
         }
 
         $data = [
+            'prev_btn' => [
+                'url' => route('rekam.edit_luaran', $pasien->id),
+                'label' => 'Kembali ke halaman luaran'
+            ],
             'pasien' => $pasien,
             'evaluasi' => $evaluasi
         ];
 
-        dd($data);
+        // dd($data);
 
         return view('rekam-medis.edit.evaluasi', $data);
     }
 
-    public function updateEvaluasi(Request $request, Pasien $pasien)
+    public function updateEvaluasi(EvaluasiRequest $request, Pasien $pasien)
     {
-        
+        // return response($request->validated());
+
+        try{
+            $to_update = $request->validated();
+            // return $to_update['data'];
+
+            DB::transaction(function () use($pasien, $to_update) {
+                foreach ($to_update['data'] as $key => $value) {
+                    if($value != null){
+                        RekamMedis::updateOrCreate(
+                            [
+                                'id_pasien' => $pasien->id,
+                                'group' => 'evaluasi',
+                                'key' => $key
+                            ],
+                            [
+                                'id_pasien' => $pasien->id,
+                                'group' => 'evaluasi',
+                                'key' => $key,
+                                'value' => is_array($value) ? json_encode($value) : $value,
+                            ]
+                        );
+                    }
+                }
+            }, 5);
+        }catch(Exception $e){
+            Log::error($e);
+            return response(['message' => 'Terjadi kesalahan pada server'], 500);
+        }
+
+        session()->flash('success', 'Data diagnosa berhasil di-update');
+        return response([
+            'message' => 'Berhasil menyimpan data', 
+            'redirect_to' => route('pasien.index'),
+            // 'redirect_to_rluaran' => route('rekam.edit_luaran', $pasien->id),
+        ], 200);
     }
 
     public function getCommonData($pasien)

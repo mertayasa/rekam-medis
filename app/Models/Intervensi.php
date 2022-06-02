@@ -15,7 +15,8 @@ class Intervensi extends Model
 
     protected $fillable = [
         'value',
-        'keterangan'
+        'keterangan',
+        'url_youtube',
     ];
     
     public function opsi_intervensi()

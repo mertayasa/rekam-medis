@@ -14,7 +14,7 @@
             <div class="form-check" x-data="{id: $id('intervensi')}">
                 <input class="form-check-input" disabled x-on:change="$store.rmedis.showIntervensiOpt($event)" x-bind:value="index" type="checkbox" :id="id" x-model="intervensi.is_checked">
                 <label class="form-check-label" :for="id" x-text="intervensi.value"></label>
-                <small> <button type="button" class="btn btn-sm" x-on:click="$store.rmedis.showIntervensiOpt($event)" x-bind:value="index">Lihat Opsi</button> </small>
+                <small> <button type="button" class="btn btn-sm text-primary" x-on:click="$store.rmedis.showIntervensiOpt($event)" x-bind:value="index">Lihat Opsi</button> </small>
             </div>
         </template>
     </div>
@@ -36,7 +36,12 @@
                         <div class="mb-2"></div>
                     @endif
                 @endforeach
+                @if ($interven->url_youtube != null)
+                    <b>LINK VIDEO {{ $interven->value }} : <a href="{{ $interven->url_youtube }}" target="_blank">{{ $interven->url_youtube }}</a></b>
+                    <iframe width="400" height="300" src="https://www.youtube.com/embed/{{ $interven->id_youtube }}?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                @endif
             </div>
+
         @endforeach
     </div>
 </div>

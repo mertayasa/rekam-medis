@@ -35,13 +35,18 @@
                     @include('includes.luaran.checkbox_intervensi')
                 </div>
             </div>
+            
+            <template x-if="$store.rmedis.is_submitable == false">
+                <span class="text-danger">Tanda Mayor & Tanda Minor belum memenuhi syarat</span>
+            </template>
+
             <div class="text-end mt-3">
                 <a href="{{ $prev_btn['url'] }}" class="btn btn-sm btn-danger"><i
                         class="fas fa-arrow-alt-circle-left"></i> {{ $prev_btn['label'] }} </a>
-                <button type="button" class="btn btn-sm btn-primary" x-on:click="$store.rmedis.store($event)">
+                <button type="button" x-bind:disabled="$store.rmedis.is_submitable == false" class="btn btn-sm btn-primary" x-on:click="$store.rmedis.store($event)">
                     Simpan <i class="fas fa-save"></i>
                 </button>
-                <button type="button" class="btn btn-sm btn-warning" data-edit-revaluasi="true"
+                <button type="button" x-bind:disabled="$store.rmedis.is_submitable == false" class="btn btn-sm btn-warning" data-edit-revaluasi="true"
                     x-on:click="$store.rmedis.store($event)">
                     Simpan & Edit Evaluasi <i class="fas fa-arrow-alt-circle-right"></i>
                 </button>
@@ -62,6 +67,7 @@
                 etiologi: JSON.parse(`{!! json_encode($etiologi) !!}`),
                 intervensi: JSON.parse(`{!! json_encode($intervensi) !!}`),
                 selectedIntervensi: {},
+                is_submitable: false,
                 showIntervensiOpt($event) {
                     const target = $event.target
                     if (target.checked == true || target.nodeName == 'BUTTON') {
@@ -192,6 +198,8 @@
                         })
                 }
             })
+
+            Alpine.store('rmedis').validateCheckbox('check_only')
         })
     </script>
 @endpush
