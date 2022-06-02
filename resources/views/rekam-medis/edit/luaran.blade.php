@@ -12,6 +12,12 @@
                     <h5> <u> <span x-text="$store.luaran.diagnosa.diagnosa"></span> </u> berhubungan dengan <input
                             type="text" x-model="$store.luaran.data.nama_penyakit" placeholder="Masukkan nama penyakit..."
                             name="nama_penyakit" id=""> ditandai dengan : </h5>
+                    
+                    <p class="mb-0"> <b>Keluhan Tambahan :</b> </p>
+                    <ul class="mb-0 pb-0">
+                        <li x-text="$store.luaran.data.durasi_nyeri"></li>
+                    </ul>
+
                     <p class="mb-0"> <b>Tanda Mayor :</b> </p>
                     <ul class="mb-0 pb-0">
                         <template x-for="(tanda, index) in $store.luaran.tanda_mayor">
@@ -36,6 +42,16 @@
                             </template>
                         </template>
                     </ul>
+                    
+                    <p class="mb-0"> <b>Etiologi :</b> </p>
+                    <ul class="mb-0 pb-0">
+                        <template x-for="(etiologi, index) in $store.luaran.etiologi">
+                            <template x-if="etiologi.is_checked">
+                                <li x-text="etiologi.value"></li>
+                            </template>
+                        </template>
+                    </ul>
+                    <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#etiologi">Edit</button>
                 </div>
 
                 <div class="col-12 pb-3 mt-3 pb-md-0">
@@ -68,6 +84,8 @@
             {!! Form::close() !!}
         </div>
     </div>
+
+    @include('includes.luaran.etiologi_modal')
 @endsection
 
 @push('scripts')
@@ -79,6 +97,7 @@
                 tanda_minor: JSON.parse(`{!! json_encode($tanda_minor) !!}`),
                 kondisi_klinis: JSON.parse(`{!! json_encode($kondisi_klinis) !!}`),
                 diagnosa: JSON.parse(`{!! json_encode($diagnosa) !!}`),
+                etiologi: JSON.parse(`{!! json_encode($etiologi) !!}`),
                 store(event) {
                     clearFlash()
                     fetch("{{ route('rekam.update_luaran', $pasien->id) }}", {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DiagnosaRequest;
 use App\Http\Requests\LuaranRequest;
 use App\Http\Requests\RekamMedisRequest;
+use App\Models\Etiologi;
 use App\Models\Intervensi;
 use App\Models\KondisiKlinis;
 use App\Models\Pasien;
@@ -51,6 +52,7 @@ class RekamMedisController extends Controller
             'is_mengeluh_nyeri' => (string) $data['data']['is_mengeluh_nyeri'] == true ? 'true' : 'false',
             'tanda_mayor' => [],
             'tanda_minor' => [],
+            'durasi_nyeri' => $data['data']['durasi_nyeri'],
             'kondisi_klinis' => [],
             'provoking' => $data['data']['provoking'] ?? '',
             'quality' => $data['data']['quality'] ?? '',
@@ -168,10 +170,31 @@ class RekamMedisController extends Controller
         }
 
         $common_data = $this->getCommonData($pasien);
+        $pengkajian = $common_data['pengkajian'];
+        if(isset($pengkajian['durasi_nyeri'])){
+            $luaran['durasi_nyeri'] = $pengkajian['durasi_nyeri'] == 'kurang_3' ? 'Nyeri < 3bulan' : 'Nyeri > 3bulan';
+        }else{
+            $luaran['durasi_nyeri'] = 'Tidak ada keluhan tambahan';
+        }
+
         $tanda_mayor = $common_data['tanda_mayor'];
         $tanda_minor = $common_data['tanda_minor'];
         $kondisi_klinis = $common_data['kondisi_klinis'];
+        $etiologi = Etiologi::all();
         $intervensi = Intervensi::with('opsi_intervensi', 'opsi_intervensi.opsi_child')->get(['id', 'value', 'keterangan']);
+
+
+        $etiologi = $etiologi->map(function ($etio) use($luaran) {
+            if(isset($luaran['etiologi']) && in_array($etio->id, json_decode($luaran['etiologi']))){
+                $etio->is_checked = true;
+            }else{
+                $etio->is_checked = false;
+            }
+
+            return $etio;
+        });
+
+
         foreach($intervensi as $key => $inter){
             $opsi_intervensi = $inter->opsi_intervensi()->with('opsi_child')->where('id_parent', NULL)->get();
             $intervensi[$key]['opsi_intervensi'] = $opsi_intervensi;
@@ -202,6 +225,7 @@ class RekamMedisController extends Controller
             'tanda_minor' => $tanda_minor,
             'kondisi_klinis' => $kondisi_klinis,
             'diagnosa' => $diagnosa,
+            'etiologi' => $etiologi,
             'intervensi' => $intervensi
         ];
 
@@ -326,6 +350,7 @@ class RekamMedisController extends Controller
         });
 
         return [
+            'pengkajian' => $pengkajian,
             'tanda_mayor' => $tanda_mayor,
             'tanda_minor' => $tanda_minor,
             'kondisi_klinis' => $kondisi_klinis
