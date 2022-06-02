@@ -1,8 +1,8 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="card">
         <div class="card-header">Pengkajian</div>
+        <i class="fas fa-arrow-alt-right"></i>
         <div class="card-body">
             @include('layouts.flash')
             @include('layouts.error_message')
@@ -10,13 +10,13 @@
             <div class="row">
                 <div class="col-12 mt-2  pb-3 pb-md-0">
                     {!! Form::label('keluahan_utama', 'Keluhan Utama', ['class' => 'mb-1']) !!}
-                    {!! Form::textarea('keluahan_utama', null, ['class' => 'form-control', 'id' => 'keluahan_utama', 'x-model' => '$store.pengkajian.data.keluhan_utama' ,'style' => 'height: 100px']) !!}
+                    {!! Form::textarea('keluahan_utama', null, ['class' => 'form-control', 'id' => 'keluahan_utama', 'x-model' => '$store.rmedis.data.keluhan_utama' ,'style' => 'height: 100px']) !!}
                 </div>
 
                 <h5 class="mt-3">Data Subjektif</h5>
                 <div class="col-12 pb-3 pb-md-0">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="isNyeri" x-model="$store.pengkajian.data.is_mengeluh_nyeri">
+                        <input class="form-check-input" type="checkbox" value="" id="isNyeri" x-model="$store.rmedis.data.is_mengeluh_nyeri">
                         <label class="form-check-label" for="isNyeri">
                             Pasien Mengeluh Nyeri
                         </label>
@@ -25,23 +25,23 @@
 
                 <div class="col-12 pb-3 pb-md-0">
                     {!! Form::label('provoking', 'Provoking', ['class' => 'mb-1']) !!}
-                    {!! Form::text('provoking', null, ['class' => 'form-control', 'id' => 'provoking', 'x-model' => '$store.pengkajian.data.provoking']) !!}
+                    {!! Form::text('provoking', null, ['class' => 'form-control', 'id' => 'provoking', 'x-model' => '$store.rmedis.data.provoking']) !!}
                 </div>
                 <div class="col-12 mt-2  pb-3 pb-md-0">
                     {!! Form::label('quality', 'Quality', ['class' => 'mb-1']) !!}
-                    {!! Form::text('quality', null, ['class' => 'form-control', 'id' => 'quality', 'x-model' => '$store.pengkajian.data.quality']) !!}
+                    {!! Form::text('quality', null, ['class' => 'form-control', 'id' => 'quality', 'x-model' => '$store.rmedis.data.quality']) !!}
                 </div>
                 <div class="col-12 mt-2  pb-3 pb-md-0">
                     {!! Form::label('region', 'Region', ['class' => 'mb-1']) !!}
-                    {!! Form::text('region', null, ['class' => 'form-control', 'id' => 'region', 'x-model' => '$store.pengkajian.data.region']) !!}
+                    {!! Form::text('region', null, ['class' => 'form-control', 'id' => 'region', 'x-model' => '$store.rmedis.data.region']) !!}
                 </div>
                 <div class="col-12 mt-2  pb-3 pb-md-0">
                     {!! Form::label('severity', 'Severity', ['class' => 'mb-1']) !!}
-                    {!! Form::text('severity', null, ['class' => 'form-control', 'id' => 'severity', 'x-model' => '$store.pengkajian.data.severity']) !!}
+                    {!! Form::text('severity', null, ['class' => 'form-control', 'id' => 'severity', 'x-model' => '$store.rmedis.data.severity']) !!}
                 </div>
                 <div class="col-12 mt-2  pb-3 pb-md-0">
                     {!! Form::label('time', 'Time', ['class' => 'mb-1']) !!}
-                    {!! Form::text('time', null, ['class' => 'form-control', 'id' => 'time', 'x-model' => '$store.pengkajian.data.time']) !!}
+                    {!! Form::text('time', null, ['class' => 'form-control', 'id' => 'time', 'x-model' => '$store.rmedis.data.time']) !!}
                 </div>
 
                 <div class="col-12 mt-2  pb-3 pb-md-0">
@@ -51,85 +51,36 @@
                 <div class="col-12 mt-2  pb-3 pb-3">
                     <p class="mb-0"> <b> Keluhan Tambahan : </b></p>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="durasi_nyeri" id="durasi_nyeri1" value="lebih_3" x-model="$store.pengkajian.data.durasi_nyeri">
+                        <input class="form-check-input" type="radio" name="durasi_nyeri" id="durasi_nyeri1" value="lebih_3" x-model="$store.rmedis.data.durasi_nyeri">
                         <label class="form-check-label" for="durasi_nyeri1">
                             Nyeri > 3bulan
                         </label>
                       </div>
                       <div class="form-check">
-                        <input class="form-check-input" type="radio" name="durasi_nyeri" id="durasi_nyeri2" value="kurang_3" x-model="$store.pengkajian.data.durasi_nyeri">
+                        <input class="form-check-input" type="radio" name="durasi_nyeri" id="durasi_nyeri2" value="kurang_3" x-model="$store.rmedis.data.durasi_nyeri">
                         <label class="form-check-label" for="durasi_nyeri2">
                             Nyeri < 3bulan
                         </label>
                       </div>
                 </div>
                 
-                <div class="col-12 pb-3">
-                    <p class="mb-0"> <b> Tanda Mayor : </b></p>
-                    <ul class="mb-0 pb-0">
-                        {{-- <template x-if="!$store.pengkajian.data.tanda_mayor">
-                            <li>Tidak ada tanda mayor</li>
-                        </template> --}}
-                        <template x-for="(tanda, index) in $store.pengkajian.tanda_mayor">
-                            <template x-if="tanda.is_checked">
-                                <li x-text="tanda.value"></li>
-                            </template>
-                        </template>
-                    </ul>
-                    <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#tandaMayor">Edit</button>
-                </div>
-
-                <div class="col-12 pb-3">
-                    <p class="mb-0"> <b>Tanda Minor :</b> </p>
-                    <ul class="mb-0 pb-0">
-                        {{-- <template x-if="!$store.pengkajian.data.tanda_minor">
-                            <li>Tidak ada tanda mayor</li>
-                        </template> --}}
-                        <template x-for="(tanda, index) in $store.pengkajian.tanda_minor">
-                            <template x-if="tanda.is_checked">
-                                <li x-text="tanda.value"></li>
-                            </template>
-                        </template>
-                    </ul>
-                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#tandaMinor">Edit</button>
-                </div>
-
-                <div class="col-12 pb-3 pb-md-0">
-                    <h5 class="mt-3">Kondisi Klinis</h5>
-                </div>
-
-                <div class="col-12 pb-3 pb-md-0">
-                    <p class="mb-0"> <b>Kondisi :</b> </p>
-                    <ul class="mb-0 pb-0">
-                        {{-- <template x-if="!$store.pengkajian.data.kondisi_klinis">
-                            <li>Tidak ada kondisi klinis</li>
-                        </template> --}}
-                        <template x-for="(kondisi, index) in $store.pengkajian.kondisi_klinis">
-                            <template x-if="kondisi.is_checked">
-                                <li x-text="kondisi.value"></li>
-                            </template>
-                        </template>
-                    </ul>
-                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#kondisiKlinis">Edit</button>
-                </div>
+                @include('includes.input.data_objektif')
             </div>
-            <template x-if="$store.pengkajian.is_submitable == false">
+            <template x-if="$store.rmedis.is_submitable == false">
                 <span class="text-danger">Tanda Mayor & Tanda Minor belum memenuhi syarat</span>
             </template>
+            
             <div class="text-end mt-3">
-                <button type="button" x-bind:disabled="$store.pengkajian.is_submitable == false" class="btn btn-sm btn-primary" x-on:click="$store.pengkajian.store($event)">
-                    Simpan
+                <a href="{{ $prev_btn['url'] }}" class="btn btn-sm btn-danger"><i class="fas fa-arrow-alt-circle-left"></i> {{ $prev_btn['label'] }} </a>
+                <button type="button" x-bind:disabled="$store.rmedis.is_submitable == false" class="btn btn-sm btn-primary" x-on:click="$store.rmedis.store($event)">
+                    Simpan <i class="fas fa-save"></i>
                 </button>
-                <button type="button" x-bind:disabled="$store.pengkajian.is_submitable == false" class="btn btn-sm btn-warning" data-edit-rdiagnosa="true" x-on:click="$store.pengkajian.store($event)">
-                    Simpan & Edit Kajian
+                <button type="button" x-bind:disabled="$store.rmedis.is_submitable == false" class="btn btn-sm btn-warning" data-edit-rdiagnosa="true" x-on:click="$store.rmedis.store($event)">
+                    Simpan & Edit Diagnosa <i class="fas fa-arrow-alt-circle-right"></i>
                 </button>
             </div>
         </div>
     </div>
-
-    @include('includes.pengkajian.tanda_mayor_modal')
-    @include('includes.pengkajian.tanda_minor_modal')
-    @include('includes.pengkajian.kondisi_klinis_modal')
 @endsection
 
 @push('scripts')
@@ -137,12 +88,12 @@
         const form = document.getElementById('createPasienForm');
 
         document.addEventListener('alpine:init', () => {
-            Alpine.store('pengkajian', {
+            Alpine.store('rmedis', {
                 is_submitable: false,
                 data: JSON.parse(`{!!  json_encode($pengkajian) !!}`),
                 tanda_mayor: JSON.parse(`{!!  json_encode($tanda_mayor) !!}`),
                 tanda_minor: JSON.parse(`{!!  json_encode($tanda_minor) !!}`),
-                kondisi_klinis: JSON.parse(`{!!  json_encode($kondisi_klinis) !!}`),
+                etiologi: JSON.parse(`{!!  json_encode($etiologi) !!}`),
                 validateCheckbox(type){
                     const checkedLengthMayor = this.tanda_mayor.filter(item => item.is_checked == true).length
                     const optionLengthMayor = this.tanda_mayor.length
@@ -189,7 +140,7 @@
                                 data: this.data,
                                 tanda_mayor: this.tanda_mayor,
                                 tanda_minor: this.tanda_minor,
-                                kondisi_klinis: this.kondisi_klinis,
+                                etiologi: this.etiologi,
                             }),
                         })
                         .then(function(response) {
@@ -219,7 +170,7 @@
                         })
                 }
             })
-            Alpine.store('pengkajian').validateCheckbox('check_only')
+            Alpine.store('rmedis').validateCheckbox('check_only')
         })
     </script>
 @endpush

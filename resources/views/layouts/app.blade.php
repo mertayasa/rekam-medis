@@ -22,9 +22,13 @@
         .form-control{
             background-color: white;
         }
+        .btn{
+            font-weight: 600 !important;
+        }
     </style>
     <link rel="stylesheet" type="text/css" href=" {{ asset('plugin/datatable/datatables.min.css') }}">
     <link href="{{ asset('plugin/sweetalert2/dist/sweetalert2.css') }}" rel="stylesheet">   
+    <link href="{{ asset('plugin/fontawesome/css/all.min.css') }}" type="text/css" rel="stylesheet">   
     @stack('styles')
 </head>
 <body>

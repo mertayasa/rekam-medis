@@ -14,7 +14,7 @@
             <td>Keluhan Nyeri</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.keluhan_nyeri">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.keluhan_nyeri">
                 </td>
             </template>
         </tr>
@@ -22,7 +22,7 @@
             <td>Meringis</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.meringis">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.meringis">
                 </td>
             </template>
         </tr>
@@ -30,7 +30,7 @@
             <td>Sikap Protektif</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.sikap_protektif">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.sikap_protektif">
                 </td>
             </template>
         </tr>
@@ -38,7 +38,7 @@
             <td>Gelisah</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.gelisah">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.gelisah">
                 </td>
             </template>
         </tr>
@@ -46,7 +46,7 @@
             <td>Kesulitan Tidur</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.kesulitan_tidur">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.kesulitan_tidur">
                 </td>
             </template>
         </tr>
@@ -54,7 +54,7 @@
             <td>Diaphores</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.diaphores">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.diaphores">
                 </td>
             </template>
         </tr>
@@ -62,7 +62,7 @@
             <td>Muntah</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.muntah">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.muntah">
                 </td>
             </template>
         </tr>
@@ -70,7 +70,7 @@
             <td>Mual</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.mual">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.mual">
                 </td>
             </template>
         </tr>
@@ -78,7 +78,7 @@
             <td>Frekuensi Nadi</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.frekuensi_nadi">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.frekuensi_nadi">
                 </td>
             </template>
         </tr>
@@ -86,7 +86,7 @@
             <td>Pola Nafas</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.pola_nafas">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.pola_nafas">
                 </td>
             </template>
         </tr>
@@ -94,7 +94,7 @@
             <td>Tekanan Darah</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.tekanan_darah">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.tekanan_darah">
                 </td>
             </template>
         </tr>
@@ -102,7 +102,7 @@
             <td>Nafsu Makan</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.nafsu_makan">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.nafsu_makan">
                 </td>
             </template>
         </tr>

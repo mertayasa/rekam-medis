@@ -9,55 +9,23 @@
             {!! Form::open(['method' => 'POST', 'route' => ['rekam.update_luaran', $pasien->id], 'id' => 'editLuaranForm']) !!}
             <div class="row">
                 <div class="col-12 pb-3 pb-md-0">
-                    <h5> <u> <span x-text="$store.luaran.diagnosa.diagnosa"></span> </u> berhubungan dengan <input
-                            type="text" x-model="$store.luaran.data.nama_penyakit" placeholder="Masukkan nama penyakit..."
+                    <h5> <u> <span x-text="$store.rmedis.diagnosa.diagnosa"></span> </u> berhubungan dengan <input
+                            type="text" x-model="$store.rmedis.data.nama_penyakit" placeholder="Masukkan nama penyakit..."
                             name="nama_penyakit" id=""> ditandai dengan : </h5>
                     
                     <p class="mb-0"> <b>Keluhan Tambahan :</b> </p>
                     <ul class="mb-0 pb-0">
-                        <li x-text="$store.luaran.data.durasi_nyeri"></li>
+                        <li x-text="$store.rmedis.data.durasi_nyeri"></li>
                     </ul>
 
-                    <p class="mb-0"> <b>Tanda Mayor :</b> </p>
-                    <ul class="mb-0 pb-0">
-                        <template x-for="(tanda, index) in $store.luaran.tanda_mayor">
-                            <template x-if="tanda.is_checked">
-                                <li x-text="tanda.value"></li>
-                            </template>
-                        </template>
-                    </ul>
-                    <p class="mb-0"> <b>Tanda Minor :</b> </p>
-                    <ul class="mb-0 pb-0">
-                        <template x-for="(tanda, index) in $store.luaran.tanda_minor">
-                            <template x-if="tanda.is_checked">
-                                <li x-text="tanda.value"></li>
-                            </template>
-                        </template>
-                    </ul>
-                    <p class="mb-0"> <b>Kondisi Klinis :</b> </p>
-                    <ul class="mb-0 pb-0">
-                        <template x-for="(kondisi, index) in $store.luaran.kondisi_klinis">
-                            <template x-if="kondisi.is_checked">
-                                <li x-text="kondisi.value"></li>
-                            </template>
-                        </template>
-                    </ul>
-                    
-                    <p class="mb-0"> <b>Etiologi :</b> </p>
-                    <ul class="mb-0 pb-0">
-                        <template x-for="(etiologi, index) in $store.luaran.etiologi">
-                            <template x-if="etiologi.is_checked">
-                                <li x-text="etiologi.value"></li>
-                            </template>
-                        </template>
-                    </ul>
-                    <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#etiologi">Edit</button>
                 </div>
+
+                @include('includes.input.data_objektif')
 
                 <div class="col-12 pb-3 mt-3 pb-md-0">
                     <h5> Setelah dilakukan asuhan keperawatan selama <input type="number" style="width: 50px"
-                            x-model="$store.luaran.data.operation_start" name="operation_start" id=""> x <input type="number"
-                            style="width: 50px" x-model="$store.luaran.data.operation_end" name="operation_end" id=""> jam
+                            x-model="$store.rmedis.data.operation_start" name="operation_start" id=""> x <input type="number"
+                            style="width: 50px" x-model="$store.rmedis.data.operation_end" name="operation_end" id=""> jam
                         maka : </h5>
                     <div class="table-responsive">
                         @include('includes.luaran.table1')
@@ -73,31 +41,61 @@
                 </div>
             </div>
             <div class="text-end mt-3">
-                <button type="button" class="btn btn-sm btn-primary" x-on:click="$store.luaran.store($event)">
-                    Simpan
+                <a href="{{ $prev_btn['url'] }}" class="btn btn-sm btn-danger"><i class="fas fa-arrow-alt-circle-left"></i> {{ $prev_btn['label'] }} </a>
+                <button type="button" class="btn btn-sm btn-primary" x-on:click="$store.rmedis.store($event)">
+                    Simpan <i class="fas fa-save"></i>
                 </button>
                 <button type="button" class="btn btn-sm btn-warning" data-edit-revaluasi="true"
-                    x-on:click="$store.luaran.store($event)">
-                    Simpan & Edit Evaluasi
+                    x-on:click="$store.rmedis.store($event)">
+                    Simpan & Edit Evaluasi <i class="fas fa-arrow-alt-circle-right"></i>
                 </button>
             </div>
             {!! Form::close() !!}
         </div>
     </div>
-
-    @include('includes.luaran.etiologi_modal')
 @endsection
 
 @push('scripts')
     <script>
         document.addEventListener('alpine:init', () => {
-            Alpine.store('luaran', {
+            Alpine.store('rmedis', {
                 data: JSON.parse(`{!! json_encode($luaran) !!}`),
                 tanda_mayor: JSON.parse(`{!! json_encode($tanda_mayor) !!}`),
                 tanda_minor: JSON.parse(`{!! json_encode($tanda_minor) !!}`),
-                kondisi_klinis: JSON.parse(`{!! json_encode($kondisi_klinis) !!}`),
                 diagnosa: JSON.parse(`{!! json_encode($diagnosa) !!}`),
                 etiologi: JSON.parse(`{!! json_encode($etiologi) !!}`),
+                validateCheckbox(type){
+                    const checkedLengthMayor = this.tanda_mayor.filter(item => item.is_checked == true).length
+                    const optionLengthMayor = this.tanda_mayor.length
+                    const minimumMayor = (optionLengthMayor * 80) / 100
+
+                    const checkedLengthMinor = this.tanda_minor.filter(item => item.is_checked == true).length
+                    const optionLengthMinor = this.tanda_minor.length
+                    const minimumMinor = (optionLengthMinor * 20) / 100
+
+                    if((checkedLengthMayor >= Math.round(minimumMayor)) && (checkedLengthMinor >= Math.round(minimumMinor))){
+                        this.is_submitable = true
+                    }
+
+                    if(type == 'check_only'){
+                        return true
+                    }
+
+                    if(type == 'mayor'){
+                        if(checkedLengthMayor < Math.round(minimumMayor)){
+                            return showSwalAlert('error', `Tanda mayor dipilih minimal ${Math.round(minimumMayor)} (80% dari pilihan)`)
+                        }
+                    }
+
+                    if(type == 'minor'){
+                        if(checkedLengthMinor < Math.round(minimumMinor)){
+                            return showSwalAlert('error', `Tanda minor dipilih minimal ${Math.round(minimumMinor)} (20% dari pilihan)`)
+                        }
+                    }
+
+                    $('#tandaMayor').modal('hide')
+                    $('#tandaMinor').modal('hide')
+                },
                 store(event) {
                     clearFlash()
                     fetch("{{ route('rekam.update_luaran', $pasien->id) }}", {

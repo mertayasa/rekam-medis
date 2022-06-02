@@ -30,7 +30,7 @@ class RekamMedisRequest extends FormRequest
             // 'data.is_mengeluh_nyeri' => 'required|string',
             'tanda_mayor' => 'required|array',
             'tanda_minor' => 'required|array',
-            'kondisi_klinis' => 'required|array',
+            'etiologi' => 'required|array',
         ];
     }
 }

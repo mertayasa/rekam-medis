@@ -14,7 +14,7 @@
             <td>Melaporkan nyeri terkontrol</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.nyeri_terkontrol">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.nyeri_terkontrol">
                 </td>
             </template>
         </tr>
@@ -22,7 +22,7 @@
             <td>Kemampuan mengenali onset nyeri</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.onset_nyeri">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.onset_nyeri">
                 </td>
             </template>
         </tr>
@@ -30,7 +30,7 @@
             <td>Kemampuan mengenali penyebab nyeri</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.penyebab_nyeri">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.penyebab_nyeri">
                 </td>
             </template>
         </tr>
@@ -38,7 +38,7 @@
             <td>Kemampuan menggunakan teknik non-farmakologis</td>
             <template x-for="(rate, index) in [1,2,3,4,5]">
                 <td class="text-center">
-                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.luaran.data.non_farmakologis">
+                    <input class="form-check-input" type="radio" :value="rate" x-model="$store.rmedis.data.non_farmakologis">
                 </td>
             </template>
         </tr>

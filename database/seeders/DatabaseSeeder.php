@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
         $this->call(PasienSeeder::class);
         $this->call(TandaMayorSeeder::class);
         $this->call(TandaMinorSeeder::class);
-        $this->call(KondisiKlinisSeeder::class);
+        // $this->call(KondisiKlinisSeeder::class);
         $this->call(IntervensiSeeder::class);
+        $this->call(EtiologiSeeder::class);
         // \App\Models\User::factory(10)->create();
     }
 }

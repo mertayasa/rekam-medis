@@ -27,17 +27,21 @@ class RekamMedisController extends Controller
         $common_data = $this->getCommonData($pasien);
         $tanda_mayor = $common_data['tanda_mayor'];
         $tanda_minor = $common_data['tanda_minor'];
-        $kondisi_klinis = $common_data['kondisi_klinis'];
+        $etiologi = $common_data['etiologi'];
 
         if($pengkajian == []){
             $pengkajian['keluhan_utama'] = '';
         }
 
         $data = [
+            'prev_btn' => [
+                'url' => route('pasien.edit', $pasien->id),
+                'label' => 'Edit pasien'
+            ],
             'pasien' => $pasien,
             'pengkajian' => $pengkajian,
             'tanda_mayor' => $tanda_mayor,
-            'kondisi_klinis' => $kondisi_klinis,
+            'etiologi' => $etiologi,
             'tanda_minor' => $tanda_minor,
         ];
         
@@ -53,7 +57,7 @@ class RekamMedisController extends Controller
             'tanda_mayor' => [],
             'tanda_minor' => [],
             'durasi_nyeri' => $data['data']['durasi_nyeri'],
-            'kondisi_klinis' => [],
+            'etiologi' => [],
             'provoking' => $data['data']['provoking'] ?? '',
             'quality' => $data['data']['quality'] ?? '',
             'region' => $data['data']['region'] ?? '',
@@ -61,9 +65,9 @@ class RekamMedisController extends Controller
             'time' => $data['data']['time'] ?? '',
         ];
 
-        foreach ($data['kondisi_klinis'] as $key => $klinis) {
+        foreach ($data['etiologi'] as $key => $klinis) {
             if($klinis['is_checked']){
-                $to_update['kondisi_klinis'][] = $klinis['id'];
+                $to_update['etiologi'][] = $klinis['id'];
             }
         }
 
@@ -118,6 +122,10 @@ class RekamMedisController extends Controller
         }
 
         $data = [
+            'prev_btn' => [
+                'url' => route('rekam.edit_pengkajian', $pasien->id),
+                'label' => 'Kembali ke halaman pengkajian'
+            ],
             'pasien' => $pasien,
             'diagnosa' => $diagnosa
         ];
@@ -179,7 +187,7 @@ class RekamMedisController extends Controller
 
         $tanda_mayor = $common_data['tanda_mayor'];
         $tanda_minor = $common_data['tanda_minor'];
-        $kondisi_klinis = $common_data['kondisi_klinis'];
+        $etiologi = $common_data['etiologi'];
         $etiologi = Etiologi::all();
         $intervensi = Intervensi::with('opsi_intervensi', 'opsi_intervensi.opsi_child')->get(['id', 'value', 'keterangan']);
 
@@ -219,11 +227,15 @@ class RekamMedisController extends Controller
         });
         
         $data = [
+            'prev_btn' => [
+                'url' => route('rekam.edit_diagnosa', $pasien->id),
+                'label' => 'Kembali ke halaman diagnosa'
+            ],
             'pasien' => $pasien,
             'luaran' => $luaran,
             'tanda_mayor' => $tanda_mayor,
             'tanda_minor' => $tanda_minor,
-            'kondisi_klinis' => $kondisi_klinis,
+            'etiologi' => $etiologi,
             'diagnosa' => $diagnosa,
             'etiologi' => $etiologi,
             'intervensi' => $intervensi
@@ -317,7 +329,7 @@ class RekamMedisController extends Controller
         $pengkajian = RekamMedis::getData('pengkajian', $pasien->id);
         $tanda_mayor = TandaMayor::all();
         $tanda_minor = TandaMinor::all();
-        $kondisi_klinis = KondisiKlinis::all();
+        $etiologi = Etiologi::all();
         
         $tanda_mayor = $tanda_mayor->map(function ($tanda) use($pengkajian) {
             if(isset($pengkajian['tanda_mayor']) && in_array($tanda->id, json_decode($pengkajian['tanda_mayor']))){
@@ -339,8 +351,8 @@ class RekamMedisController extends Controller
             return $tanda;
         });
 
-        $kondisi_klinis = $kondisi_klinis->map(function ($tanda) use($pengkajian) {
-            if(isset($pengkajian['kondisi_klinis']) && in_array($tanda->id, json_decode($pengkajian['kondisi_klinis']))){
+        $etiologi = $etiologi->map(function ($tanda) use($pengkajian) {
+            if(isset($pengkajian['etiologi']) && in_array($tanda->id, json_decode($pengkajian['etiologi']))){
                 $tanda->is_checked = true;
             }else{
                 $tanda->is_checked = false;
@@ -353,7 +365,7 @@ class RekamMedisController extends Controller
             'pengkajian' => $pengkajian,
             'tanda_mayor' => $tanda_mayor,
             'tanda_minor' => $tanda_minor,
-            'kondisi_klinis' => $kondisi_klinis
+            'etiologi' => $etiologi
         ];
     }
 }
