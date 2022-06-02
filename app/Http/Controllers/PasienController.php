@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\PasienDataTable;
 use App\Http\Requests\PasienRequest;
 use App\Models\Pasien;
+use App\Models\RekamMedis;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -24,6 +25,12 @@ class PasienController extends Controller
 
     public function find(Pasien $pasien)
     {
+        $diagnosa = RekamMedis::getData('diagnosa', $pasien->id);
+        $pengkajian = RekamMedis::getData('pengkajian', $pasien->id);
+
+        $pasien->diagnosa_medis = $diagnosa['diagnosa'] ?? '-';
+        $pasien->keluhan_utama = $pengkajian['keluhan_utama'] ?? '-';
+
         return response($pasien);
     }
 

@@ -56,7 +56,7 @@
                     <tr>
                         <td>Keluhan Utama</td>
                         <td width="50" class="text-center">:</td>
-                        <td x-text="$store.pasienModal.pasien.keluhan_utama?.asd?.asdasd?.asd ?? '-'"></td>
+                        <td x-text="$store.pasienModal.pasien.keluhan_utama ?? '-'"></td>
                     </tr>
                     <tr>
                         <td>Nama Wali</td>
