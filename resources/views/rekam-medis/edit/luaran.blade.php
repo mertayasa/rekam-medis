@@ -12,20 +12,15 @@
                     <h5> <u> <span x-text="$store.rmedis.diagnosa.diagnosa"></span> </u> berhubungan dengan <input
                             type="text" x-model="$store.rmedis.data.nama_penyakit" placeholder="Masukkan nama penyakit..."
                             name="nama_penyakit" id=""> ditandai dengan : </h5>
-                    
-                    <p class="mb-0"> <b>Keluhan Tambahan :</b> </p>
-                    <ul class="mb-0 pb-0">
-                        <li x-text="$store.rmedis.data.durasi_nyeri"></li>
-                    </ul>
-
                 </div>
 
                 @include('includes.input.data_objektif')
 
                 <div class="col-12 pb-3 mt-3 pb-md-0">
                     <h5> Setelah dilakukan asuhan keperawatan selama <input type="number" style="width: 50px"
-                            x-model="$store.rmedis.data.operation_start" name="operation_start" id=""> x <input type="number"
-                            style="width: 50px" x-model="$store.rmedis.data.operation_end" name="operation_end" id=""> jam
+                            x-model="$store.rmedis.data.operation_start" name="operation_start" id=""> x <input
+                            type="number" style="width: 50px" x-model="$store.rmedis.data.operation_end"
+                            name="operation_end" id=""> jam
                         maka : </h5>
                     <div class="table-responsive">
                         @include('includes.luaran.table1')
@@ -41,7 +36,8 @@
                 </div>
             </div>
             <div class="text-end mt-3">
-                <a href="{{ $prev_btn['url'] }}" class="btn btn-sm btn-danger"><i class="fas fa-arrow-alt-circle-left"></i> {{ $prev_btn['label'] }} </a>
+                <a href="{{ $prev_btn['url'] }}" class="btn btn-sm btn-danger"><i
+                        class="fas fa-arrow-alt-circle-left"></i> {{ $prev_btn['label'] }} </a>
                 <button type="button" class="btn btn-sm btn-primary" x-on:click="$store.rmedis.store($event)">
                     Simpan <i class="fas fa-save"></i>
                 </button>
@@ -64,32 +60,89 @@
                 tanda_minor: JSON.parse(`{!! json_encode($tanda_minor) !!}`),
                 diagnosa: JSON.parse(`{!! json_encode($diagnosa) !!}`),
                 etiologi: JSON.parse(`{!! json_encode($etiologi) !!}`),
-                validateCheckbox(type){
-                    const checkedLengthMayor = this.tanda_mayor.filter(item => item.is_checked == true).length
-                    const optionLengthMayor = this.tanda_mayor.length
-                    const minimumMayor = (optionLengthMayor * 80) / 100
+                intervensi: JSON.parse(`{!! json_encode($intervensi) !!}`),
+                selectedIntervensi: {},
+                showIntervensiOpt($event) {
+                    const target = $event.target
+                    if (target.checked == true || target.nodeName == 'BUTTON') {
+                        const interIndex = target.getAttribute('value')
+                        const intervensi = this.intervensi[interIndex]
+                        const intervensiDiv = document.getElementsByClassName('intervensi-div')
+                        for (let indexDiv = 0; indexDiv < intervensiDiv.length; indexDiv++) {
+                            const element = intervensiDiv[indexDiv];
+                            element.classList.add('d-none')
+                        }
 
-                    const checkedLengthMinor = this.tanda_minor.filter(item => item.is_checked == true).length
-                    const optionLengthMinor = this.tanda_minor.length
-                    const minimumMinor = (optionLengthMinor * 20) / 100
-
-                    if((checkedLengthMayor >= Math.round(minimumMayor)) && (checkedLengthMinor >= Math.round(minimumMinor))){
-                        this.is_submitable = true
+                        const selectedInterDiv = document.getElementById('intervensi' + intervensi.id)
+                        selectedInterDiv.classList.remove('d-none')
+                    } else {
+                        const intervensiDiv = document.getElementsByClassName('intervensi-div')
+                        for (let indexDiv = 0; indexDiv < intervensiDiv.length; indexDiv++) {
+                            const element = intervensiDiv[indexDiv];
+                            element.classList.add('d-none')
+                        }
                     }
-
-                    if(type == 'check_only'){
-                        return true
-                    }
-
-                    if(type == 'mayor'){
-                        if(checkedLengthMayor < Math.round(minimumMayor)){
-                            return showSwalAlert('error', `Tanda mayor dipilih minimal ${Math.round(minimumMayor)} (80% dari pilihan)`)
+                },
+                setCheckedIntervensi(event) {
+                    const target = event.target
+                    const indexIntervensi = target.getAttribute('data-index-intervensi')
+                    const idChild = target.getAttribute('data-id-child')
+                    if (target.checked == true) {
+                        this.data.intervensi_child.push(parseInt(idChild))
+                        this.intervensi[indexIntervensi].is_checked = true
+                    } else {
+                        let indexChild = this.data.intervensi_child.indexOf(parseInt(idChild));
+                        if (indexChild !== -1) {
+                            this.data.intervensi_child.splice(indexChild, 1);
                         }
                     }
 
-                    if(type == 'minor'){
-                        if(checkedLengthMinor < Math.round(minimumMinor)){
-                            return showSwalAlert('error', `Tanda minor dipilih minimal ${Math.round(minimumMinor)} (20% dari pilihan)`)
+                    const opsiIntervensi = document.getElementsByClassName('opsi-inter' + indexIntervensi)
+                    let checkedCount = 0
+                    for (let indexOpsi = 0; indexOpsi < opsiIntervensi.length; indexOpsi++) {
+                        const element = opsiIntervensi[indexOpsi];
+                        if(element.checked == true){
+                            checkedCount++
+                        }
+                    }
+
+                    if(checkedCount < 1){
+                        this.intervensi[indexIntervensi].is_checked = false
+                    }
+                },
+                validateCheckbox(type) {
+                    const checkedLengthMayor = this.tanda_mayor.filter(item => item.is_checked == true)
+                        .length
+                    const optionLengthMayor = this.tanda_mayor.length
+                    const minimumMayor = (optionLengthMayor * 80) / 100
+
+                    const checkedLengthMinor = this.tanda_minor.filter(item => item.is_checked == true)
+                        .length
+                    const optionLengthMinor = this.tanda_minor.length
+                    const minimumMinor = (optionLengthMinor * 20) / 100
+
+                    if ((checkedLengthMayor >= Math.round(minimumMayor)) && (checkedLengthMinor >= Math
+                            .round(minimumMinor))) {
+                        this.is_submitable = true
+                    }
+
+                    if (type == 'check_only') {
+                        return true
+                    }
+
+                    if (type == 'mayor') {
+                        if (checkedLengthMayor < Math.round(minimumMayor)) {
+                            return showSwalAlert('error',
+                                `Tanda mayor dipilih minimal ${Math.round(minimumMayor)} (80% dari pilihan)`
+                            )
+                        }
+                    }
+
+                    if (type == 'minor') {
+                        if (checkedLengthMinor < Math.round(minimumMinor)) {
+                            return showSwalAlert('error',
+                                `Tanda minor dipilih minimal ${Math.round(minimumMinor)} (20% dari pilihan)`
+                            )
                         }
                     }
 
@@ -106,7 +159,10 @@
                             },
                             method: 'PATCH',
                             body: JSON.stringify({
-                                luaran: this.data,
+                                data: this.data,
+                                tanda_mayor: this.tanda_mayor,
+                                tanda_minor: this.tanda_minor,
+                                etiologi: this.etiologi,
                             }),
                         })
                         .then(function(response) {
@@ -122,7 +178,7 @@
                             return data
                         })
                         .then(data => {
-                            console.log(data);
+                            // console.log(data);
                             const isEditRmedis = event.target.getAttribute('data-edit-revaluasi')
                             if (isEditRmedis == 'true') {
                                 return window.location.href = data.redirect_to_revaluasi

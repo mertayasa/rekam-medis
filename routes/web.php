@@ -36,8 +36,8 @@ Route::group(['middleware' => 'auth'], function (){
         Route::get('datatable', [PasienController::class, 'datatable'])->name('datatable');
         Route::get('create', [PasienController::class, 'create'])->name('create');
         Route::post('store', [PasienController::class, 'store'])->name('store');
-        Route::get('edit', [PasienController::class, 'edit'])->name('edit');
-        Route::patch('update', [PasienController::class, 'update'])->name('update');
+        Route::get('edit/{pasien}', [PasienController::class, 'edit'])->name('edit');
+        Route::patch('update/{pasien}', [PasienController::class, 'update'])->name('update');
         Route::delete('destroy/{pasien}', [PasienController::class, 'destroy'])->name('destroy');
     });
 

@@ -36,12 +36,12 @@ class PasienController extends Controller
     {
         try{
             $pasien = Pasien::create($request->validated());
-            session()->flash('success', 'Pasien berhasil ditambahkan');
         }catch(Exception $e){
             Log::error($e);
             return response(['message' => 'Terjadi kesalahan pada server'], 500);
         }
-
+        
+        session()->flash('success', 'Pasien berhasil ditambahkan');
         return response([
             'message' => 'Berhasil menyimpan data', 
             'redirect_to' => route('pasien.index'),
@@ -56,12 +56,32 @@ class PasienController extends Controller
 
     public function edit(Pasien $pasien)
     {
-        //
+        $data = [
+            'prev_btn' => [
+                'url' => route('pasien.index'),
+                'label' => 'Kembali'
+            ],
+            'pasien' => $pasien
+        ];
+
+        return view('pasien.edit', $data);
     }
 
-    public function update(Request $request, Pasien $pasien)
+    public function update(PasienRequest $request, Pasien $pasien)
     {
-        //
+        try{
+            $pasien->update($request->validated());
+        }catch(Exception $e){
+            Log::error($e);
+            return response(['message' => 'Terjadi kesalahan pada server'], 500);
+        }
+        
+        session()->flash('success', 'Pasien berhasil diubah');
+        return response([
+            'message' => 'Berhasil menyimpan data', 
+            'redirect_to' => route('pasien.index'),
+            'redirect_to_rmedis' => route('rekam.edit_pengkajian', $pasien->id),
+        ], 200);
     }
 
     public function destroy(Pasien $pasien)

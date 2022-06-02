@@ -179,11 +179,11 @@ class RekamMedisController extends Controller
 
         $common_data = $this->getCommonData($pasien);
         $pengkajian = $common_data['pengkajian'];
-        if(isset($pengkajian['durasi_nyeri'])){
-            $luaran['durasi_nyeri'] = $pengkajian['durasi_nyeri'] == 'kurang_3' ? 'Nyeri < 3bulan' : 'Nyeri > 3bulan';
-        }else{
-            $luaran['durasi_nyeri'] = 'Tidak ada keluhan tambahan';
-        }
+        // if(isset($pengkajian['durasi_nyeri'])){
+        //     $pengkajian['durasi_nyeri'] = $pengkajian['durasi_nyeri'] == 'kurang_3' ? 'Nyeri < 3bulan' : 'Nyeri > 3bulan';
+        // }else{
+        //     $pengkajian['durasi_nyeri'] = 'Tidak ada keluhan tambahan';
+        // }
 
         $tanda_mayor = $common_data['tanda_mayor'];
         $tanda_minor = $common_data['tanda_minor'];
@@ -191,9 +191,8 @@ class RekamMedisController extends Controller
         $etiologi = Etiologi::all();
         $intervensi = Intervensi::with('opsi_intervensi', 'opsi_intervensi.opsi_child')->get(['id', 'value', 'keterangan']);
 
-
-        $etiologi = $etiologi->map(function ($etio) use($luaran) {
-            if(isset($luaran['etiologi']) && in_array($etio->id, json_decode($luaran['etiologi']))){
+        $etiologi = $etiologi->map(function ($etio) use($pengkajian) {
+            if(isset($pengkajian['etiologi']) && in_array($etio->id, json_decode($pengkajian['etiologi']))){
                 $etio->is_checked = true;
             }else{
                 $etio->is_checked = false;
@@ -202,19 +201,18 @@ class RekamMedisController extends Controller
             return $etio;
         });
 
-
         foreach($intervensi as $key => $inter){
             $opsi_intervensi = $inter->opsi_intervensi()->with('opsi_child')->where('id_parent', NULL)->get();
             $intervensi[$key]['opsi_intervensi'] = $opsi_intervensi;
         }
 
-        $luaran['opsi_intervensi'] = "[5,6,7]";
+        $luaran['intervensi_child'] = $luaran['intervensi_child'] ?? "[]";
 
         $intervensi = $intervensi->map(function ($inter) use($luaran) {
             $inter->is_checked = false;
             foreach ($inter->opsi_intervensi as $key => $opsi) {
                 foreach ($opsi->opsi_child as $key => $child) {
-                    if(isset($luaran['opsi_intervensi']) && in_array($child->id, json_decode($luaran['opsi_intervensi']))){
+                    if(isset($luaran['intervensi_child']) && in_array($child->id, json_decode($luaran['intervensi_child']))){
                         $inter->is_checked = true;
                         $child->is_checked = true;
                     }else{
@@ -222,9 +220,11 @@ class RekamMedisController extends Controller
                     }
                 }
             }
-
+            
             return $inter;
         });
+
+        $luaran['intervensi_child'] = json_decode($luaran['intervensi_child']);
         
         $data = [
             'prev_btn' => [
@@ -232,7 +232,7 @@ class RekamMedisController extends Controller
                 'label' => 'Kembali ke halaman diagnosa'
             ],
             'pasien' => $pasien,
-            'luaran' => $luaran,
+            'luaran' => array_merge($luaran, $pengkajian),
             'tanda_mayor' => $tanda_mayor,
             'tanda_minor' => $tanda_minor,
             'etiologi' => $etiologi,
@@ -246,33 +246,69 @@ class RekamMedisController extends Controller
 
     public function updateLuaran(LuaranRequest $request, Pasien $pasien)
     {
-        // return response($request->validated());
-
         try{
             $data = $request->validated();
             $to_update = [
-                'diaphores' => $data['luaran']['diaphores'] ?? '',
-                'frekuensi_nadi' => $data['luaran']['frekuensi_nadi'] ?? '',
-                'gelisah' => $data['luaran']['gelisah'] ?? '',
-                'keluhan_nyeri' => $data['luaran']['keluhan_nyeri'] ?? '',
-                'kesulitan_tidur' => $data['luaran']['kesulitan_tidur'] ?? '',
-                'meringis' => $data['luaran']['meringis'] ?? '',
-                'mual' => $data['luaran']['mual'] ?? '',
-                'muntah' => $data['luaran']['muntah'] ?? '',
-                'nafsu_makan' => $data['luaran']['nafsu_makan'] ?? '',
-                'nama_penyakit' => $data['luaran']['nama_penyakit'] ?? '',
-                'non_farmakologis' => $data['luaran']['non_farmakologis'] ?? '',
-                'nyeri_terkontrol' => $data['luaran']['nyeri_terkontrol'] ?? '',
-                'onset_nyeri' => $data['luaran']['onset_nyeri'] ?? '',
-                'operation_end' => $data['luaran']['operation_end'] ?? '',
-                'operation_start' => $data['luaran']['operation_start'] ?? '',
-                'penyebab_nyeri' => $data['luaran']['penyebab_nyeri'] ?? '',
-                'pola_nafas' => $data['luaran']['pola_nafas'] ?? '',
-                'sikap_protektif' => $data['luaran']['sikap_protektif'] ?? '',
-                'tekanan_darah' => $data['luaran']['tekanan_darah'] ?? '',
+                'diaphores' => $data['data']['diaphores'] ?? '',
+                'frekuensi_nadi' => $data['data']['frekuensi_nadi'] ?? '',
+                'gelisah' => $data['data']['gelisah'] ?? '',
+                'keluhan_nyeri' => $data['data']['keluhan_nyeri'] ?? '',
+                'kesulitan_tidur' => $data['data']['kesulitan_tidur'] ?? '',
+                'meringis' => $data['data']['meringis'] ?? '',
+                'mual' => $data['data']['mual'] ?? '',
+                'muntah' => $data['data']['muntah'] ?? '',
+                'nafsu_makan' => $data['data']['nafsu_makan'] ?? '',
+                'nama_penyakit' => $data['data']['nama_penyakit'] ?? '',
+                'non_farmakologis' => $data['data']['non_farmakologis'] ?? '',
+                'nyeri_terkontrol' => $data['data']['nyeri_terkontrol'] ?? '',
+                'onset_nyeri' => $data['data']['onset_nyeri'] ?? '',
+                'operation_end' => $data['data']['operation_end'] ?? '',
+                'operation_start' => $data['data']['operation_start'] ?? '',
+                'penyebab_nyeri' => $data['data']['penyebab_nyeri'] ?? '',
+                'pola_nafas' => $data['data']['pola_nafas'] ?? '',
+                'sikap_protektif' => $data['data']['sikap_protektif'] ?? '',
+                'tekanan_darah' => $data['data']['tekanan_darah'] ?? '',
+                'intervensi_child' => $data['data']['intervensi_child'] ?? [],
             ];
 
-            DB::transaction(function () use($pasien, $to_update) {
+            $to_update_pengkajian = [
+                'durasi_nyeri' => $data['data']['durasi_nyeri'] ?? '',
+            ];
+
+            foreach ($data['etiologi'] as $key => $klinis) {
+                if($klinis['is_checked']){
+                    $to_update_pengkajian['etiologi'][] = $klinis['id'];
+                }
+            }
+    
+            foreach ($data['tanda_mayor'] as $key => $mayor) {
+                if($mayor['is_checked']){
+                    $to_update_pengkajian['tanda_mayor'][] = $mayor['id'];
+                }
+            }
+    
+            foreach ($data['tanda_minor'] as $key => $minor) {
+                if($minor['is_checked']){
+                    $to_update_pengkajian['tanda_minor'][] = $minor['id'];
+                }
+            }
+
+            DB::transaction(function () use($pasien, $to_update, $to_update_pengkajian) {
+                foreach ($to_update_pengkajian as $key => $kajian) {
+                    RekamMedis::updateOrCreate(
+                        [
+                            'id_pasien' => $pasien->id,
+                            'group' => 'pengkajian',
+                            'key' => $key
+                        ],
+                        [
+                            'id_pasien' => $pasien->id,
+                            'group' => 'pengkajian',
+                            'key' => $key,
+                            'value' => is_array($kajian) ? json_encode($kajian) : $kajian,
+                        ]
+                    );
+                }
                 foreach ($to_update as $key => $value) {
                     RekamMedis::updateOrCreate(
                         [
@@ -284,7 +320,7 @@ class RekamMedisController extends Controller
                             'id_pasien' => $pasien->id,
                             'group' => 'luaran',
                             'key' => $key,
-                            'value' => $value,
+                            'value' => is_array($value) ? json_encode($value) : $value,
                         ]
                     );
                 }

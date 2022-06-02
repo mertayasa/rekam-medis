@@ -6,7 +6,7 @@
         <div class="card-body">
             @include('layouts.flash')
             @include('layouts.error_message')
-            {!! Form::open(['route' => ['pasien.store'], 'method' => 'post', 'id' => 'createPasienForm']) !!}
+            {!! Form::open(['route' => ['pasien.store'], 'method' => 'post', 'id' => 'editKajianForm']) !!}
             <div class="row">
                 <div class="col-12 mt-2  pb-3 pb-md-0">
                     {!! Form::label('keluahan_utama', 'Keluhan Utama', ['class' => 'mb-1']) !!}
@@ -69,7 +69,7 @@
 
 @push('scripts')
     <script>
-        const form = document.getElementById('createPasienForm');
+        const form = document.getElementById('editKajianForm');
 
         document.addEventListener('alpine:init', () => {
             Alpine.store('rmedis', {
@@ -111,7 +111,9 @@
                     $('#tandaMinor').modal('hide')
                 },
                 store(event) {
-                    console.log(this.data);
+                    // const formData = new FormData(form);
+                    // console.log(Object.fromEntries(formData));
+                    // console.log(this.data);
                     clearFlash()
                     fetch("{{ route('rekam.update_pengkajian', $pasien->id) }}", {
                             headers: {
