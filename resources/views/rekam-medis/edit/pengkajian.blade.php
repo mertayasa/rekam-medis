@@ -47,23 +47,7 @@
                 <div class="col-12 mt-2  pb-3 pb-md-0">
                     <h5 class="mt-3">Data Objektif</h5>
                 </div>
-
-                <div class="col-12 mt-2  pb-3 pb-3">
-                    <p class="mb-0"> <b> Keluhan Tambahan : </b></p>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="durasi_nyeri" id="durasi_nyeri1" value="lebih_3" x-model="$store.rmedis.data.durasi_nyeri">
-                        <label class="form-check-label" for="durasi_nyeri1">
-                            Nyeri > 3bulan
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="durasi_nyeri" id="durasi_nyeri2" value="kurang_3" x-model="$store.rmedis.data.durasi_nyeri">
-                        <label class="form-check-label" for="durasi_nyeri2">
-                            Nyeri < 3bulan
-                        </label>
-                      </div>
-                </div>
-                
+                                
                 @include('includes.input.data_objektif')
             </div>
             <template x-if="$store.rmedis.is_submitable == false">
