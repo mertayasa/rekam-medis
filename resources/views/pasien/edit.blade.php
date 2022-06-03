@@ -46,7 +46,7 @@
                         if (response.status != 200) {
                             data.then((res) => {
                                 const message = res.message
-                                Alpine.update('global').showFlash(res.message, 'error')
+                                Alpine.store('global').showFlash(res.message, 'error')
                             })
                             throw new Error()
                         }
@@ -63,7 +63,7 @@
                         return window.location.href = data.redirect_to
                     })
                     .catch((error) => {
-                        Alpine.update('global').showFlash('Terjadi kesalahan pada sistem', 'error')
+                        Alpine.store('global').showFlash('Terjadi kesalahan pada sistem', 'error')
                         return showSwalAlert('error', 'Terjadi kesalahan pada sistem')
                     })
                 }
