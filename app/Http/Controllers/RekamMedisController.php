@@ -495,7 +495,31 @@ class RekamMedisController extends Controller
 
     public function lihatDetail(Pasien $pasien)
     {
-        // $rekam_medis
-        dd($pasien);
+        $pengkajian = RekamMedis::getData('pengkajian', $pasien->id);
+        $diagnosa = RekamMedis::getData('diagnosa', $pasien->id);
+        $luaran = RekamMedis::getData('luaran', $pasien->id);
+        $evaluasi = RekamMedis::getData('evaluasi', $pasien->id);
+
+        $common_data = $this->getCommonData($pasien);
+        $pengkajian['tanda_mayor'] = $common_data['tanda_mayor'];
+        $pengkajian['tanda_minor'] = $common_data['tanda_minor'];
+        $pengkajian['etiologi'] = $common_data['etiologi'];     
+        if(isset($pengkajian['durasi_nyeri'])){
+            $pengkajian['durasi_nyeri'] = $pengkajian['durasi_nyeri'] == 'kurang_3' ? 'Nyeri < 3bulan' : 'Nyeri > 3bulan';
+        }else{
+            $pengkajian['durasi_nyeri'] = 'Tidak ada keluhan tambahan';
+        }
+
+        $rekam_medis = array_merge(['pengkajian' => $pengkajian], ['diagnosa' => $diagnosa], ['luaran' => $luaran], ['evaluasi' => $evaluasi]);
+        // dd($rekam_medis);
+        $pasien->diagnosa_medis = $diagnosa['diagnosa'] ?? '-';
+        $pasien->keluhan_utama = $pengkajian['keluhan_utama'] ?? '-';
+
+        $data = [
+            'rekam_medis' => $rekam_medis,
+            'pasien' => $pasien
+        ];
+
+        return view('rekam-medis.show.index', $data);
     }
 }
