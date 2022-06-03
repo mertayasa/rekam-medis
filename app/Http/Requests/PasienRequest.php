@@ -34,7 +34,7 @@ class PasienRequest extends FormRequest
             'alamat' => ['required', 'max:255'],
             'no_hp' => ['required', 'max:18'],
             'tanggal_masuk' => ['required', 'date'],
-            'tanggal_keluar' => ['required', 'date'],
+            'tanggal_keluar' => ['nullable', 'date'],
             'nama_wali' => ['required', 'max:100'],
             'hubungan_wali' => ['required', Rule::in(['Ayah', 'Ibu', 'Kakak', 'Adik', 'Kakek', 'Nenek', 'Lainnya'])],
             'kontak_wali' => ['required', 'max:255'],
