@@ -67,7 +67,7 @@
                 etiologi: JSON.parse(`{!! json_encode($etiologi) !!}`),
                 intervensi: JSON.parse(`{!! json_encode($intervensi) !!}`),
                 selectedIntervensi: {},
-                is_submitable: false,
+                is_submitable: true,
                 showIntervensiOpt($event) {
                     const target = $event.target
                     if (target.checked == true || target.nodeName == 'BUTTON') {
@@ -117,40 +117,40 @@
                     }
                 },
                 validateCheckbox(type) {
-                    const checkedLengthMayor = this.tanda_mayor.filter(item => item.is_checked == true)
-                        .length
-                    const optionLengthMayor = this.tanda_mayor.length
-                    const minimumMayor = (optionLengthMayor * 80) / 100
+                    // const checkedLengthMayor = this.tanda_mayor.filter(item => item.is_checked == true)
+                    //     .length
+                    // const optionLengthMayor = this.tanda_mayor.length
+                    // const minimumMayor = (optionLengthMayor * 80) / 100
 
-                    const checkedLengthMinor = this.tanda_minor.filter(item => item.is_checked == true)
-                        .length
-                    const optionLengthMinor = this.tanda_minor.length
-                    const minimumMinor = (optionLengthMinor * 20) / 100
+                    // const checkedLengthMinor = this.tanda_minor.filter(item => item.is_checked == true)
+                    //     .length
+                    // const optionLengthMinor = this.tanda_minor.length
+                    // const minimumMinor = (optionLengthMinor * 20) / 100
 
-                    if ((checkedLengthMayor >= Math.round(minimumMayor)) && (checkedLengthMinor >= Math
-                            .round(minimumMinor))) {
-                        this.is_submitable = true
-                    }
+                    // if ((checkedLengthMayor >= Math.round(minimumMayor)) && (checkedLengthMinor >= Math
+                    //         .round(minimumMinor))) {
+                    //     this.is_submitable = true
+                    // }
 
-                    if (type == 'check_only') {
-                        return true
-                    }
+                    // if (type == 'check_only') {
+                    //     return true
+                    // }
 
-                    if (type == 'mayor') {
-                        if (checkedLengthMayor < Math.round(minimumMayor)) {
-                            return showSwalAlert('error',
-                                `Tanda mayor dipilih minimal ${Math.round(minimumMayor)} (80% dari pilihan)`
-                            )
-                        }
-                    }
+                    // if (type == 'mayor') {
+                    //     if (checkedLengthMayor < Math.round(minimumMayor)) {
+                    //         return showSwalAlert('error',
+                    //             `Tanda mayor dipilih minimal ${Math.round(minimumMayor)} (80% dari pilihan)`
+                    //         )
+                    //     }
+                    // }
 
-                    if (type == 'minor') {
-                        if (checkedLengthMinor < Math.round(minimumMinor)) {
-                            return showSwalAlert('error',
-                                `Tanda minor dipilih minimal ${Math.round(minimumMinor)} (20% dari pilihan)`
-                            )
-                        }
-                    }
+                    // if (type == 'minor') {
+                    //     if (checkedLengthMinor < Math.round(minimumMinor)) {
+                    //         return showSwalAlert('error',
+                    //             `Tanda minor dipilih minimal ${Math.round(minimumMinor)} (20% dari pilihan)`
+                    //         )
+                    //     }
+                    // }
 
                     $('#tandaMayor').modal('hide')
                     $('#tandaMinor').modal('hide')
@@ -199,7 +199,7 @@
                 }
             })
 
-            Alpine.store('rmedis').validateCheckbox('check_only')
+            // Alpine.store('rmedis').validateCheckbox('check_only')
         })
     </script>
 @endpush

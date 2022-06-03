@@ -358,16 +358,38 @@ class RekamMedisController extends Controller
             $evaluasi['evaluasi'] = '';
         }
 
+        $tanda_mayor = TandaMayor::all();
+        $tanda_minor = TandaMinor::all();
+        $tanda_mayor = $tanda_mayor->map(function ($tanda) use($evaluasi) {
+            if(isset($evaluasi['tanda_mayor']) && in_array($tanda->id, json_decode($evaluasi['tanda_mayor']))){
+                $tanda->is_checked = true;
+            }else{
+                $tanda->is_checked = false;
+            }
+
+            return $tanda;
+        });
+
+        $tanda_minor = $tanda_minor->map(function ($tanda) use($evaluasi) {
+            if(isset($evaluasi['tanda_minor']) && in_array($tanda->id, json_decode($evaluasi['tanda_minor']))){
+                $tanda->is_checked = true;
+            }else{
+                $tanda->is_checked = false;
+            }
+
+            return $tanda;
+        });
+
         $data = [
             'prev_btn' => [
                 'url' => route('rekam.edit_luaran', $pasien->id),
                 'label' => 'Kembali ke halaman luaran'
             ],
+            'tanda_mayor' => $tanda_mayor,
+            'tanda_minor' => $tanda_minor,
             'pasien' => $pasien,
             'evaluasi' => $evaluasi
         ];
-
-        // dd($data);
 
         return view('rekam-medis.edit.evaluasi', $data);
     }
@@ -377,11 +399,25 @@ class RekamMedisController extends Controller
         // return response($request->validated());
 
         try{
-            $to_update = $request->validated();
-            // return $to_update['data'];
+            $data = $request->validated();
+            unset($data['data']['tanda_minor']);
+            unset($data['data']['tanda_mayor']);
+            $to_update = $data['data'];
 
+            foreach ($data['tanda_mayor'] as $key => $mayor) {
+                if($mayor['is_checked']){
+                    $to_update['tanda_mayor'][] = $mayor['id'];
+                }
+            }
+    
+            foreach ($data['tanda_minor'] as $key => $minor) {
+                if($minor['is_checked']){
+                    $to_update['tanda_minor'][] = $minor['id'];
+                }
+            }
+            
             DB::transaction(function () use($pasien, $to_update) {
-                foreach ($to_update['data'] as $key => $value) {
+                foreach ($to_update as $key => $value) {
                     if($value != null){
                         RekamMedis::updateOrCreate(
                             [

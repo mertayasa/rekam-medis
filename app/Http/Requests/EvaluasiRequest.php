@@ -27,6 +27,8 @@ class EvaluasiRequest extends FormRequest
     {
         return [
             'data' => ['required', 'array'],
+            'tanda_mayor' => ['required', 'array'],
+            'tanda_minor' => ['required', 'array'],
             'data.analisa' => ['required'],
             'data.planning' => ['required'],
             'data.provoking' => ['required'],
@@ -34,7 +36,7 @@ class EvaluasiRequest extends FormRequest
             'data.rasa_nyeri' => ['required'],
             'data.region' => ['required'],
             'data.severity' => ['required'],
-            'data.tanda_objektif' => ['required'],
+            // 'data.tanda_objektif' => ['required'],
             'data.time' => ['required'],
         ];
     }

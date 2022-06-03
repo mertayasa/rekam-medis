@@ -38,18 +38,20 @@
     <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#tandaMinor">Edit</button>
 </div>
 
-<div class="col-12 pb-3 pb-md-0">
-    <p class="mb-0"> <b>Etiologi / Penyebab :</b> </p>
-    <ul class="mb-0 pb-0">
-        <template x-for="(etiologi, index) in $store.rmedis.etiologi">
-            <template x-if="etiologi.is_checked">
-                <li x-text="etiologi.value"></li>
+@if (!Request::is('*evaluasi*'))
+    <div class="col-12 pb-3 pb-md-0">
+        <p class="mb-0"> <b>Etiologi / Penyebab :</b> </p>
+        <ul class="mb-0 pb-0">
+            <template x-for="(etiologi, index) in $store.rmedis.etiologi">
+                <template x-if="etiologi.is_checked">
+                    <li x-text="etiologi.value"></li>
+                </template>
             </template>
-        </template>
-    </ul>
-    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#etiologi">Edit</button>
-</div>
+        </ul>
+        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#etiologi">Edit</button>
+    </div>
+    @include('includes.modal.etiologi_modal')
+@endif
 
 @include('includes.modal.tanda_mayor_modal')
 @include('includes.modal.tanda_minor_modal')
-@include('includes.modal.etiologi_modal')
