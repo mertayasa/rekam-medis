@@ -456,4 +456,10 @@ class RekamMedisController extends Controller
             'etiologi' => $etiologi
         ];
     }
+
+    public function lihatDetail(Pasien $pasien)
+    {
+        // $rekam_medis
+        dd($pasien);
+    }
 }

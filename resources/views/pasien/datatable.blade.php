@@ -49,7 +49,7 @@
                 orderable: false,
                 searchable: false,
                 className:"text-center align-middle",
-                title: 'Aksi'
+                // title: 'Aksi'
             }
         ]
 

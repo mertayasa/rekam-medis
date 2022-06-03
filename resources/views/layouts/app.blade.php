@@ -120,6 +120,7 @@
     </div>
 
     <script src="{{ asset('plugin/jquery/dist/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('plugin/popper/popper.min.js') }}"></script>
     <script src="{{ asset('plugin/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('plugin/datatable/datatables.min.js') }}"></script>
     <script src="{{ asset('plugin/sweetalert2/dist/sweetalert2.min.js') }}"></script>

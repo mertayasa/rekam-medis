@@ -48,7 +48,15 @@ Route::group(['middleware' => 'auth'], function (){
             Route::get('luaran/{pasien}', [RekamMedisController::class, 'editLuaran'])->name('edit_luaran');
             Route::get('evaluasi/{pasien}', [RekamMedisController::class, 'editEvaluasi'])->name('edit_evaluasi');
         });
-
+        
+        Route::group(['prefix' => 'show'], function () {
+            Route::get('{pasien}', [RekamMedisController::class, 'lihatDetail'])->name('show_detail');
+        });
+        
+        Route::group(['prefix' => 'print'], function () {
+            Route::get('pdf/{pasien}', [RekamMedisController::class, 'printPdf'])->name('print_pdf');
+        });
+        
         Route::group(['prefix' => 'update'], function () {
             Route::patch('pengkajian/{pasien}', [RekamMedisController::class, 'updatePengkajian'])->name('update_pengkajian');
             Route::patch('diagnosa/{pasien}', [RekamMedisController::class, 'updateDiagnosa'])->name('update_diagnosa');
