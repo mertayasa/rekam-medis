@@ -493,25 +493,90 @@ class RekamMedisController extends Controller
         ];
     }
 
+    public function getCommonDataEvaluasi($pasien)
+    {
+        $evaluasi = RekamMedis::getData('evaluasi', $pasien->id);
+        $tanda_mayor = TandaMayor::all();
+        $tanda_minor = TandaMinor::all();
+        
+        $tanda_mayor = $tanda_mayor->map(function ($tanda) use($evaluasi) {
+            if(isset($evaluasi['tanda_mayor']) && in_array($tanda->id, json_decode($evaluasi['tanda_mayor']))){
+                $tanda->is_checked = true;
+            }else{
+                $tanda->is_checked = false;
+            }
+
+            return $tanda;
+        });
+
+        $tanda_minor = $tanda_minor->map(function ($tanda) use($evaluasi) {
+            if(isset($evaluasi['tanda_minor']) && in_array($tanda->id, json_decode($evaluasi['tanda_minor']))){
+                $tanda->is_checked = true;
+            }else{
+                $tanda->is_checked = false;
+            }
+
+            return $tanda;
+        });
+
+        return [
+            'tanda_mayor' => $tanda_mayor,
+            'tanda_minor' => $tanda_minor,
+        ];
+    }
+
     public function lihatDetail(Pasien $pasien)
     {
         $pengkajian = RekamMedis::getData('pengkajian', $pasien->id);
+        
+        if(!$pengkajian){
+            return redirect()->route('rekam.edit_pengkajian', $pasien->id)->with('warning', 'Data rekam medis belum diisi');
+        }
+
         $diagnosa = RekamMedis::getData('diagnosa', $pasien->id);
         $luaran = RekamMedis::getData('luaran', $pasien->id);
         $evaluasi = RekamMedis::getData('evaluasi', $pasien->id);
 
         $common_data = $this->getCommonData($pasien);
+        $common_data_evaluasi = $this->getCommonDataEvaluasi($pasien);
+
         $pengkajian['tanda_mayor'] = $common_data['tanda_mayor'];
         $pengkajian['tanda_minor'] = $common_data['tanda_minor'];
-        $pengkajian['etiologi'] = $common_data['etiologi'];     
+        $pengkajian['etiologi'] = $common_data['etiologi'];
+        
+        $evaluasi['tanda_mayor'] = $common_data_evaluasi['tanda_mayor'];
+        $evaluasi['tanda_minor'] = $common_data_evaluasi['tanda_minor'];
+
         if(isset($pengkajian['durasi_nyeri'])){
             $pengkajian['durasi_nyeri'] = $pengkajian['durasi_nyeri'] == 'kurang_3' ? 'Nyeri < 3bulan' : 'Nyeri > 3bulan';
         }else{
             $pengkajian['durasi_nyeri'] = 'Tidak ada keluhan tambahan';
         }
 
+        if(isset($evaluasi['durasi_nyeri'])){
+            $evaluasi['durasi_nyeri'] = $evaluasi['durasi_nyeri'] == 'kurang_3' ? 'Nyeri < 3bulan' : 'Nyeri > 3bulan';
+        }else{
+            $evaluasi['durasi_nyeri'] = 'Tidak ada keluhan tambahan';
+        }
+
         $rekam_medis = array_merge(['pengkajian' => $pengkajian], ['diagnosa' => $diagnosa], ['luaran' => $luaran], ['evaluasi' => $evaluasi]);
-        // dd($rekam_medis);
+        
+        $intervensi = Intervensi::with('opsi_intervensi')->whereHas('opsi_intervensi', function($opsi) use($rekam_medis){
+            return $opsi->whereIn('id', json_decode(($rekam_medis['luaran']['intervensi_child'] ?? "[]")));
+        })->get();
+
+        $intervensi->map(function($inter) use($rekam_medis){
+            $inter->opsi_intervensi = $inter->opsi_intervensi->map(function($opsi) use($rekam_medis){
+                $opsi->opsi_child->map(function($child) use($rekam_medis){
+                    $child->is_checked = in_array($child->id, json_decode(($rekam_medis['luaran']['intervensi_child'] ?? "[]")));
+                    return $child;
+                });
+                return $opsi;
+            });
+            return $inter;
+        });
+
+        $rekam_medis['intervensi'] = $intervensi;
         $pasien->diagnosa_medis = $diagnosa['diagnosa'] ?? '-';
         $pasien->keluhan_utama = $pengkajian['keluhan_utama'] ?? '-';
 
