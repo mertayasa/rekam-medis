@@ -1,16 +1,14 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="card">
-    <div class="card-header mx-0 row justify-content-between align-items-center">
-        <div class="col-6">
-            <h6 class="py-1 m-0">Data Rekam Medis</h6>
-        </div>
-        <div class="col-6 text-end">
-            <a href="{{ route('rekam.print', $pasien->id) }}" target="_blank" class="btn btn-sm btn-primary">Cetak Rekam Medis <i class="fas fa-print"></i></a>
-        </div>
-    </div>
-    <div class="card-body">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cetak Rekam Medis</title>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+</head>
+<body>
+    <section class="content">
         <div class="col-12 pb-3 pb-md-0">
             <h5><b>Biodata Pasien</b></h5>
         </div>
@@ -81,10 +79,6 @@
                 <td>{{ $pasien->kontak_wali ?? '-' }}</td>
             </tr>
         </table>
-
-        <div class="text-end mt-3">
-            <a href="{{ route('pasien.edit', $pasien->id) }}" class="btn btn-sm btn-warning"> Edit Pasien <i class="fas fa-arrow-alt-circle-right"></i></a>
-        </div>
 
         <hr>
 
@@ -321,17 +315,8 @@
             </table>
         </div>
 
-        <div class="col-12 pb-3 pb-md-0 mt-4 mb-2">
-            <div class="row align-items-center">
-                <div class="col-6">
-                    <h5><b>Intervensi</b></h5>
-                </div>
-                <div class="col-6 text-end">
-                    @if (isset($rekam_medis['luaran']['share_link']))
-                        <a href="{{ $rekam_medis['luaran']['share_link'] }}" target="_blank" class="btn btn-sm btn-primary">Public Link <i class="fas fa-share"></i></a>
-                    @endif
-                </div>
-            </div>
+        <div class="col-12 pb-3 pb-md-0 mt-4">
+            <h5><b>Intervensi</b></h5>
         </div>
 
         <div class="table-responsive">
@@ -345,12 +330,7 @@
                 <tbody>
                     @forelse ($rekam_medis['intervensi'] as $inter)
                         <tr>
-                            <td width="300">
-                                {{ $inter->value }} <br>
-                                @if ($inter->url_youtube != null)
-                                <span><b>LINK VIDEO : <a href="{{ $inter->url_youtube }}" target="_blank">{{ $inter->url_youtube }}</a></b></span> <br>
-                                @endif
-                            </td>
+                            <td width="300">{{ $inter->value }}</td>
                             <td>
                                 @forelse ($inter->opsi_intervensi as $opsi)
                                     @if ($opsi->id_parent == null)
@@ -458,13 +438,29 @@
                 </tbody>
             </table>
         </div>
+    </section>
+</body>
+<script>
+    window.print()
 
-        <div class="text-end mt-3">
-            <a href="{{ route('pasien.index') }}" class="btn btn-sm btn-danger"><i class="fas fa-arrow-alt-circle-left"></i> Kembali </a>
-            <a href="{{ route('rekam.print', $pasien->id) }}" target="_blank" class="btn btn-sm btn-primary">Cetak Rekam Medis <i class="fas fa-print"></i></a>
-            <a href="{{ route('rekam.edit_pengkajian', $pasien->id) }}" class="btn btn-sm btn-warning"> Edit Rekam Medis <i class="fas fa-arrow-alt-circle-right"></i></a>
-        </div>
+        // Calling function with () will execute the function immediately. 
+    // Its fine in firefox but not in chrome. so we call function as variable in chrome
+    if(navigator.userAgent.indexOf("Firefox") != -1 ){
+        window.onafterprint = back()
+    }else{
+        window.onafterprint = back
+    }
 
-    </div>
-</div>
-@endsection
+
+    function back() {
+        // Window history back simply just close the window and redirect to previous page immediately on firefox, 
+        // but if we specify the url, it will wait until we print or cancel.
+        window.close();
+        // if(navigator.userAgent.indexOf("Firefox") != -1 ){
+        //     document.location.href = ''
+        // }else{
+        //     window.history.back()
+        // }
+    }
+</script>
+</html>

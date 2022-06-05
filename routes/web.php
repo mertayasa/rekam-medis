@@ -21,7 +21,7 @@ Route::get('/', function () {
     return redirect('login');
 });
 
-Route::group(['middleware' => 'auth'], function (){
+Route::group(['middleware' => ['auth', 'verified']], function (){
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::patch('update', [ProfileController::class, 'update'])->name('update');
         Route::get('edit', [ProfileController::class, 'edit'])->name('edit');
@@ -54,7 +54,7 @@ Route::group(['middleware' => 'auth'], function (){
         });
         
         Route::group(['prefix' => 'print'], function () {
-            Route::get('pdf/{pasien}', [RekamMedisController::class, 'printPdf'])->name('print_pdf');
+            Route::get('{pasien}', [RekamMedisController::class, 'print'])->name('print');
         });
         
         Route::group(['prefix' => 'update'], function () {
@@ -67,9 +67,9 @@ Route::group(['middleware' => 'auth'], function (){
 });
 
 Route::group(['prefix' => 'rekam-medis-intervensi', 'as' => 'rekam_intervensi.'], function () {
-    Route::patch('pengkajian/{pasien}', [RekamMedisController::class, 'updatePengkajian'])->name('update_pengkajian');
+    Route::get('{pasien}', [RekamMedisController::class, 'publicLink'])->name('share');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

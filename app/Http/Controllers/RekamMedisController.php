@@ -227,7 +227,6 @@ class RekamMedisController extends Controller
                 $inter->id_youtube = end($url_yt);
             }
 
-            
             return $inter;
         });
 
@@ -527,6 +526,19 @@ class RekamMedisController extends Controller
 
     public function lihatDetail(Pasien $pasien)
     {
+        $data = $this->getDetailData($pasien);
+
+        return view('rekam-medis.show.index', $data);
+    }
+    
+    public function print(Pasien $pasien)
+    {
+        $data = $this->getDetailData($pasien);
+        return view('rekam-medis.show.print', $data);
+    }
+
+    private function getDetailData($pasien)
+    {
         $pengkajian = RekamMedis::getData('pengkajian', $pasien->id);
         
         if(!$pengkajian){
@@ -565,7 +577,7 @@ class RekamMedisController extends Controller
             return $opsi->whereIn('id', json_decode(($rekam_medis['luaran']['intervensi_child'] ?? "[]")));
         })->get();
 
-        $intervensi->map(function($inter) use($rekam_medis){
+        $intervensi->map(function($inter) use($rekam_medis, $pasien){
             $inter->opsi_intervensi = $inter->opsi_intervensi->map(function($opsi) use($rekam_medis){
                 $opsi->opsi_child->map(function($child) use($rekam_medis){
                     $child->is_checked = in_array($child->id, json_decode(($rekam_medis['luaran']['intervensi_child'] ?? "[]")));
@@ -576,6 +588,12 @@ class RekamMedisController extends Controller
             return $inter;
         });
 
+        foreach ($intervensi as $key => $inter) {
+            if($inter->url_youtube){
+                $rekam_medis['luaran']['share_link'] = route('rekam_intervensi.share', $pasien->id);
+            }
+        }
+
         $rekam_medis['intervensi'] = $intervensi;
         $pasien->diagnosa_medis = $diagnosa['diagnosa'] ?? '-';
         $pasien->keluhan_utama = $pengkajian['keluhan_utama'] ?? '-';
@@ -585,6 +603,37 @@ class RekamMedisController extends Controller
             'pasien' => $pasien
         ];
 
-        return view('rekam-medis.show.index', $data);
+        return $data;
+    }
+
+    public function publicLink(Pasien $pasien)
+    {
+        $luaran = RekamMedis::getData('luaran', $pasien->id);
+        
+        if(!$luaran){
+            abort(404, 'Data Rekam Medis Tidak Ditemukan');
+        }
+
+        $intervensi = Intervensi::all();
+
+        $intervensi = Intervensi::with('opsi_intervensi')->whereHas('opsi_intervensi', function($opsi) use($luaran){
+            return $opsi->whereIn('id', json_decode(($luaran['intervensi_child'] ?? "[]")));
+        })->get();
+
+        $intervensi = $intervensi->map(function ($inter) use($luaran) {
+            if($inter->url_youtube){
+                $url_yt = explode('/', $inter->url_youtube);
+                $inter->id_youtube = end($url_yt);
+            }
+
+            return $inter;
+        });
+
+        $data = [
+            'pasien' => $pasien,
+            'intervensi' => $intervensi,
+        ];
+
+        return view('rekam-medis.public.intervensi', $data);
     }
 }

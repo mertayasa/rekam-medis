@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(KondisiKlinisSeeder::class);
         $this->call(IntervensiSeeder::class);
         $this->call(EtiologiSeeder::class);
+        $this->call(MakeEverybodyVerified::class);
         // \App\Models\User::factory(10)->create();
     }
 }
