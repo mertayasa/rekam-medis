@@ -112,25 +112,46 @@
                         })
                 },
                 setKeluar(event){
-                    const data = event.target
-                    fetch("{{ url('pasien/set-keluar') }}" + "/" + data.getAttribute('data-id'), {
-                        method: 'GET'
-                    })
-                    .then(function(response) {
-                        if (!response.ok) {
-                            throw Error(response.statusText)
+                    Swal.fire({
+                        title: "Warning",
+                        text: "Tandai pasien sudah keluar?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#169b6b',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya',
+                        cancelButtonText: 'Tidak'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const data = event.target
+                            fetch("{{ url('pasien/set-keluar') }}" + "/" + data.getAttribute('data-id'), {
+                                method: 'GET'
+                            })
+                            .then(function(response) {
+                                if (!response.ok) {
+                                    throw Error(response.statusText)
+                                }
+                                return response;
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                Swal.fire({
+                                    title: "Success",
+                                    text: "Pasien telah ditandai keluar",
+                                    icon: 'success',
+                                    confirmButtonColor: '#169b6b',
+                                    confirmButtonText: 'Oke'
+                                })
+                                
+                                $('#datatable').DataTable().ajax.reload();
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                                return showSwalAlert('error',
+                                    'Terjadi kesalahan pada sistem, mohon muat coba lagi atau muat ulang halaman'
+                                )
+                            })
                         }
-                        return response;
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        $('#datatable').DataTable().ajax.reload();
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        return showSwalAlert('error',
-                            'Terjadi kesalahan pada sistem, mohon muat coba lagi atau muat ulang halaman'
-                        )
                     })
                 }
             })

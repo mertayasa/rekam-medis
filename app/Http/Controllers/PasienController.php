@@ -107,7 +107,7 @@ class PasienController extends Controller
     public function setKeluar(Pasien $pasien)
     {
         try {
-            $pasien->update(['tgl_keluar' => Carbon::now()]);
+            $pasien->update(['tanggal_keluar' => Carbon::now()]);
         } catch (Exception $e) {
             Log::info($e->getMessage());
             return response(['message' => 'Gagal menyimpan tanggal keluar pasien'], 500);
