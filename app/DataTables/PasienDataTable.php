@@ -22,7 +22,7 @@ class PasienDataTable
                 $deleteUrl = "'" . route('pasien.destroy', $pasien->id) . "', 'datatable'";
 
                 if($pasien->tanggal_keluar == null){
-                  $penanda = '<li><a class="dropdown-item" x-on:click="$store.pasienModal.setKeluar($event)" data-id="'. $pasien->id .'" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lihat" href="#">Tandai Sudah Keluar</a></li>';
+                  $penanda = '<li><a class="dropdown-item" x-on:click="$store.pasienModal.setKeluar($event)" data-id="'. $pasien->id .'" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tandai Pasien Sudah Keluar" href="#">Tandai Sudah Keluar</a></li>';
                 }else{
                   $penanda = '';
                 }
