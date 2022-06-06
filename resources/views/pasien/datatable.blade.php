@@ -44,6 +44,11 @@
                 title: 'No Telepon'
             },
             {
+                data: 'status', 
+                name: 'status',
+                title: 'Status'
+            },
+            {
                 data: 'action',
                 name: 'action',
                 orderable: false,

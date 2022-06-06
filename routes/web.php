@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth', 'verified']], function (){
         Route::get('create', [PasienController::class, 'create'])->name('create');
         Route::post('store', [PasienController::class, 'store'])->name('store');
         Route::get('edit/{pasien}', [PasienController::class, 'edit'])->name('edit');
+        Route::get('set-keluar/{pasien}', [PasienController::class, 'setKeluar'])->name('set_keluar');
         Route::patch('update/{pasien}', [PasienController::class, 'update'])->name('update');
         Route::delete('destroy/{pasien}', [PasienController::class, 'destroy'])->name('destroy');
     });

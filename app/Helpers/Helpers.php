@@ -37,8 +37,8 @@ function getRangeValue($value)
 function getRasaNyeri($value)
 {
     switch($value){
-        case 'mengekuh_nyeri':
-            return 'Pasien mengekuh nyeri';
+        case 'mengeluh_nyeri':
+            return 'Pasien mengeluh nyeri';
         break;
         case 'nyeri_berkurang':
             return 'Pasien nyeri berkurang';

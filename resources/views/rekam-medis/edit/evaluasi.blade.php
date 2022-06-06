@@ -12,9 +12,9 @@
                 <div class="col-12 mt-2  pb-3 pb-3">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="rasa_nyeri" id="rasa_nyeri1"
-                            value="mengekuh_nyeri" x-model="$store.rmedis.data.rasa_nyeri">
+                            value="mengeluh_nyeri" x-model="$store.rmedis.data.rasa_nyeri">
                         <label class="form-check-label" for="rasa_nyeri1">
-                            Pasien mengekuh nyeri
+                            Pasien mengeluh nyeri
                         </label>
                     </div>
                     <div class="form-check">

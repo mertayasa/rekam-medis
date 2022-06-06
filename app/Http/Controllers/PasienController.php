@@ -6,6 +6,7 @@ use App\DataTables\PasienDataTable;
 use App\Http\Requests\PasienRequest;
 use App\Models\Pasien;
 use App\Models\RekamMedis;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -101,5 +102,17 @@ class PasienController extends Controller
         }
 
         return response(['code' => 1, 'message' => 'Berhasil menghapus pasien']);
+    }
+
+    public function setKeluar(Pasien $pasien)
+    {
+        try {
+            $pasien->update(['tgl_keluar' => Carbon::now()]);
+        } catch (Exception $e) {
+            Log::info($e->getMessage());
+            return response(['message' => 'Gagal menyimpan tanggal keluar pasien'], 500);
+        }
+
+        return response(['message' => 'Berhasil menyimpan tanggal keluar pasien'], 200);
     }
 }

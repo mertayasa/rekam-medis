@@ -110,6 +110,28 @@
                                 'Terjadi kesalahan pada sistem, mohon muat coba lagi atau muat ulang halaman'
                             )
                         })
+                },
+                setKeluar(event){
+                    const data = event.target
+                    fetch("{{ url('pasien/set-keluar') }}" + "/" + data.getAttribute('data-id'), {
+                        method: 'GET'
+                    })
+                    .then(function(response) {
+                        if (!response.ok) {
+                            throw Error(response.statusText)
+                        }
+                        return response;
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        $('#datatable').DataTable().ajax.reload();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        return showSwalAlert('error',
+                            'Terjadi kesalahan pada sistem, mohon muat coba lagi atau muat ulang halaman'
+                        )
+                    })
                 }
             })
         })

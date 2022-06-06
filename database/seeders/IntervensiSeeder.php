@@ -42,7 +42,7 @@ class IntervensiSeeder extends Seeder
                 'url_youtube' => null
             ],
             [
-                'value' => 'Edukasi Teknik Napas (I.12452)',
+                'value' => 'Edukasi Teknik Napas',
                 'keterangan' => 'Mengajarkan teknik pernafasan untuk meningkatkan relaksasi, meredakan nyeri, dan ketidaknyamanan.',
                 'url_youtube' => null
             ],
