@@ -55,16 +55,11 @@
                 <td width="50" class="text-center">:</td>
                 <td>{{ $pasien->tanggal_keluar ?? '-' }}</td>
             </tr>
-            {{-- <tr>
+            <tr>
                 <td>Diagnosa Medis</td>
                 <td width="50" class="text-center">:</td>
                 <td>{{ $pasien->diagnosa_medis ?? '-' }}</td>
             </tr>
-            <tr>
-                <td>Keluhan Utama</td>
-                <td width="50" class="text-center">:</td>
-                <td>{{ $pasien->keluhan_utama ?? '-' }}</td>
-            </tr> --}}
             <tr>
                 <td>Nama Wali</td>
                 <td width="50" class="text-center">:</td>
@@ -195,7 +190,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td width="200">Diagnosa Medis</td>
+                        <td width="200">Diagnosa Keperawatan</td>
                         <td>{{ $rekam_medis['diagnosa']['diagnosa'] ?? '-' }}</td>
                     </tr>
                 </tbody>
@@ -215,10 +210,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td width="200">Penyakit</td>
-                        <td>{{ $rekam_medis['luaran']['nama_penyakit'] ?? '-' }}</td>
-                    </tr>
                     <tr>
                         <td width="200">Penyakit</td>
                         <td>{{ $rekam_medis['luaran']['nama_penyakit'] ?? '-' }}</td>
@@ -352,17 +343,38 @@
                                 @endif
                             </td>
                             <td>
-                                @forelse ($inter->opsi_intervensi as $opsi)
+                                @forelse ($inter->opsi_intervensi as $key => $opsi)
                                     @if ($opsi->id_parent == null)
-                                        <b>{{ $opsi->value }}</b>
+                                        {{-- @php
+                                            $show_parent = false;
+                                        @endphp
+                                        @foreach ($opsi->opsi_child as $child)
+                                            @if ($child->is_checked == true && $child->id_parent == $opsi->id)
+                                                @php
+                                                    $show_parent = true
+                                                @endphp
+                                            @endif
+                                        @endforeach --}}
+
+                                        {{-- @if ($show_parent == true) --}}
+                                            <b>{{ $opsi->value }}</b>
+                                        {{-- @endif --}}
+
                                         <ul class="mb-0">
-                                            @forelse ($opsi->opsi_child as $child)
+                                            @php
+                                                $show_child = false;
+                                            @endphp
+                                            @foreach ($opsi->opsi_child as $child)
                                                 @if ($child->is_checked == true)
                                                     <li> {{ $child->value }} </li>
+                                                    @php
+                                                        $show_child = true
+                                                    @endphp
                                                 @endif
-                                            @empty
+                                            @endforeach
+                                            @if ($show_child == false)
                                                 <li>Tidak Ada Opsi Yang dipilih</li>
-                                            @endforelse
+                                            @endif
                                         </ul>
                                     @endif        
                                 @empty
@@ -377,6 +389,11 @@
             </table>
         </div>
 
+        <div class="col-12 pb-3 pb-md-0 mt-4">
+            <h5><b>Implementasi Keperawatan</b></h5>
+        </div>
+
+        @include('includes.implementasi.intervensi', ['intervensi' => $rekam_medis['intervensi'], 'disabled' => true])
 
         <div class="col-12 pb-3 pb-md-0 mt-4">
             <h5><b>Evaluasi</b></h5>

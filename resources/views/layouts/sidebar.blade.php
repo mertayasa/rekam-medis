@@ -7,6 +7,10 @@
                     class="list-group-item {{ Request::is('*pasien*') || Request::is('*rekam-medis*') ? 'bg-light' : '' }}">
                     Pasien</li>
             </a>
+            <a class="text-decoration-none" href="{{ route('rekam.edit_implementasi') }}">
+                <li
+                    class="list-group-item {{ Request::is('*pasien*') || Request::is('*rekam-medis*') ? 'bg-light' : '' }}">Implementasi Keperawatan</li>
+            </a>
         </ul>
 
         <h5 class="mt-4">Biodata</h5>

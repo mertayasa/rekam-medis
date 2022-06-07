@@ -53,16 +53,11 @@
                 <td width="50" class="text-center">:</td>
                 <td>{{ $pasien->tanggal_keluar ?? '-' }}</td>
             </tr>
-            {{-- <tr>
+            <tr>
                 <td>Diagnosa Medis</td>
                 <td width="50" class="text-center">:</td>
                 <td>{{ $pasien->diagnosa_medis ?? '-' }}</td>
             </tr>
-            <tr>
-                <td>Keluhan Utama</td>
-                <td width="50" class="text-center">:</td>
-                <td>{{ $pasien->keluhan_utama ?? '-' }}</td>
-            </tr> --}}
             <tr>
                 <td>Nama Wali</td>
                 <td width="50" class="text-center">:</td>
@@ -357,6 +352,11 @@
             </table>
         </div>
 
+        <div class="col-12 pb-3 pb-md-0 mt-4">
+            <h5><b>Implementasi Keperawatan</b></h5>
+        </div>
+
+        @include('includes.implementasi.intervensi', ['intervensi' => $rekam_medis['intervensi'], 'disabled' => true])
 
         <div class="col-12 pb-3 pb-md-0 mt-4">
             <h5><b>Evaluasi</b></h5>

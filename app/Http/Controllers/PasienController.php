@@ -26,10 +26,10 @@ class PasienController extends Controller
 
     public function find(Pasien $pasien)
     {
-        $diagnosa = RekamMedis::getData('diagnosa', $pasien->id);
+        // $diagnosa = RekamMedis::getData('diagnosa', $pasien->id);
         $pengkajian = RekamMedis::getData('pengkajian', $pasien->id);
 
-        $pasien->diagnosa_medis = $diagnosa['diagnosa'] ?? '-';
+        // $pasien->diagnosa_medis = $diagnosa['diagnosa'] ?? '-';
         $pasien->keluhan_utama = $pengkajian['keluhan_utama'] ?? '-';
 
         return response($pasien);

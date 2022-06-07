@@ -30,7 +30,7 @@ class PasienFactory extends Factory
             'nama_wali' => $this->faker->name(),
             'hubungan_wali' => $hubungan[rand(0,5)],
             // 'keluhan_utama' => $this->faker->sentence(),
-            // 'diagnosa_medis' => $this->faker->sentence(),
+            'diagnosa_medis' => $this->faker->sentence(),
             'kontak_wali' => $this->faker->e164PhoneNumber(),
             'no_rm' => rand(1, 99),
         ];

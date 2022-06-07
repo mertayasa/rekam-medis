@@ -34,10 +34,10 @@ class PasienDataTable
               
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                   <li><a class="dropdown-item" x-on:click="$store.pasienModal.getPasien($event)" data-id="'. $pasien->id .'" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lihat" href="#">Lihat Biodata</a></li>
+                  <li><a href="' . route('pasien.edit', $pasien->id) . '" class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit Pasien" style="margin-right: 5px" >Edit Pasien</a>
                   '. $penanda .'
-                  <li><a href="' . route('pasien.edit', $pasien->id) . '" class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit" style="margin-right: 5px" >Edit Pasien</a>
-                  <li><a href="' . route('rekam.edit_pengkajian', $pasien->id) . '" class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit" style="margin-right: 5px" >Edit Rekam Medis</a>
-                  <li><a href="' . route('rekam.show_detail', $pasien->id) . '" class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit" style="margin-right: 5px" >Lihat Rekam Medis</a>
+                  <li><a href="' . route('rekam.edit_pengkajian', $pasien->id) . '" class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit Rekam Medis" style="margin-right: 5px" >Edit Rekam Medis</a>
+                  <li><a href="' . route('rekam.show_detail', $pasien->id) . '" class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lihat Rekam Medis" style="margin-right: 5px" >Lihat Rekam Medis</a>
                   <li><a href="#" onclick="deleteModel(' . $deleteUrl . ',)" class="dropdown-item text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Hapus" style="margin-right: 5px"><b>Hapus</b></a></li>
                 </ul>
               </div>';

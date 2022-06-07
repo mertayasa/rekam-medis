@@ -67,4 +67,8 @@
             ['class' => 'form-control', 'id' => 'hubungan_wali'],
         ) !!}
     </div>
+    <div class="col-12 mt-2  pb-3 pb-md-0">
+        {!! Form::label('diagnosa_medis', 'Diagnosa Medis', ['class' => 'mb-1']) !!}
+        {!! Form::text('diagnosa_medis', null, ['class' => 'form-control', 'id' => 'diagnosa_medis']) !!}
+    </div>
 </div>

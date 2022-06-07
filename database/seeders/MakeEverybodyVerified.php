@@ -18,6 +18,7 @@ class MakeEverybodyVerified extends Seeder
 
         foreach ($users as $key => $user) {
             $user->email_verified_at = now();
+            $user->save();
         }
     }
 }

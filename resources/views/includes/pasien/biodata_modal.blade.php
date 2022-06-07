@@ -54,6 +54,11 @@
                         <td x-text="$store.pasienModal.pasien.diagnosa_medis ?? '-'"></td>
                     </tr>
                     <tr>
+                        <td>Diagnosa Keperawatan</td>
+                        <td width="50" class="text-center">:</td>
+                        <td x-text="$store.pasienModal.pasien.diagnosa_keperawatan ?? '-'"></td>
+                    </tr>
+                    <tr>
                         <td>Keluhan Utama</td>
                         <td width="50" class="text-center">:</td>
                         <td x-text="$store.pasienModal.pasien.keluhan_utama ?? '-'"></td>

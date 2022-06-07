@@ -46,9 +46,9 @@
                 <button type="button" x-bind:disabled="$store.rmedis.is_submitable == false" class="btn btn-sm btn-primary" x-on:click="$store.rmedis.store($event)">
                     Simpan <i class="fas fa-save"></i>
                 </button>
-                <button type="button" x-bind:disabled="$store.rmedis.is_submitable == false" class="btn btn-sm btn-warning" data-edit-revaluasi="true"
+                <button type="button" x-bind:disabled="$store.rmedis.is_submitable == false" class="btn btn-sm btn-warning" data-edit-rimplementasi="true"
                     x-on:click="$store.rmedis.store($event)">
-                    Simpan & Edit Evaluasi <i class="fas fa-arrow-alt-circle-right"></i>
+                    Simpan & Edit Implementasi Keperawatan <i class="fas fa-arrow-alt-circle-right"></i>
                 </button>
             </div>
             {!! Form::close() !!}
@@ -185,9 +185,9 @@
                         })
                         .then(data => {
                             // console.log(data);
-                            const isEditRmedis = event.target.getAttribute('data-edit-revaluasi')
+                            const isEditRmedis = event.target.getAttribute('data-edit-rimplementasi')
                             if (isEditRmedis == 'true') {
-                                return window.location.href = data.redirect_to_revaluasi
+                                return window.location.href = data.redirect_to_rimplementasi
                             }
 
                             return window.location.href = data.redirect_to

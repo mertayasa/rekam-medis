@@ -25,8 +25,13 @@ class Pasien extends Model
         'nama_wali',
         'hubungan_wali',
         // 'keluhan_utama',
-        // 'diagnosa_medis',
+        'diagnosa_medis',
         'kontak_wali',
         'no_rm',
     ];
+
+    public function getNamaAndRmAttribute()
+    {
+        return $this->no_rm.' - '.$this->nama;
+    }
 }

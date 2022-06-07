@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DiagnosaRequest;
 use App\Http\Requests\EvaluasiRequest;
+use App\Http\Requests\ImplementasiRequest;
 use App\Http\Requests\LuaranRequest;
 use App\Http\Requests\RekamMedisRequest;
 use App\Models\Etiologi;
@@ -346,6 +347,108 @@ class RekamMedisController extends Controller
         return response([
             'message' => 'Berhasil menyimpan data', 
             'redirect_to' => route('pasien.index'),
+            'redirect_to_rimplementasi' => route('rekam.edit_implementasi', $pasien->id),
+        ], 200);
+    }
+
+    public function editImplementasi(Pasien $pasien)
+    {
+        $pasien_all = Pasien::get()->pluck('nama_and_rm', 'id');
+        $pasien_all->prepend('Cari pasien', '');
+        $implementasi = RekamMedis::getData('implementasi', $pasien->id);
+        
+        $data = [
+            'prev_btn' => [
+                'url' => (!$pasien->id) ? route('pasien.index') : route('rekam.edit_diagnosa', $pasien->id),
+                'label' => (!$pasien->id) ? 'Kembali ke halaman pasien' : 'Kembali ke halaman luaran'
+            ],
+            'pasien' => $pasien,
+            'pasien_all' => $pasien_all,
+        ];
+
+        return view('rekam-medis.edit.implementasi', $data);
+    }
+
+    public function getImplementasi(Pasien $pasien)
+    {
+        $implementasi = RekamMedis::getData('implementasi', $pasien->id);
+        $luaran = RekamMedis::getData('luaran', $pasien->id);
+        $diagnosa = RekamMedis::getData('diagnosa', $pasien->id);
+        $pasien->diagnosa_keperawatan = $diagnosa['diagnosa'] ?? null;
+
+        if($luaran == []){
+            $luaran['luaran'] = '';
+        }
+
+        if($implementasi == []){
+            $implementasi['implementasi'] = '';
+        }
+
+        $implementasi['intervensi_child'] = $luaran['intervensi_child'] ?? "[]";
+        $implementasi['checked_intervensi_child'] = $implementasi['checked_intervensi_child'] ?? "[]";
+
+        $intervensi = Intervensi::with('opsi_intervensi')->whereHas('opsi_intervensi', function($opsi) use($implementasi){
+            return $opsi->whereIn('id', json_decode(($implementasi['intervensi_child'] ?? "[]")));
+        })->get();
+
+        $intervensi->map(function($inter) use($implementasi, $pasien){
+            $inter->opsi_intervensi = $inter->opsi_intervensi->map(function($opsi) use($implementasi){
+                $opsi->opsi_child->map(function($child) use($implementasi){
+                    $child->is_checked = in_array($child->id, json_decode(($implementasi['intervensi_child'] ?? "[]")));
+                    $child->implementasi_is_checked = in_array($child->id, json_decode(($implementasi['checked_intervensi_child'] ?? "[]")));
+                    return $child;
+                });
+                return $opsi;
+            });
+            return $inter;
+        });
+
+        $implementasi['intervensi_child'] = json_decode($implementasi['intervensi_child']);
+        $implementasi['checked_intervensi_child'] = json_decode($implementasi['checked_intervensi_child'] ?? "[]");
+
+        $checkbox_intervensi = view('includes.implementasi.intervensi', ['intervensi' => $intervensi])->render();
+
+        return response([
+            'implementasi' => $implementasi,
+            'pasien' => $pasien,
+            'intervensi' => $intervensi,
+            'checkbox_intervensi' => $checkbox_intervensi
+        ]);
+    }
+
+    public function updateImplementasi(ImplementasiRequest $request, Pasien $pasien)
+    {
+        try{
+            $to_update = $request->validated();
+            unset($to_update['data']['implementasi']);
+            unset($to_update['data']['intervensi_child']);
+
+            // return response($to_update);
+
+            foreach ($to_update['data'] as $key => $value) {
+                RekamMedis::updateOrCreate(
+                    [
+                        'id_pasien' => $pasien->id,
+                        'group' => 'implementasi',
+                        'key' => $key
+                    ],
+                    [
+                        'id_pasien' => $pasien->id,
+                        'group' => 'implementasi',
+                        'key' => $key,
+                        'value' => is_array($value) ? json_encode($value) : $value,
+                    ]
+                );
+            }
+        }catch(Exception $e){
+            Log::error($e);
+            return response(['message' => 'Terjadi kesalahan pada server'], 500);
+        }
+
+        session()->flash('success', 'Data implementasi keperawatan berhasil di-update');
+        return response([
+            'message' => 'Berhasil menyimpan data', 
+            'redirect_to' => route('pasien.index'),
             'redirect_to_revaluasi' => route('rekam.edit_evaluasi', $pasien->id),
         ], 200);
     }
@@ -381,8 +484,8 @@ class RekamMedisController extends Controller
 
         $data = [
             'prev_btn' => [
-                'url' => route('rekam.edit_luaran', $pasien->id),
-                'label' => 'Kembali ke halaman luaran'
+                'url' => route('rekam.edit_implementasi', $pasien->id),
+                'label' => 'Kembali ke halaman implementasi'
             ],
             'tanda_mayor' => $tanda_mayor,
             'tanda_minor' => $tanda_minor,
@@ -548,6 +651,7 @@ class RekamMedisController extends Controller
         $diagnosa = RekamMedis::getData('diagnosa', $pasien->id);
         $luaran = RekamMedis::getData('luaran', $pasien->id);
         $evaluasi = RekamMedis::getData('evaluasi', $pasien->id);
+        $implementasi = RekamMedis::getData('implementasi', $pasien->id);
 
         $common_data = $this->getCommonData($pasien);
         $common_data_evaluasi = $this->getCommonDataEvaluasi($pasien);
@@ -571,16 +675,19 @@ class RekamMedisController extends Controller
             $evaluasi['durasi_nyeri'] = 'Tidak ada keluhan tambahan';
         }
 
-        $rekam_medis = array_merge(['pengkajian' => $pengkajian], ['diagnosa' => $diagnosa], ['luaran' => $luaran], ['evaluasi' => $evaluasi]);
+        $rekam_medis = array_merge(['pengkajian' => $pengkajian], ['diagnosa' => $diagnosa], ['luaran' => $luaran], ['implementasi' => $implementasi], ['evaluasi' => $evaluasi]);
         
         $intervensi = Intervensi::with('opsi_intervensi')->whereHas('opsi_intervensi', function($opsi) use($rekam_medis){
             return $opsi->whereIn('id', json_decode(($rekam_medis['luaran']['intervensi_child'] ?? "[]")));
         })->get();
 
+        // dd($rekam_medis['implementasi']['checked_intervensi_child']);
+
         $intervensi->map(function($inter) use($rekam_medis, $pasien){
             $inter->opsi_intervensi = $inter->opsi_intervensi->map(function($opsi) use($rekam_medis){
                 $opsi->opsi_child->map(function($child) use($rekam_medis){
                     $child->is_checked = in_array($child->id, json_decode(($rekam_medis['luaran']['intervensi_child'] ?? "[]")));
+                    $child->implementasi_is_checked = in_array($child->id, json_decode(($rekam_medis['implementasi']['checked_intervensi_child'] ?? "[]")));
                     return $child;
                 });
                 return $opsi;
@@ -595,7 +702,7 @@ class RekamMedisController extends Controller
         }
 
         $rekam_medis['intervensi'] = $intervensi;
-        $pasien->diagnosa_medis = $diagnosa['diagnosa'] ?? '-';
+        $pasien->diagnosa_keperawatan = $diagnosa['diagnosa'] ?? '-';
         $pasien->keluhan_utama = $pengkajian['keluhan_utama'] ?? '-';
 
         $data = [

@@ -47,6 +47,8 @@ Route::group(['middleware' => ['auth', 'verified']], function (){
             Route::get('pengkajian/{pasien}', [RekamMedisController::class, 'editPengkajian'])->name('edit_pengkajian');
             Route::get('diagnosa/{pasien}', [RekamMedisController::class, 'editDiagnosa'])->name('edit_diagnosa');
             Route::get('luaran/{pasien}', [RekamMedisController::class, 'editLuaran'])->name('edit_luaran');
+            Route::get('implementasi/{pasien?}', [RekamMedisController::class, 'editImplementasi'])->name('edit_implementasi');
+            Route::get('get-implementasi/{pasien}', [RekamMedisController::class, 'getImplementasi'])->name('get_implementasi');
             Route::get('evaluasi/{pasien}', [RekamMedisController::class, 'editEvaluasi'])->name('edit_evaluasi');
         });
         
@@ -62,6 +64,7 @@ Route::group(['middleware' => ['auth', 'verified']], function (){
             Route::patch('pengkajian/{pasien}', [RekamMedisController::class, 'updatePengkajian'])->name('update_pengkajian');
             Route::patch('diagnosa/{pasien}', [RekamMedisController::class, 'updateDiagnosa'])->name('update_diagnosa');
             Route::patch('luaran/{pasien}', [RekamMedisController::class, 'updateLuaran'])->name('update_luaran');
+            Route::patch('implementasi/{pasien}', [RekamMedisController::class, 'updateImplementasi'])->name('update_implementasi');
             Route::patch('evaluasi/{pasien}', [RekamMedisController::class, 'updateEvaluasi'])->name('update_evaluasi');
         });
     });

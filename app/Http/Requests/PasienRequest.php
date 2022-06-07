@@ -39,6 +39,7 @@ class PasienRequest extends FormRequest
             'hubungan_wali' => ['required', Rule::in(['Ayah', 'Ibu', 'Kakak', 'Adik', 'Kakek', 'Nenek', 'Lainnya'])],
             'kontak_wali' => ['required', 'max:255'],
             'no_rm' => ['required', 'max:255'],
+            'diagnosa_medis' => ['nullable', 'max:255']
         ];
     }
 

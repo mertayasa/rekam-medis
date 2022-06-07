@@ -52,16 +52,6 @@
                 <td width="50" class="text-center">:</td>
                 <td>{{ $pasien->tanggal_keluar ?? '-' }}</td>
             </tr>
-            {{-- <tr>
-                <td>Diagnosa Medis</td>
-                <td width="50" class="text-center">:</td>
-                <td>{{ $pasien->diagnosa_medis ?? '-' }}</td>
-            </tr>
-            <tr>
-                <td>Keluhan Utama</td>
-                <td width="50" class="text-center">:</td>
-                <td>{{ $pasien->keluhan_utama ?? '-' }}</td>
-            </tr> --}}
             <tr>
                 <td>Nama Wali</td>
                 <td width="50" class="text-center">:</td>
