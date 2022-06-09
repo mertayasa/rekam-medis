@@ -76,6 +76,16 @@ class IntervensiSeeder extends Seeder
                 'keterangan' => 'Mengalihkan perhatian atau mengurangi emosi dan pikiran negatif terhadap sensasi yang tidak diinginkan',
                 'url_youtube' => 'https://youtu.be/i6XgBdEgGGw'
             ],
+            [
+                'value' => 'Terapi Musik',
+                'keterangan' => 'Menggunakan musik untuk membantu mengubah perilaku, perasaan atau fisiologis tubuh',
+                'url_youtube' => 'https://youtu.be/OgbGCmbqCtU'
+            ],
+            [
+                'value' => 'Terapi Relaksasi',
+                'keterangan' => 'Menggunakan teknik peregangan untuk mengurangi tanda dan gejala ketidaknyamanan seperti nyeri, ketegangan otot, atau kecemasan',
+                'url_youtube' => null
+            ],
         ];
 
         Intervensi::insert($intervensi);
@@ -274,6 +284,40 @@ class IntervensiSeeder extends Seeder
             ],
             [
                 'id_intervensi' => 11,
+                'id_parent' => null,
+                'value' => 'Edukasi'
+            ],
+
+            // Teknik Musik 36-38
+            [
+                'id_intervensi' => 12,
+                'id_parent' => null,
+                'value' => 'Observasi',
+            ],
+            [
+                'id_intervensi' => 12,
+                'id_parent' => null,
+                'value' => 'Terapeutik',
+            ],
+            [
+                'id_intervensi' => 12,
+                'id_parent' => null,
+                'value' => 'Edukasi'
+            ],
+
+            // Teknik Relaksasi 38-40
+            [
+                'id_intervensi' => 13,
+                'id_parent' => null,
+                'value' => 'Observasi',
+            ],
+            [
+                'id_intervensi' => 13,
+                'id_parent' => null,
+                'value' => 'Terapeutik',
+            ],
+            [
+                'id_intervensi' => 13,
                 'id_parent' => null,
                 'value' => 'Edukasi'
             ],
@@ -1001,6 +1045,149 @@ class IntervensiSeeder extends Seeder
                 'id_intervensi' => 11,
                 'id_parent' => 35,
                 'value' => 'Anjurkan berlatih Teknik distraksi'
+            ],
+
+            // Id parent 36-38
+            // Id intervensi 12 Terapi Musik
+
+            // Observasi
+            [
+                'id_intervensi' => 12,
+                'id_parent' => 36,
+                'value' => 'Identifikasi perubahan fisiologis yang akan dicapai (mis, relaksasi, stimulasi, konsentrasi, pengurangan rasa sakit)'
+            ],
+            [
+                'id_intervensi' => 12,
+                'id_parent' => 36,
+                'value' => 'Identifikasi minat terhadap musik'
+            ],
+            [
+                'id_intervensi' => 12,
+                'id_parent' => 36,
+                'value' => 'Identifikasi musik yang di sukai'
+            ],
+            
+            // Terapeutik
+            [
+                'id_intervensi' => 12,
+                'id_parent' => 37,
+                'value' => 'Pilih musik yang disukai'
+            ],
+            [
+                'id_intervensi' => 12,
+                'id_parent' => 37,
+                'value' => 'Posisikan dalam posisi yang nyaman'
+            ],
+            [
+                'id_intervensi' => 12,
+                'id_parent' => 37,
+                'value' => 'Batasi ransangan eksternal selama terapi dilakukan (mis, lampu, suara, pengunjung)'
+            ],
+            [
+                'id_intervensi' => 12,
+                'id_parent' => 37,
+                'value' => 'Sediakan peralatan terapi musik'
+            ],
+            [
+                'id_intervensi' => 12,
+                'id_parent' => 37,
+                'value' => 'Berikan terapi musik sesuai indikasi'
+            ],
+            [
+                'id_intervensi' => 12,
+                'id_parent' => 37,
+                'value' => 'Hindari pemberian terapi musik dalam waktu yang lama'
+            ],
+            [
+                'id_intervensi' => 12,
+                'id_parent' => 37,
+                'value' => 'Hindari pemberian terapi musik saat cedera kepala akut'
+            ],
+            
+            // Edukasi
+            [
+                'id_intervensi' => 12,
+                'id_parent' => 38,
+                'value' => 'Jelaskan tujuan dan prosedur terapi musik'
+            ],
+            [
+                'id_intervensi' => 12,
+                'id_parent' => 38,
+                'value' => 'Anjurkan rikes selama mendengarkan musik'
+            ],
+
+            // Id parent 39-41
+            // Id intervensi 12 Terapi Musik
+
+            // Observasi
+            [
+                'id_intervensi' => 13,
+                'id_parent' => 39,
+                'value' => 'Identifikasi penurunan tingkat energi, ketidakmampuan berkonsentrasi, atau gejela lain yang mengganggu kemampuan'
+            ],
+            [
+                'id_intervensi' => 13,
+                'id_parent' => 39,
+                'value' => 'Identifikasi teknik relaksasi yang pernah efektif digunakan'
+            ],
+            [
+                'id_intervensi' => 13,
+                'id_parent' => 39,
+                'value' => 'Identifikasi ketersediaan, kemampuan, dan penggunaan teknik sebelumnya'
+            ],
+            [
+                'id_intervensi' => 13,
+                'id_parent' => 39,
+                'value' => 'Periksa ketegangan otot, frekuansi nadi, tekanan darah, suhu sebelum dan sesudah Latihan'
+            ],
+            [
+                'id_intervensi' => 13,
+                'id_parent' => 39,
+                'value' => 'Monitor respon terhadap terapi relaksasi'
+            ],
+
+            // Terapeutik
+            [
+                'id_intervensi' => 13,
+                'id_parent' => 40,
+                'value' => 'Ciptakan lingkungan terang dan tanpa gangguan dengan pencahayaan dan suhu ruang nyaman'
+            ],
+            [
+                'id_intervensi' => 13,
+                'id_parent' => 40,
+                'value' => 'Berikan informasi tertulis tentang persiapan dan prosedur teknik relaksasi'
+            ],
+            [
+                'id_intervensi' => 13,
+                'id_parent' => 40,
+                'value' => 'Gunakan pakaian longgar'
+            ],
+
+            // Edukasi
+            [
+                'id_intervensi' => 13,
+                'id_parent' => 41,
+                'value' => 'Jelaskan tujuan, manfaat, Batasan dan jenis relaksasi yang tersedia (mis, music, meditasi, napas dalam, relaksasi otot progresif)'
+            ],
+            [
+                'id_intervensi' => 13,
+                'id_parent' => 41,
+                'value' => 'Jelaskan secara rinci intervensi relaksasi yang dipilih'
+            ],
+            [
+                'id_intervensi' => 13,
+                'id_parent' => 41,
+                'value' => 'Anjurkan posisi nyaman'
+            ],
+            [
+                'id_intervensi' => 13,
+                'id_parent' => 41,
+                'value' => 'Anjurkan rileks dan merasakan sensasi relaksasi'
+            ],
+            [
+                'id_intervensi' => 13,
+                'id_parent' => 41,
+                'value' => 'Anjurkan sering mengulangi atau melatih teknik yang di pilih'
             ],
 
         ];
