@@ -82,6 +82,12 @@
         });
     }
 
+    filterStatus('Belum Keluar')
+
+    function filterStatus(status){
+        table.column(6).search(status).draw()
+    }
+
 </script>
 
 @endpush

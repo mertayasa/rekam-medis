@@ -16,7 +16,8 @@ class OpsiIntervensi extends Model
     protected $fillable = [
         'value',
         'id_intervensi',
-        'id_parent'
+        'id_parent',
+        'url_youtube',
     ];
 
     public function intervensi()

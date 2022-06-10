@@ -12,6 +12,13 @@
         </div>
         <div class="card-body">
             @include('layouts.flash')
+            <div class="row mb-3">
+                <div class="col-12 col-md-4">
+                    {!! Form::label('filterStatus', 'Filter Status', ['class' => 'mb-2']) !!}
+                    {!! Form::select('status', ['Belum Keluar' => 'Belum Keluar', 'Sudah Keluar' => 'Sudah Keluar'], null, ['class' => 'form-control', 'onchange' => 'filterStatus(this.value)']) !!}
+                </div>
+            </div>
+            <hr>
             @include('pasien.datatable')
         </div>
     </div>

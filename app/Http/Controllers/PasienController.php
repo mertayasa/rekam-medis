@@ -18,7 +18,7 @@ class PasienController extends Controller
         return view('pasien.index');
     }
 
-    public function datatable()
+    public function datatable(Request $request)
     {
         $pasien = Pasien::all();
         return PasienDataTable::set($pasien);
@@ -26,10 +26,7 @@ class PasienController extends Controller
 
     public function find(Pasien $pasien)
     {
-        // $diagnosa = RekamMedis::getData('diagnosa', $pasien->id);
         $pengkajian = RekamMedis::getData('pengkajian', $pasien->id);
-
-        // $pasien->diagnosa_medis = $diagnosa['diagnosa'] ?? '-';
         $pasien->keluhan_utama = $pengkajian['keluhan_utama'] ?? '-';
 
         return response($pasien);
@@ -55,11 +52,6 @@ class PasienController extends Controller
             'redirect_to' => route('pasien.index'),
             'redirect_to_rmedis' => route('rekam.edit_pengkajian', $pasien->id),
         ], 200);
-    }
-
-    public function show(Pasien $pasien)
-    {
-        //
     }
 
     public function edit(Pasien $pasien)
