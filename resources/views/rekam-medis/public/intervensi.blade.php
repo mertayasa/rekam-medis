@@ -74,14 +74,19 @@
         </div>
         <div class="col-12 h-75">
             @foreach ($intervensi as $interven)
-                @if ($interven->url_youtube != null)
-                    <span><b>LINK VIDEO {{ $interven->value }} : <a href="{{ $interven->url_youtube }}" target="_blank">{{ $interven->url_youtube }}</a></b></span> <br>
-                    <div class="d-none d-md-block">
-                        <iframe width="100%" height="500" src="https://www.youtube.com/embed/{{ $interven->id_youtube }}?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <div class="d-block d-md-none">
-                        <iframe width="100%" height="300" src="https://www.youtube.com/embed/{{ $interven->id_youtube }}?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
+                @if ($interven->id_parent != null)
+                    <span><b>LINK VIDEO {{ $interven->value }} : <br>
+                    @foreach ($interven->url_yt_intervensi as $inter)
+                        <a href="{{ $inter->url }}" target="_blank">{{ $inter->url }}</a></b></span> <br>
+                        @if ($inter->url != null)
+                            <div class="d-none d-md-block">
+                                <iframe width="100%" height="500" src="https://www.youtube.com/embed/{{ getVideoId($inter->url) }}?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <div class="d-block d-md-none">
+                                <iframe width="100%" height="300" src="https://www.youtube.com/embed/{{ getVideoId($inter->url) }}?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                        @endif
+                    @endforeach
                 @endif
             @endforeach
         </div>

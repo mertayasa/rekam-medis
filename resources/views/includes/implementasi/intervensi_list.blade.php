@@ -68,6 +68,9 @@
                                         @endif        
                                     </ul>
                                     @endforeach
+                                    @if (!isset($hide_yt))
+                                        @include('includes.youtube_video.list', ['youtube' => $another_inter['url_yt_intervensi']])  
+                                    @endif
                                     <br>
                                 @empty
                                     <p>Tidak Ada Opsi Yang Dipilih</p>

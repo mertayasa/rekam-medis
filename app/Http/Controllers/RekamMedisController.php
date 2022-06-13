@@ -384,7 +384,7 @@ class RekamMedisController extends Controller
         $implementasi['intervensi_child'] = $luaran['intervensi_child'] ?? "[]";
         $implementasi['checked_intervensi_child'] = $implementasi['checked_intervensi_child'] ?? "[]";
 
-        $intervensi = Intervensi::with('opsi_intervensi')->whereHas('opsi_intervensi', function($opsi) use($implementasi){
+        $intervensi = Intervensi::with('opsi_intervensi', 'url_yt_intervensi')->whereHas('opsi_intervensi', function($opsi) use($implementasi){
             return $opsi->whereIn('id', json_decode(($implementasi['intervensi_child'] ?? "[]")));
         })->get();
 
@@ -400,14 +400,7 @@ class RekamMedisController extends Controller
             return $inter;
         });
 
-        $intervensi = $intervensi->toArray();
-
-        foreach ($intervensi as $key => $inter) {
-            if($inter['id_parent'] != null){
-                $parent_inter = array_search($inter['id_parent'], array_column($intervensi, 'id'));
-                $intervensi[$parent_inter]['another_child'][] = $inter;
-            }
-        }
+        $intervensi = $this->getFormattedIntervensi($intervensi);
 
         $implementasi['intervensi_child'] = json_decode($implementasi['intervensi_child']);
         $implementasi['checked_intervensi_child'] = json_decode($implementasi['checked_intervensi_child'] ?? "[]");
@@ -634,12 +627,22 @@ class RekamMedisController extends Controller
 
     public function lihatDetail(Pasien $pasien)
     {
+        $pengkajian = RekamMedis::getData('pengkajian', $pasien->id);
+        if(!$pengkajian){
+            return redirect()->route('rekam.edit_pengkajian', $pasien->id)->with('warning', 'Data rekam medis belum diisi');
+        }
+
         $data = $this->getDetailData($pasien);
         return view('rekam-medis.show.index', $data);
     }
     
     public function print(Pasien $pasien)
     {
+        $pengkajian = RekamMedis::getData('pengkajian', $pasien->id);
+        if(!$pengkajian){
+            return redirect()->route('rekam.edit_pengkajian', $pasien->id)->with('warning', 'Data rekam medis belum diisi');
+        }
+
         $data = $this->getDetailData($pasien);
         return view('rekam-medis.show.print', $data);
     }
@@ -647,10 +650,9 @@ class RekamMedisController extends Controller
     private function getDetailData($pasien)
     {
         $pengkajian = RekamMedis::getData('pengkajian', $pasien->id);
-        
-        if(!$pengkajian){
-            return redirect()->route('rekam.edit_pengkajian', $pasien->id)->with('warning', 'Data rekam medis belum diisi');
-        }
+        // if(!$pengkajian){
+        //     return redirect()->route('rekam.edit_pengkajian', $pasien->id)->with('warning', 'Data rekam medis belum diisi');
+        // }
 
         $diagnosa = RekamMedis::getData('diagnosa', $pasien->id);
         $luaran = RekamMedis::getData('luaran', $pasien->id);
@@ -679,9 +681,9 @@ class RekamMedisController extends Controller
             $evaluasi['durasi_nyeri'] = 'Tidak ada keluhan tambahan';
         }
 
-        $rekam_medis = array_merge(['pengkajian' => $pengkajian], ['diagnosa' => $diagnosa], ['luaran' => $luaran], ['implementasi' => $implementasi], ['evaluasi' => $evaluasi]);
+        $rekam_medis = array_merge(['pengkajian' => $pengkajian] ?? [], ['diagnosa' => $diagnosa] ?? [], ['luaran' => $luaran] ?? [], ['implementasi' => $implementasi] ?? [], ['evaluasi' => $evaluasi] ?? []);
         
-        $intervensi = Intervensi::with('opsi_intervensi')->whereHas('opsi_intervensi', function($opsi) use($rekam_medis){
+        $intervensi = Intervensi::with('opsi_intervensi', 'url_yt_intervensi')->whereHas('opsi_intervensi', function($opsi) use($rekam_medis){
             return $opsi->whereIn('id', json_decode(($rekam_medis['luaran']['intervensi_child'] ?? "[]")));
         })->get();
 
@@ -697,6 +699,27 @@ class RekamMedisController extends Controller
             return $inter;
         });
 
+        $rekam_medis['intervensi'] = $this->getFormattedIntervensi($intervensi) ?? [];
+        $pasien->diagnosa_keperawatan = $diagnosa['diagnosa'] ?? '-';
+        $pasien->keluhan_utama = $pengkajian['keluhan_utama'] ?? '-';
+
+        // dd($rekam_medis['intervensi']);
+        foreach ($rekam_medis['intervensi'] as $key => $intervensi) {
+            if(isset($intervensi['url_yt_intervensi']) && $intervensi['url_yt_intervensi']){
+                $rekam_medis['luaran']['share_link'] = route('rekam_intervensi.share', $pasien->id);
+            }
+        }
+
+        $data = [
+            'rekam_medis' => $rekam_medis,
+            'pasien' => $pasien
+        ];
+
+        return $data;
+    }
+
+    public function getFormattedIntervensi($intervensi)
+    {
         $intervensi = $intervensi->toArray();
 
         foreach ($intervensi as $key => $inter) {
@@ -706,16 +729,7 @@ class RekamMedisController extends Controller
             }
         }
 
-        $rekam_medis['intervensi'] = $intervensi;
-        $pasien->diagnosa_keperawatan = $diagnosa['diagnosa'] ?? '-';
-        $pasien->keluhan_utama = $pengkajian['keluhan_utama'] ?? '-';
-
-        $data = [
-            'rekam_medis' => $rekam_medis,
-            'pasien' => $pasien
-        ];
-
-        return $data;
+        return $intervensi;
     }
 
     public function publicLink(Pasien $pasien)
@@ -728,18 +742,11 @@ class RekamMedisController extends Controller
 
         $intervensi = Intervensi::all();
 
-        $intervensi = Intervensi::with('opsi_intervensi')->whereHas('opsi_intervensi', function($opsi) use($luaran){
+        $intervensi = Intervensi::with('opsi_intervensi', 'url_yt_intervensi')->whereHas('opsi_intervensi', function($opsi) use($luaran){
             return $opsi->whereIn('id', json_decode(($luaran['intervensi_child'] ?? "[]")));
         })->get();
 
-        // $intervensi = $intervensi->map(function ($inter) use($luaran) {
-        //     if($inter->url_youtube){
-        //         $url_yt = explode('/', $inter->url_youtube);
-        //         $inter->id_youtube = end($url_yt);
-        //     }
-
-        //     return $inter;
-        // });
+        // dd($intervensi);
 
         $data = [
             'pasien' => $pasien,

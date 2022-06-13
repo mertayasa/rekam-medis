@@ -71,10 +71,11 @@
                                     <div class="mb-2"></div>
                                 @endif
                             @endforeach
-                            @if ($interven->url_youtube != null)
+                            @include('includes.youtube_video.list', ['youtube' => $interven->url_yt_intervensi])  
+                            {{-- @if ($interven->url_youtube != null)
                                 <b>LINK VIDEO {{ $interven->value }} : <a href="{{ $interven->url_youtube }}" target="_blank">{{ $interven->url_youtube }}</a></b>
                                 <iframe width="400" height="300" src="https://www.youtube.com/embed/{{ $interven->id_youtube }}?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                            @endif
+                            @endif --}}
                         </div>
                     @endif
                 @endforeach

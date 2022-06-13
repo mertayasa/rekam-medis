@@ -314,7 +314,7 @@
             <h5><b>Intervensi</b></h5>
         </div>
 
-        @include('includes.implementasi.intervensi_list', ['intervensi' => $rekam_medis['intervensi'], 'disabled' => true])
+        @include('includes.implementasi.intervensi_list', ['intervensi' => $rekam_medis['intervensi'], 'disabled' => true, 'hide_yt' => true])
 
         <div class="col-12 pb-3 pb-md-0 mt-4">
             <h5><b>Implementasi Keperawatan</b></h5>

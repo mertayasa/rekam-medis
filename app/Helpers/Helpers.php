@@ -68,4 +68,11 @@ function getAnalisa($value)
             return '-';
         break;
     }
+
+}
+
+function getVideoId($url)
+{
+    $url_yt = explode('/', $url);
+    return end($url_yt);
 }

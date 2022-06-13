@@ -35,7 +35,6 @@
                                         @if ($show_child == false)
                                             <li>Tidak Ada Opsi Yang dipilih</li>
                                         @endif
-                                    {{-- </ul> --}}
                                 @endif        
                             @empty
                                 <p>Tidak Ada Opsi Yang Dipilih</p>
@@ -65,8 +64,7 @@
                                                 @if ($show_child == false)
                                                     <li>Tidak Ada Opsi Yang dipilih</li>
                                                 @endif
-                                            {{-- </ul> --}}
-                                        @endif        
+                                        @endif
                                     @endforeach
                                     <br>
                                 @empty

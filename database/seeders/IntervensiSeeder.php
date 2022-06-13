@@ -32,7 +32,7 @@ class IntervensiSeeder extends Seeder
                 'id_parent' => 9,
                 'url_yt' => [
                     [
-                        'value' => 'https://youtu.be/RRGVdaCv31M '
+                        'value' => 'https://youtu.be/RRGVdaCv31M'
                     ]
                 ],
                 'opsi' => [
