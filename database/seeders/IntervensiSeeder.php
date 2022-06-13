@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Intervensi;
 use App\Models\OpsiIntervensi;
+use App\Models\UrlYtIntervensi;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -19,1187 +20,649 @@ class IntervensiSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
         OpsiIntervensi::query()->truncate();
+        UrlYtIntervensi::query()->truncate();
         Intervensi::query()->truncate();
         $intervensi = [
+            // Bukan Intervensi Utama
+            // Kompress dingin : 1
+            [
+                'value' => 'Kompres Dingin',
+                'keterangan' => 'Melakukan stimulasi kulit dan jaringan dengan dingin untuk mengurangi nyeri, peradangan dan mendapatkan efek terapeutik lainnya melalui paparan dingin. Kompres dingin bisa digunakan untuk cedera akut yang terjadi dalam 24-48 jam setelah cedera. ',
+                'is_main' => false,
+                'url_yt' => [
+                    [
+                        'value' => 'https://youtu.be/RRGVdaCv31M '
+                    ]
+                ],
+                'opsi' => [
+                    [
+                        'value' => 'Observasi',
+                        'child' => [
+                            [
+                                'value' => 'Identifikasi kontraindikasi kompres dingin (misal penurunan sensasi, penurunan sirkulasi)'
+                            ],
+                            [
+                                'value' => 'Identifikasi kondisi kulit yang akan dilakukan kompres dingin'
+                            ],
+                            [
+                                'value' => 'Periksa suhu alat kompres'
+                            ],
+                            [
+                                'value' => 'Monitor iritasi kulit atau kerusakan jaringan selama 5 menit pertama'
+                            ],
+                        ]
+                    ],
+                    [
+                        'value' => 'Terapeutik',
+                        'child' => [
+                            [
+                                'value' => 'Pilih metode kompres yang nyaman dan mudah didapat (missal kantong plastic tahan air, kemasan gel beku, kain atau handuk)'
+                            ],
+                            [
+                                'value' => 'Pilih lokasi kompres'
+                            ],
+                            [
+                                'value' => 'Balut alat kompres dingin dengan kain pelindung, jika perlu'
+                            ],
+                            [
+                                'value' => 'Lakukan kompres dingin pada daerah yang cedera'
+                            ],
+                            [
+                                'value' => 'Hindari penggunaan kompres pada jaringan yang terpapar terapi radiasi'
+                            ],
+                        ]
+                    ],
+                    [
+                        'value' => 'Edukasi',
+                        'child' => [
+                            [
+                                'value' => 'Jelaskan prosedur penggunaan kompres dingin'
+                            ],
+                            [
+                                'value' => 'Anjurkan tidak menyesuaikan pengaturan suhu secara mandiri tanpa pemberitahuan sebelumnya'
+                            ],
+                            [
+                                'value' => 'Anjurkan cara menghindari kerusakan jaringan akibat dingin'
+                            ],
+                        ]
+                    ]
+                ]
+            ],
+
+            // Kompres panas : 2
+            [
+                'value' => 'Kompres Panas',
+                'keterangan' => 'Melakukan stimulasi kulit dan jaringan dengan panas untuk mengurangi nyeri, spasme otot, dan mendapatkan efek terapeutik lainnya melalui paparan panas selama ± 2 menit.',
+                'is_main' => false,
+                'opsi' => [
+                    [
+                        'value' => 'Observasi',
+                        'child' => [
+                            [
+                                'value' => 'Identifikasi kontraindikasi kompres panas (mis. Penurunan sensasi, penurunana sirkulasi)'
+                            ],
+                            [
+                                'value' => 'Identifikasi kondisi kulit yang akan dilakukan kompres panas '
+                            ],
+                            [
+                                'value' => 'Periksa suhu alat kompres'
+                            ],
+                            [
+                                'value' => 'Monitor iritasi kulit atau kerusakan jaringan selama 5 menit pertama'
+                            ],
+                        ]
+                    ],
+                    [
+                        'value' => 'Terapeutik',
+                        'child' => [
+                            [
+                                'value' => 'Pilih metode kompres yang nyaman dan mudah didapatkan (mis. Kantong plastik tahan air, botol air panas, bantalan pemanas listrik)'
+                            ],
+                            [
+                                'value' => 'Pilih lokasi kompres'
+                            ],
+                            [
+                                'value' => 'Balut alat kompres panas dengan kain pelindung (jika perlu)'
+                            ],
+                            [
+                                'value' => 'Lakukan kompres panas pada daerah yang cedera'
+                            ],
+                            [
+                                'value' => 'Hindari penggunaan kompres pada jaringan yang terpapar terapi radiasi'
+                            ],
+                        ],
+                    ],
+                    [
+                        'value' => 'Edukasi',
+                        'child' => [
+                            [
+                                'value' => 'Jelaskan prosedur penggunaan kompres panas'
+                            ],
+                            [
+                                'value' => 'Anjurkan tidak menyesuaikan pengaturan suhu secara mandiri tanpa pemberitahuan sebelumnya'
+                            ],
+                            [
+                                'value' => 'Ajarkan cara menghindari kerusakan jaringan akibat panas'
+                            ],
+                        ]
+                    ]
+                ]
+            ],
+
+            // Teknik Disrtraksi : 3
+            [
+                'value' => 'Teknik Distraksi',
+                'keterangan' => 'Mengalihkan perhatian atau mengurangi emosi dan pikiran negatif terhadap sensasi yang tidak diinginkan',
+                'is_main' => false,
+                'opsi' => [
+                    [
+                        'value' => 'Observasi',
+                        'child' => [
+                            [
+                                'value' => 'Identifiaksi pilihan Teknik distraksi yang diinginkan'
+                            ],
+                        ]
+                    ],
+                    [
+                        'value' => 'Terapeutik',
+                        'child' => [
+                            [
+                                'value' => 'Gunakan Teknik distraksi (mis. Membaca buku, menonton televisi, bermain, aktivitas terapi, membaca cerita, bernyanyi)'
+                            ],
+                            [
+                                'value' => 'Anjurkan menggunakan Teknik sesuai dengan tingkat energi, kemampuan, usia, tingkat perkembangan'
+                            ],
+                            [
+                                'value' => 'Anjurkan membuat daftar aktivitas yang menyenangkan'
+                            ],
+                            [
+                                'value' => 'Anjurkan berlatih Teknik distraksi'
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+
+            // Terapi Relaksasi Otot Progresif : 4
+            [
+                'value' => 'Terapi Relaksasi Otot Progresif',
+                'keterangan' => 'Menggunakan Teknik penegangan dan peregangan otot untuk meredakan ketegangan otot, ansietas, nyeri serta meningkatkan kenyamanan, konsentrasi dan kebugaran.',
+                'is_main' => false,
+                'url_yt' => [
+                    [
+                        'value' => 'https://youtu.be/BdBFEV9dN6U'
+                    ]
+                ],
+                'opsi' => [
+                    [
+                        'value' => 'Observasi',
+                        'child' => [
+                            [
+                                'value' => 'Identifikasi tempat yang tenang dan nyaman'
+                            ],
+                            [
+                                'value' => 'Monitor secara berkala untuk memastikan otot rileks'
+                            ],
+                            [
+                                'value' => 'Monitor adanya indikator tidak rileks (mis. Adanya Gerakan, pernapasan yang berat)'
+                            ],
+                        ]
+                    ],
+                    [
+                        'value' => 'Terapeutik',
+                        'child' => [
+                            [
+                                'value' => 'Atur lingkungan agar tidak ada gangguan saat terapi'
+                            ],
+                            [
+                                'value' => 'Berikan posisi bersandar pada kursi atau posisi lainnya yang nyaman'
+                            ],
+                            [
+                                'value' => 'Hentikan sesi relaksasi secara bertahap'
+                            ],
+                            [
+                                'value' => 'Beri waktu mengungkapkan perasaan tentang terapi'
+                            ],
+                        ]
+                    ],
+                    [
+                        'value' => 'Edukasi',
+                        'child' => [
+                            [
+                                'value' => 'Anjurkan memakai pakaian yang nyaman dan tidak sempit'
+                            ],
+                            [
+                                'value' => 'Anjurkan   melakukan relaksasi otot rahang'
+                            ],
+                            [
+                                'value' => 'Anjurkan menegangkan otot selama 5 sampai 10 detik, kemudian anjurkan untuk merilekskan otot 20-30 detik, masing-masing 8 sampai 16 kali'
+                            ],
+                            [
+                                'value' => 'Anjurkan menegangkan otot kaki selama tidak lebih dari 5 detik untuk menghindari kram'
+                            ],
+                            [
+                                'value' => 'Anjurkan focus pada sensasi otot yang menegang'
+                            ],
+                            [
+                                'value' => 'Anjurkan focus pada sensasi otot yang relaks'
+                            ],
+                            [
+                                'value' => 'Anjurkan bernafas dalam dan perlahan'
+                            ],
+                            [
+                                'value' => 'Anjurkan berlatih di antara sesi reguler dengan perawat'
+                            ],
+                        ]
+                    ]
+                ]
+            ],
+
+            // Latihan Relaksasi Napas Dalam : 5
+            [
+                'value' => 'Latihan Relaksasi Napas Dalam',
+                'keterangan' => 'Latihan menggerakan dinding dada untuk meningkatkan bersihan jalan napas, meningkatkan pengembangan paru, menguatkan otot – otot napas, dan meningkatkan relaksasi atau rasa nyaman',
+                'is_main' => false,
+                'url_yt' => [
+                    [
+                        'value' => 'https://youtu.be/Vs6rTwMsJGk'
+                    ]
+                ],
+                'opsi' => [
+                    [
+                        'value' => 'Observasi',
+                        'child' => [
+                            [
+                                'value' => 'Identifikasi indikasi dilakukan latihan pernapasan '
+                            ],
+                            [
+                                'value' => 'Monitor frekuensi, irama, dan kedalaman napas sebelum dan sesudah latihan.'
+                            ],
+                        ]
+                    ],
+                    [
+                        'value' => 'Terapeutik',
+                        'child' => [
+                            [
+                                'value' => 'Sediakan tempat yang tenang',
+                            ],
+                            [
+                                'value' => 'Posisikan pasien nyaman dan rileks',
+                            ],
+                            [
+                                'value' => 'Tempatkan satu tangan di dada dan satu tangan di perut',
+                            ],
+                            [
+                                'value' => 'Pastikan tangan di dada mundur ke belakang dan telapak tangan diperut maju ke depan saat menarik napas',
+                            ],
+                            [
+                                'value' => 'Ambil napas dalam secara perlahan melalui hidung dan tahan selama tujuh hitungan',
+                            ],
+                            [
+                                'value' => 'Hitungan ke delapan hembuskan napas melalui mulut dengan perlahan.',
+                            ],
+                        ]
+                    ],
+                    [
+                        'value' => 'Edukasi',
+                        'child' => [
+                            [
+                                'value' => 'Jelaskan tujuan dan prosdur latihan pernapasan'
+                            ],
+                            [
+                                'value' => 'Anjurkan mengulangi latihan 4 – 5 kali.'
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+
+            // Terapi Musik : 6
+            [
+                'value' => 'Terapi Musik',
+                'keterangan' => 'Menggunakan musik untuk membantu mengubah perilaku, perasaan atau fisiologis tubuh',
+                'is_main' => false,
+                'url_yt' => [
+                    [
+                        'value' => 'https://youtu.be/OgbGCmbqCtU'
+                    ],
+                    [
+                        'value' => 'https://youtu.be/GRYn9Ub2BLM'
+                    ],
+                    [
+                        'value' => 'https://youtu.be/T6RgtIV8aQ0'
+                    ],
+                ],
+                'opsi' => [
+                    [
+                        'value' => 'Observasi',
+                        'child' => [
+                            [
+                                'value' => 'Identifikasi perubahan fisiologis yang akan dicapai (mis, relaksasi, stimulasi, konsentrasi, pengurangan rasa sakit)'
+                            ],
+                            [
+                                'value' => 'Identifikasi minat terhadap musik'
+                            ],
+                            [
+                                'value' => 'Identifikasi musik yang di sukai '
+                            ]
+                        ]
+                    ],
+                    [
+                        'value' => 'Terapeutik',
+                        'child' => [
+                            [
+                                'value' => 'Pilih musik yang disukai'
+                            ],
+                            [
+                                'value' => 'Posisikan dalam posisi yang nyaman'
+                            ],
+                            [
+                                'value' => 'Batasi ransangan eksternal selama terapi dilakukan (mis, lampu, suara, pengunjung)'
+                            ],
+                            [
+                                'value' => 'Sediakan peralatan terapi musik'
+                            ],
+                            [
+                                'value' => 'Berikan terapi musik sesuai indikasi'
+                            ],
+                            [
+                                'value' => 'Hindari pemberian terapi musik dalam waktu yang lama '
+                            ],
+                            [
+                                'value' => 'Hindari pemberian terapi musik saat cedera kepala akut'
+                            ]
+                        ]
+                    ],
+                    [
+                        'value' => 'Edukasi',
+                        'child' => [
+                            [
+                                'value' => 'Jelaskan tujuan dan prosedur terapi musik'
+                            ],
+                            [
+                                'value' => 'Anjurkan rikes selama mendengarkan musik '
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+
+            // Intervensi Utama
             [
                 'value' => 'Pemberian Analgesik',
                 'keterangan' => 'Menyiapkan dan memberikan agen farmakologis untuuk menhurangi atau menghilangkan rasa sakit',
-                'url_youtube' => null
+                'is_main' => true,
+                'opsi' => [
+                        [
+
+                            'value' => 'Observasi',
+                            'child' => [
+                                [
+                                    'value' => 'Identifikasi karakteristik nyeri (misalnya pencetus, pereda, kualitas, lokasi, intensitas, frekuensi dan durasi)'
+                                ],
+                                [
+                                    'value' => 'Identifikasi riwayat alergi obat'
+                                ],
+                                [
+                                    'value' => 'Identifikasi kesesuaian jenis analgesik (misalnya narkotika, non-narkotik atau NSAIO) dengan tingkat keparahan nyeri'
+                                ],
+                                [
+                                    'value' => 'Monitor tanda-tanda vital sebelum dan sesudah pemberian analgesik'
+                                ],
+                                [
+                                    'value' => 'Monitor efektifitas analgesik'
+                                ],
+                            ]
+                        ],
+                        [
+
+                            'value' => 'Terapeutik',
+                            'child' => [
+                                    [
+                                        'value' => 'Diskusikan jenis analgesik yang disukai untuk mencapai analgesia optimal, jika perlu'
+                                    ],
+                                    [
+                                        'value' => 'Pertimbangkan penggunaan infus kontinyu atau bolus opioid untuk mempertahankan kadar dalam serum'
+                                    ],
+                                    [
+                                        'value' => 'Tetapkan target efektifitas analgesik untuk mengoptimalkan respons pasien'
+                                    ],
+                                    [
+                                        'value' => 'Dokumentasikan respons terhadap efek analgesik dan efek yang tidak diinginkan '
+                                    ],
+                            ]
+                        ],
+                        [
+
+                            'value' => 'Edukasi',
+                            'child' => [
+                                [
+                                    'value' => 'Jelaskan efek terapi dan efek samping obat'
+                                ]
+                            ]
+                        ],
+                        [
+
+                            'value' => 'Kolaborasi',
+                            'child' => [
+                                [
+                                    'value' => 'Kolaborasi pemberian dosis dan jenis analgesik, jika perlu'
+                                ]
+                            ]
+                        ]
+                ]
             ],
             [
                 'value' => 'Pemantauan Nyeri',
                 'keterangan' => 'Mengumpulkan dan menganalisis data nyeri',
-                'url_youtube' => null
+                'is_main' => true,
+                'opsi' => [
+                    [
+                        'value' => 'Observasi',
+                        'child' => [
+                            [
+                                'value' => 'Identifikasi faktor pencetus dan pereda nyeri'
+                            ],
+                            [
+                                'value' => 'Monitor kualitas nyeri (mis. terasa tajam, tumpul, diremas-remas, ditimpa beban berat)'
+                            ],
+                            [
+                                'value' => 'Monitor lokasi dan penyebaran nyeri'
+                            ],
+                            [
+                                'value' => 'Monitor intensitas nyeri dengan menggunakan skala'
+                            ],
+                            [
+                                'value' => 'Monitor durasi dan frekuensi nyeri'
+                            ],
+                        ]
+                    ],
+                    [
+                        'value' => 'Terapeutik',
+                        'child' => [
+                            [
+                                'value' => 'Atur interval waktu pemantauan sesuai dengan kondisi pasien'
+                            ],
+                            [
+                                'value' => 'Dokumentasikan hasil pemantauan'
+                            ],
+                        ]
+                    ],
+                    [
+                        'value' => 'Edukasi',
+                        'child' => [
+                            [
+                                'value' => 'Jelaskan tujuan dan prosedur pemantauan'
+                            ],
+                            [
+                                'value' => 'Informasikan hasil pemantauan, jika peru'
+                            ],
+                        ]
+                    ],
+                ]
             ],
             [
                 'value' => 'Perawatan Kenyamanan',
                 'keterangan' => 'Mengidentifikasi dan merawat pasien untuk meningkatkan rasa nyaman.',
-                'url_youtube' => null
+                'is_main' => true,
+                'opsi' => [
+                    [
+                        'value' => 'Observasi',
+                        'child' => [
+                            [
+                                'value' => 'Identifikasi gejala yang tidak menyenangkan (mis. mual, nyeri, gatal, sesak)'
+                            ],
+                            [
+                                'value' => 'Identifikasi pemahaman tentang kondisi, situasi dan perasaannya'
+                            ],
+                            [
+                                'value' => 'Identifikasi masala emosional dan spiritual'
+                            ],
+                        ]
+                    ],
+                    [
+                        'value' => 'Terapeutik',
+                        'child' => [
+                            [
+                                'value' => 'Berikan posisi yang nyaman'
+                            ],
+                            [
+                                'value' => 'Ciptakan lingkungan yang nyaman'
+                            ],
+                            [
+                                'value' => 'Berikan kompres hangat',
+                                'sub_intervensi_id' => 2
+                            ],
+                            [
+                                'value' => 'Berikan kompres dingin',
+                                'sub_intervensi_id' => 1
+                            ],
+                            [
+                                'value' => 'Berikan intervensi terapi musik',
+                                'sub_intervensi_id' => 6
+                            ],
+                            [
+                                'value' => 'Dukung keluarga dan pengasuh terlibat dalam terapi/pengobatan'
+                            ],
+                            [
+                                'value' => 'Diskusikan mengenai situasi dan pilihan terapi/pengobatan yang dinginkan'
+                            ],
+                        ]
+                    ],
+                    [
+                        'value' => 'Edukasi',
+                        'child' => [
+                            [
+                                'value' => 'Jelaskan mengenai kondisi dan pilihan terapi/pengobatan'
+                            ],
+                            [
+                                'value' => 'Ajarkan terapi relaksasi otot progresif',
+                                'sub_intervensi_id' => 4
+                            ],
+                            [
+                                'value' => 'Ajarkan latihan relaksasi napas dalam',
+                                'sub_intervensi_id' => 5
+                            ],
+                            [
+                                'value' => 'Ajarkan teknik distraksi dan imajinasi terbimbing',
+                                'sub_intervensi_id' => 3
+                            ],
+                        ]
+                    ],
+                    [
+                        'value' => 'Kolaborasi',
+                        'child' => [
+                            [
+                                'value' => 'Kolaborasi pemberian analgesik, antipruritus, antihistamin, jika pertu'
+                            ]
+                        ]
+                    ],
+                ]
             ],
             [
                 'value' => 'Edukasi Manajemen Nyeri',
                 'keterangan' => 'Mengajarkan pengelolaan suhu tubuh yang lebih optimal',
-                'url_youtube' => null
-            ],
-            [
-                'value' => 'Edukasi Teknik Napas',
-                'keterangan' => 'Mengajarkan teknik pernafasan untuk meningkatkan relaksasi, meredakan nyeri, dan ketidaknyamanan.',
-                'url_youtube' => null
-            ],
-            [
-                'value' => 'Kompres Dingin',
-                'keterangan' => 'Melakukan stimulasi kulit dan jaringan dengan dingin untuk mengurangi nyeri, peradangan dan mendapatkan efek terapeutik lainnya melalui paparan dingin',
-                'url_youtube' => null
-            ],
-            [
-                'value' => 'Terapi pemijatan',
-                'keterangan' => 'Memberikan stimulasi kulit dan jaringan dengan berbagai teknik gerakan dan tekanan tangan untuk meredakan nyeri, meningkatkan relaksasi, memperbaiki sirkulasi, dan/ atau stimulasi pertumbuhan dan perkembangan pada bayi dan anak.',
-                'url_youtube' => null
-            ],
-            [
-                'value' => 'Terapi Relaksasi Otot Progresif',
-                'keterangan' => 'Menggunakan Teknik penegangan dan peregangan otot untuk meredakan ketegangan otot, ansietas, nyeri serta meningkatkan kenyamanan, konsentrasi dan kebugaran.',
-                'url_youtube' => 'https://youtu.be/SH2PjUWqKNY'
-            ],
-            [
-                'value' => 'Latihan Pernapasan',
-                'keterangan' => 'Latihan menggerakan dinding dada untuk meningkatkan bersihan jalan napas, meningkatkan pengembangan paru, menguatkan otot – otot napas, dan meningkatkan relaksasi atau rasa nyaman',
-                'url_youtube' => 'https://youtu.be/W8raYmnrA7Q'
-            ],
-            [
-                'value' => 'Kompres Panas',
-                'keterangan' => 'Melakukan stimulasi kulit dan jaringan dengan panas untuk mengurangi nyeri, spasme otot, dan mendapatkan efek terapeutik lainnya melalui paparan panas.',
-                'url_youtube' => null
-            ],
-            [
-                'value' => 'Teknik Distraksi',
-                'keterangan' => 'Mengalihkan perhatian atau mengurangi emosi dan pikiran negatif terhadap sensasi yang tidak diinginkan',
-                'url_youtube' => 'https://youtu.be/i6XgBdEgGGw'
-            ],
-            [
-                'value' => 'Terapi Musik',
-                'keterangan' => 'Menggunakan musik untuk membantu mengubah perilaku, perasaan atau fisiologis tubuh',
-                'url_youtube' => 'https://youtu.be/OgbGCmbqCtU'
-            ],
-            [
-                'value' => 'Terapi Relaksasi',
-                'keterangan' => 'Menggunakan teknik peregangan untuk mengurangi tanda dan gejala ketidaknyamanan seperti nyeri, ketegangan otot, atau kecemasan',
-                'url_youtube' => null
+                'is_main' => true,
+                'opsi' => [
+                    [
+                        'value' => 'Observasi',
+                        'child' => [
+                            [
+                                'value' => 'Identifikasi kesiapan dan kemampuan menerima informasi'
+                            ]
+                        ]
+                    ],
+                    [
+                        'value' => 'Terapeutik',
+                        'child' => [
+                            [
+                                'value' => 'Sediakan materi dan media pendidikan kesehatan'
+                            ],
+                            [
+                                'value' => 'Jadwalkan pendidikan kesehatan sesuai kesepakatan'
+                            ],
+                            [
+                                'value' => 'Berikan kesempatan untuk bertanya'
+                            ],
+                        ]
+                    ],
+                    [
+                        'value' => 'Edukasi',
+                        'child' => [
+                            [
+                                'value' => 'Jelaskan penyebab, periode, dan strategi meredakan nyeri'
+                            ],
+                            [
+                                'value' => 'Anjurkan memonitor nyeri secara mandiri'
+                            ],
+                            [
+                                'value' => 'Anjurkan menggunakan anakgetik secara tepat'
+                            ],
+                            [
+                                'value' => 'Ajarkan teknik nonfarmakologis untuk mengurangi rasa nyeri.'
+                            ],
+                        ]
+                    ],
+                ]
             ],
         ];
 
-        Intervensi::insert($intervensi);
+        // Intervensi::insert($intervensi);
 
-        $opsi_intervensi = [
-            // Pemberian Analgesik 1-4
-            [
-                'id_intervensi' => 1,
-                'id_parent' => null,
-                'value' => 'Observasi',
-            ],
-            [
-                'id_intervensi' => 1,
-                'id_parent' => null,
-                'value' => 'Terapeutik',
-            ],
-            [
-                'id_intervensi' => 1,
-                'id_parent' => null,
-                'value' => 'Edukasi'
-            ],
-            [
-                'id_intervensi' => 1,
-                'id_parent' => null,
-                'value' => 'Kolaborasi'
-            ],
+        foreach ($intervensi as $key => $inter) {
+            $new_intervensi = Intervensi::create([
+                'value' => $inter['value'],
+                'keterangan' => $inter['keterangan'],
+                'is_main' => $inter['is_main'] ?? false,
+            ]);
 
-            // Pemantauan Nyeri 5-7
-            [
-                'id_intervensi' => 2,
-                'id_parent' => null,
-                'value' => 'Observasi',
-            ],
-            [
-                'id_intervensi' => 2,
-                'id_parent' => null,
-                'value' => 'Terapeutik',
-            ],
-            [
-                'id_intervensi' => 2,
-                'id_parent' => null,
-                'value' => 'Edukasi'
-            ],
+            if(isset($inter['url_yt'])){
+                foreach ($inter['url_yt'] as $key => $url) {
+                    $new_intervensi->url_yt_intervensi()->create([
+                        'url' => $url['value']
+                    ]);
+                }
+            }
 
-            // Perawatan kenyamanan 8-11
-            [
-                'id_intervensi' => 3,
-                'id_parent' => null,
-                'value' => 'Observasi',
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => null,
-                'value' => 'Terapeutik',
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => null,
-                'value' => 'Edukasi'
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => null,
-                'value' => 'Kolaborasi'
-            ],
+            foreach ($inter['opsi'] as $key => $opsi) {
+                $new_opsi = OpsiIntervensi::create([
+                    'id_intervensi' => $new_intervensi->id,
+                    'id_parent' => null,
+                    'value' => $opsi['value'],
+                ]);
 
-            // Edukasi Manajemen Nyeri 12-14
-            [
-                'id_intervensi' => 4,
-                'id_parent' => null,
-                'value' => 'Observasi',
-            ],
-            [
-                'id_intervensi' => 4,
-                'id_parent' => null,
-                'value' => 'Terapeutik',
-            ],
-            [
-                'id_intervensi' => 4,
-                'id_parent' => null,
-                'value' => 'Edukasi'
-            ],
+                if (isset($opsi['child'])) {
+                    foreach ($opsi['child'] as $key => $child) {
+                        OpsiIntervensi::create([
+                            'id_intervensi' => $new_intervensi->id,
+                            'id_parent' => $new_opsi->id,
+                            'value' => $child['value'],
+                            'sub_intervensi_id' => $child['sub_intervensi_id'] ?? null,
+                        ]);
+                    }
+                }
+            }
+        }
 
-            // Edukasi Teknik Napas (I.12452) 15-17
-            [
-                'id_intervensi' => 5,
-                'id_parent' => null,
-                'value' => 'Observasi',
-            ],
-            [
-                'id_intervensi' => 5,
-                'id_parent' => null,
-                'value' => 'Terapeutik',
-            ],
-            [
-                'id_intervensi' => 5,
-                'id_parent' => null,
-                'value' => 'Edukasi'
-            ],
-
-            // Kompres dingin 18-20
-            [
-                'id_intervensi' => 6,
-                'id_parent' => null,
-                'value' => 'Observasi',
-            ],
-            [
-                'id_intervensi' => 6,
-                'id_parent' => null,
-                'value' => 'Terapeutik',
-            ],
-            [
-                'id_intervensi' => 6,
-                'id_parent' => null,
-                'value' => 'Edukasi'
-            ],
-
-            // Intervensi Terapi Pemijatan 21-23
-            [
-                'id_intervensi' => 7,
-                'id_parent' => null,
-                'value' => 'Observasi',
-            ],
-            [
-                'id_intervensi' => 7,
-                'id_parent' => null,
-                'value' => 'Terapeutik',
-            ],
-            [
-                'id_intervensi' => 7,
-                'id_parent' => null,
-                'value' => 'Edukasi'
-            ],
-
-            // Terapi Relaksasi Otot Progresif 24-26
-            [
-                'id_intervensi' => 8,
-                'id_parent' => null,
-                'value' => 'Observasi',
-            ],
-            [
-                'id_intervensi' => 8,
-                'id_parent' => null,
-                'value' => 'Terapeutik',
-            ],
-            [
-                'id_intervensi' => 8,
-                'id_parent' => null,
-                'value' => 'Edukasi'
-            ],
-
-            // Latihan Pernapasan 27-29
-            [
-                'id_intervensi' => 9,
-                'id_parent' => null,
-                'value' => 'Observasi',
-            ],
-            [
-                'id_intervensi' => 9,
-                'id_parent' => null,
-                'value' => 'Terapeutik',
-            ],
-            [
-                'id_intervensi' => 9,
-                'id_parent' => null,
-                'value' => 'Edukasi'
-            ],
-
-            // Kompres Panas 30-32
-            [
-                'id_intervensi' => 10,
-                'id_parent' => null,
-                'value' => 'Observasi',
-            ],
-            [
-                'id_intervensi' => 10,
-                'id_parent' => null,
-                'value' => 'Terapeutik',
-            ],
-            [
-                'id_intervensi' => 10,
-                'id_parent' => null,
-                'value' => 'Edukasi'
-            ],
-
-            // Teknik Distraksi 33-35
-            [
-                'id_intervensi' => 11,
-                'id_parent' => null,
-                'value' => 'Observasi',
-            ],
-            [
-                'id_intervensi' => 11,
-                'id_parent' => null,
-                'value' => 'Terapeutik',
-            ],
-            [
-                'id_intervensi' => 11,
-                'id_parent' => null,
-                'value' => 'Edukasi'
-            ],
-
-            // Teknik Musik 36-38
-            [
-                'id_intervensi' => 12,
-                'id_parent' => null,
-                'value' => 'Observasi',
-            ],
-            [
-                'id_intervensi' => 12,
-                'id_parent' => null,
-                'value' => 'Terapeutik',
-            ],
-            [
-                'id_intervensi' => 12,
-                'id_parent' => null,
-                'value' => 'Edukasi'
-            ],
-
-            // Teknik Relaksasi 38-40
-            [
-                'id_intervensi' => 13,
-                'id_parent' => null,
-                'value' => 'Observasi',
-            ],
-            [
-                'id_intervensi' => 13,
-                'id_parent' => null,
-                'value' => 'Terapeutik',
-            ],
-            [
-                'id_intervensi' => 13,
-                'id_parent' => null,
-                'value' => 'Edukasi'
-            ],
-        ];
-
-        $sub_option = [
-            // Id parent 1-4
-            // Id intervensi 1 Pemberian Analgesik
-
-            // Observasi 
-            [
-                'id_intervensi' => 1,
-                'id_parent' => 1,
-                'value' => 'Identifikasi karakteristik nyeri (misalnya pencetus, pereda, kualitas, lokasi, intensitas, frekuensi dan durasi)'
-            ],
-            [
-                'id_intervensi' => 1,
-                'id_parent' => 1,
-                'value' => 'Identifikasi riwayat alergi obat'
-            ],
-            [
-                'id_intervensi' => 1,
-                'id_parent' => 1,
-                'value' => 'Identifikasi kesesuaian jenis analgesik (misalnya narkotika, non-narkotik atau NSAIO) dengan tingkat keparahan nyeri'
-            ],
-            [
-                'id_intervensi' => 1,
-                'id_parent' => 1,
-                'value' => 'Monitor tanda-tanda vital sebelum dan sesudah pemberian analgesik'
-            ],
-            [
-                'id_intervensi' => 1,
-                'id_parent' => 1,
-                'value' => 'Monitor efektifitas analgesik'
-            ],
-
-            // Terapeutik
-            [
-                'id_intervensi' => 1,
-                'id_parent' => 2,
-                'value' => 'Diskusikan jenis analgesik yang disukai untuk mencapai analgesia optimal, jika perlu'
-            ],
-            [
-                'id_intervensi' => 1,
-                'id_parent' => 2,
-                'value' => 'Pertimbangkan penggunaan infus kontinyu atau bolus opioid untuk mempertahankan kadar dalam serum'
-            ],
-            [
-                'id_intervensi' => 1,
-                'id_parent' => 2,
-                'value' => 'Tetapkan target efektifitas analgesik untuk mengoptimalkan respons pasien'
-            ],
-            [
-                'id_intervensi' => 1,
-                'id_parent' => 2,
-                'value' => 'Dokumentasikan respons terhadap efek analgesik dan efek yang tidak diinginkan '
-            ],
-
-            // Edukasi
-            [
-                'id_intervensi' => 1,
-                'id_parent' => 3,
-                'value' => 'Jelaskan efek terapi dan efek samping obat'
-            ],
-
-            // Kolaborasi
-            [
-                'id_intervensi' => 1,
-                'id_parent' => 4,
-                'value' => 'Kolaborasi pemberian dosis dan jenis analgesik, jika perlu'
-            ],
-
-            // Id parent 5-7
-            // Id intervensi 2 Pemantauan Nyeri
-
-            // Observasi
-            [
-                'id_intervensi' => 2,
-                'id_parent' => 5,
-                'value' => 'Identifikasi faktor pencetus dan pereda nyeri'
-            ],
-            [
-                'id_intervensi' => 2,
-                'id_parent' => 5,
-                'value' => 'Monitor kualitas nyeri (mis. terasa tajam, tumpul, diremas-remas, ditimpa beban berat)'
-            ],
-            [
-                'id_intervensi' => 2,
-                'id_parent' => 5,
-                'value' => 'Monitor lokasi dan penyebaran nyeri'
-            ],
-            [
-                'id_intervensi' => 2,
-                'id_parent' => 5,
-                'value' => 'Monitor intensitas nyeri dengan menggunakan skala'
-            ],
-            [
-                'id_intervensi' => 2,
-                'id_parent' => 5,
-                'value' => 'Monitor durasi dan frekuensi nyeri'
-            ],
-            
-            // Terapeutik
-            [
-                'id_intervensi' => 2,
-                'id_parent' => 6,
-                'value' => 'Atur interval waktu pemantauan sesuai dengan kondisi pasien'
-            ],
-            [
-                'id_intervensi' => 2,
-                'id_parent' => 6,
-                'value' => 'Dokumentasikan hasil pemantauan'
-            ],
-
-            // Edukasi
-            [
-                'id_intervensi' => 2,
-                'id_parent' => 7,
-                'value' => 'Jelaskan tujuan dan prosedur pemantauan'
-            ],
-            [
-                'id_intervensi' => 2,
-                'id_parent' => 7,
-                'value' => 'Informasikan hasil pemantauan, jika peru'
-            ],
-
-            // Id parent 8-12
-            // Id intervensi 3 Perawatan kenyamanan
-
-            // Observasi
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 8,
-                'value' => 'Identifikasi gejala yang tidak menyenangkan (mis. mual, nyeri, gatal, sesak)'
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 8,
-                'value' => 'Identifikasi pemahaman tentang kondisi, situasi dan perasaannya'
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 8,
-                'value' => 'Identifikasi masala emosional dan spiritual'
-            ],
-
-            // Terapeutik
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 9,
-                'value' => 'Berikan posisi yang nyaman'
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 9,
-                'value' => 'Berikan kompres dingin atau hangat'
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 9,
-                'value' => 'Ciptakan lingkungan yang nyaman'
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 9,
-                'value' => 'Berikan pemijatan'
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 9,
-                'value' => 'Berikan terapi akupresur'
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 9,
-                'value' => 'Berikan terapi hipnosis'
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 9,
-                'value' => 'Dukung keluarga dan pengasuh terlibat dalam terapi/pengobatan'
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 9,
-                'value' => 'Diskusikan mengenai situasi dan pilihan terapi/pengobatan yang dinginkan'
-            ],
-            
-            // Edukasi
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 10,
-                'value' => 'Jelaskan mengenai kondisi dan pilihan terapi/pengobatan'
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 10,
-                'value' => 'Ajarkan terapi relaksasi'
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 10,
-                'value' => 'Ajarkan latihan pernapasan'
-            ],
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 10,
-                'value' => 'Ajarkan teknik distraksi dan imajinasi terbimbing'
-            ],
-            
-            // Kolaborasi
-            [
-                'id_intervensi' => 3,
-                'id_parent' => 11,
-                'value' => 'Kolaborasi pemberian analgesik, antipruritus, antihistamin, jika pertu'
-            ],
-
-            // Id parent 12-14
-            // Id intervensi 4 Edukasi Manajemen Nyeri
-
-            // Observasi
-            [
-                'id_intervensi' => 4,
-                'id_parent' => 12,
-                'value' => 'Identifikasi kesiapan dan kemampuan menerima informasi'
-            ],
-
-            // Terapeutik
-            [
-                'id_intervensi' => 4,
-                'id_parent' => 13,
-                'value' => 'Sediakan materi dan media pendidikan kesehatan'
-            ],
-            [
-                'id_intervensi' => 4,
-                'id_parent' => 13,
-                'value' => 'Jadwalkan pendidikan kesehatan sesuai kesepakatan'
-            ],
-            [
-                'id_intervensi' => 4,
-                'id_parent' => 13,
-                'value' => 'Berikan kesempatan untuk bertanya'
-            ],
-
-            // Edukasi
-            [
-                'id_intervensi' => 4,
-                'id_parent' => 14,
-                'value' => 'Jelaskan penyebab, periode, dan strategi meredakan nyeri'
-            ],
-            [
-                'id_intervensi' => 4,
-                'id_parent' => 14,
-                'value' => 'Anjurkan memonitor nyeri secara mandiri'
-            ],
-            [
-                'id_intervensi' => 4,
-                'id_parent' => 14,
-                'value' => 'Anjurkan menggunakan anakgetik secara tepat'
-            ],
-            [
-                'id_intervensi' => 4,
-                'id_parent' => 14,
-                'value' => 'Ajarkan teknik nonfarmakologis untuk mengurangi rasa nyeri.'
-            ],
-
-            // Id parent 15-17
-            // Id intervensi 5 Edukasi Teknik Napas
-
-            // Observasi
-            [
-                'id_intervensi' => 5,
-                'id_parent' => 15,
-                'value' => 'Identifikasi kesiapan dan kemampuan menerima informasi.'
-            ],
-
-            // Terapeutik
-            [
-                'id_intervensi' => 5,
-                'id_parent' => 16,
-                'value' => 'Sediakan materi dan media pendidikan kesehatan'
-            ],
-            [
-                'id_intervensi' => 5,
-                'id_parent' => 16,
-                'value' => 'Jadwalkan pendidikan kesehatan sesuai kesepakatan'
-            ],
-            [
-                'id_intervensi' => 5,
-                'id_parent' => 16,
-                'value' => 'Berikan kesempatan untuk berkarya.'
-            ],
-            
-            // Edukasi
-            [
-                'id_intervensi' => 5,
-                'id_parent' => 17,
-                'value' => 'Jelaskan tujuan dan manfaat teknik nafas'
-            ],
-            [
-                'id_intervensi' => 5,
-                'id_parent' => 17,
-                'value' => 'Jelaskan prosedur tarik nafas'
-            ],
-            [
-                'id_intervensi' => 5,
-                'id_parent' => 17,
-                'value' => 'Anjurkan memposisikan tubuh senyaman mungkin (mis : duduk, baring)'
-            ],
-            [
-                'id_intervensi' => 5,
-                'id_parent' => 17,
-                'value' => 'Anjurkan menutup mata dan berkonsentrasi penuh'
-            ],
-            [
-                'id_intervensi' => 5,
-                'id_parent' => 17,
-                'value' => 'Anjurkan melakukan inspirasi dengan menghirup udara melalui hidung secara perlahan'
-            ],
-            [
-                'id_intervensi' => 5,
-                'id_parent' => 17,
-                'value' => 'Anjurkan melakukan ekspirasi dengan menghembuskan udara mulut mencucu secara perlahan'
-            ],
-            [
-                'id_intervensi' => 5,
-                'id_parent' => 17,
-                'value' => 'Demonstrasikan menarik nafas selama 4 detik, menahan nafas selama 2 detik, dan menghembuskan nafas selama 8 detik.'
-            ],
-
-            // Id parent 18-20
-            // Id intervensi 6 Kompres dingin
-
-            // Observasi
-            [
-                'id_intervensi' => 6,
-                'id_parent' => 18,
-                'value' => 'Identifikasi kontraindikasi kompres dingin (misal penurunan sensasi, penurunan sirkulasi)'
-            ],
-            [
-                'id_intervensi' => 6,
-                'id_parent' => 18,
-                'value' => 'Identifikasi kondisi kulit yang akan dilakukan kompres dingin'
-            ],
-            [
-                'id_intervensi' => 6,
-                'id_parent' => 18,
-                'value' => 'Periksa suhu alat kompres'
-            ],
-            [
-                'id_intervensi' => 6,
-                'id_parent' => 18,
-                'value' => 'Monitor iritasi kulit atau kerusakan jaringan selama 5 menit pertama'
-            ],
-            
-            // Terapeutik
-            [
-                'id_intervensi' => 6,
-                'id_parent' => 19,
-                'value' => 'Pilih metode kompres yang nyaman dan mudah didapat (missal kantong plastic tahan air, kemasan gel beku, kain atau handuk)'
-            ],
-            [
-                'id_intervensi' => 6,
-                'id_parent' => 19,
-                'value' => 'Pilih lokasi kompres'
-            ],
-            [
-                'id_intervensi' => 6,
-                'id_parent' => 19,
-                'value' => 'Balut alat kompres dingin dengan kain pelindung, jika perlu'
-            ],
-            [
-                'id_intervensi' => 6,
-                'id_parent' => 19,
-                'value' => 'Lakukan kompres dingin pada daerah yang cedera'
-            ],
-            [
-                'id_intervensi' => 6,
-                'id_parent' => 19,
-                'value' => 'Hindari penggunaan kompres pada jaringan yang terpapar terapi radiasi'
-            ],
-            
-            // Edukasi
-            [
-                'id_intervensi' => 6,
-                'id_parent' => 20,
-                'value' => 'Jelaskan prosedur penggunaan kompres dingin'
-            ],
-            [
-                'id_intervensi' => 6,
-                'id_parent' => 20,
-                'value' => 'Anjurkan tidak menyesuaikan pengaturan suhu secara mandiri tanpa pemberitahuan sebelumnya'
-            ],
-            [
-                'id_intervensi' => 6,
-                'id_parent' => 20,
-                'value' => 'Anjurkan cara menghindari kerusakan jaringan akibat dingin'
-            ],
-
-            // Id parent 21-23
-            // Id intervensi 7 Intervensi Terapi Pemijatan
-
-            // Observasi
-            [
-                'id_intervensi' => 7,
-                'id_parent' => 21,
-                'value' => 'Identifikasi kontraindikasi terapi pemijatan (mis. penurunan trombosit, gangguan integritas kulit, deep vein thrombosis, area lesi. kemerahan atau radang, tumor, dan hipersensitivitas terhadap sentuhan.'
-            ],
-            [
-                'id_intervensi' => 7,
-                'id_parent' => 21,
-                'value' => 'Identifikasi kesediaan dan penerimaan dilakukan pemijatan'
-            ],
-            [
-                'id_intervensi' => 7,
-                'id_parent' => 21,
-                'value' => 'Monitor respons terhadap pemijatan '
-            ],
-
-            // Terapeutik
-            [
-                'id_intervensi' => 7,
-                'id_parent' => 22,
-                'value' => 'Tetapkan jangka waktu untuk pemijatan'
-            ],
-            [
-                'id_intervensi' => 7,
-                'id_parent' => 22,
-                'value' => 'Pilih area tubun yang akan dipijat'
-            ],
-            [
-                'id_intervensi' => 7,
-                'id_parent' => 22,
-                'value' => 'Cucl tangan dengan air hangatSiapkan lingkungan yang hangat, nyaman, dan privasi'
-            ],
-            [
-                'id_intervensi' => 7,
-                'id_parent' => 22,
-                'value' => 'Buka area yang akan dipijat, sesuai kebutuhan'
-            ],
-            [
-                'id_intervensi' => 7,
-                'id_parent' => 22,
-                'value' => 'Tutup area vang tidak terpajan (mis. dengan selimut, seprai, handuk mandi)'
-            ],
-            [
-                'id_intervensi' => 7,
-                'id_parent' => 22,
-                'value' => 'Gunakan lotion atau minyak untuk mengurangi gesekan (perhatikan kontraindikasi penggunaan Iction atau minyak tertentu pada tiap individu)'
-            ],
-            [
-                'id_intervensi' => 7,
-                'id_parent' => 22,
-                'value' => 'Lakukan pemijatan secara perlahan'
-            ],
-            [
-                'id_intervensi' => 7,
-                'id_parent' => 22,
-                'value' => 'Lakukan pemijatan dengan teknik yang tepat'
-            ],
-            
-            // Edukasi
-            [
-                'id_intervensi' => 7,
-                'id_parent' => 23,
-                'value' => 'Jelaskan tujuan dan prosedur terapi'
-            ],
-            [
-                'id_intervensi' => 7,
-                'id_parent' => 23,
-                'value' => 'Anjurkan rileks selama pemijatan'
-            ],
-            [
-                'id_intervensi' => 7,
-                'id_parent' => 23,
-                'value' => 'Anjurkan beristirahat setelah dilakukan pemijatan'
-            ],
-
-            // Id parent 24-26
-            // Id intervensi 8 Terapi Relaksasi Otot Progresif
-
-            // Observasi
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 24,
-                'value' => 'Identifikasi tempat yang tenang dan nyaman'
-            ],
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 24,
-                'value' => 'Monitor secara berkala untuk memastikan otot rileks'
-            ],
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 24,
-                'value' => 'Monitor adanya indikator tidak rileks (mis. Adanya Gerakan, pernapasan yang berat)'
-            ],
-            
-            // Terapeutik
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 25,
-                'value' => 'Atur lingkungan agar tidak ada gangguan saat terapi'
-            ],
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 25,
-                'value' => 'Berikan posisi bersandar pada kursi atau posisi lainnya yang nyaman'
-            ],
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 25,
-                'value' => 'Hentikan sesi relaksasi secara bertahap'
-            ],
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 25,
-                'value' => 'Beri waktu mengungkapkan perasaan tentang terapi'
-            ],
-            
-            // Edukasi
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 26,
-                'value' => 'Anjurkan memakai pakaian yang nyaman dan tidak sempit'
-            ],
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 26,
-                'value' => 'Anjurkan   melakukan relaksasi otot rahang'
-            ],
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 26,
-                'value' => 'Anjurkan menegangkan otot selama 5 sampai 10 detik, kemudian anjurkan untuk merilekskan otot 20-30 detik, masing-masing 8 sampai 16 kali'
-            ],
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 26,
-                'value' => 'Anjurkan menegangkan otot kaki selama tidak lebih dari 5 detik untuk menghindari kram'
-            ],
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 26,
-                'value' => 'Anjurkan focus pada sensasi otot yang menegang'
-            ],
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 26,
-                'value' => 'Anjurkan focus pada sensasi otot yang relaks'
-            ],
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 26,
-                'value' => 'Anjurkan bernafas dalam dan perlahan'
-            ],
-            [
-                'id_intervensi' => 8,
-                'id_parent' => 26,
-                'value' => 'Anjurkan berlatih di antara sesi reguler dengan perawat'
-            ],
-
-            // Id parent 27-29
-            // Id intervensi 9 Latihan Pernapasan
-
-            // Observasi
-            [
-                'id_intervensi' => 9,
-                'id_parent' => 27,
-                'value' => 'Identifikasi indikasi dilakukan latihan pernapasan '
-            ],
-            [
-                'id_intervensi' => 9,
-                'id_parent' => 27,
-                'value' => 'Monitor frekuensi, irama, dan kedalaman napas sebelum dan sesudah latihan.'
-            ],
-            
-            // Terapeutik
-            [
-                'id_intervensi' => 9,
-                'id_parent' => 28,
-                'value' => 'Sediakan tempat yang tenang'
-            ],
-            [
-                'id_intervensi' => 9,
-                'id_parent' => 28,
-                'value' => 'Posisikan pasien nyaman dan rileks'
-            ],
-            [
-                'id_intervensi' => 9,
-                'id_parent' => 28,
-                'value' => 'Tempatkan satu tangan di dada dan satu tangan di perut'
-            ],
-            [
-                'id_intervensi' => 9,
-                'id_parent' => 28,
-                'value' => 'Pastikan tangan di dada mundur ke belakang dan telapak tangan diperut maju ke depan saat menarik napas'
-            ],
-            [
-                'id_intervensi' => 9,
-                'id_parent' => 28,
-                'value' => 'Ambil napas dalam secara perlahan melalui hidung dan tahan selama tujuh hitungan'
-            ],
-            [
-                'id_intervensi' => 9,
-                'id_parent' => 28,
-                'value' => 'Hitungan ke delapan hembuskan napas melalui mulut dengan perlahan.'
-            ],
-            
-            // Edukasi
-            [
-                'id_intervensi' => 9,
-                'id_parent' => 29,
-                'value' => 'Jelaskan tujuan dan prosdur latihan pernapasan'
-            ],
-            [
-                'id_intervensi' => 9,
-                'id_parent' => 29,
-                'value' => 'Anjurkan mengulangi latihan 4 – 5 kali'
-            ],
-
-            // Id parent 30-32
-            // Id intervensi 10 Kompres Panas
-
-            // Observasi
-            [
-                'id_intervensi' => 10,
-                'id_parent' => 30,
-                'value' => 'Identifikasi kontraindikasi kompres panas (mis. Penurunan sensasi, penurunana sirkulasi)'
-            ],
-            [
-                'id_intervensi' => 10,
-                'id_parent' => 30,
-                'value' => 'Identifikasi kondisi kulit yang akan dilakukan kompres panas '
-            ],
-            [
-                'id_intervensi' => 10,
-                'id_parent' => 30,
-                'value' => 'Periksa suhu alat kompres'
-            ],
-            [
-                'id_intervensi' => 10,
-                'id_parent' => 30,
-                'value' => 'Monitor iritasi kulit atau kerusakan jaringan selama 5 menit pertama'
-            ],
-            
-            // Terapeutik
-            [
-                'id_intervensi' => 10,
-                'id_parent' => 31,
-                'value' => 'Pilih metode kompres yang nyaman dan mudah didapatkan (mis. Kantong plastik tahan air, botol air panas, bantalan pemanas listrik)'
-            ],
-            [
-                'id_intervensi' => 10,
-                'id_parent' => 31,
-                'value' => 'Pilih lokasi kompres'
-            ],
-            [
-                'id_intervensi' => 10,
-                'id_parent' => 31,
-                'value' => 'Balut alat kompres panas dengan kain pelindung, jika perlu'
-            ],
-            [
-                'id_intervensi' => 10,
-                'id_parent' => 31,
-                'value' => 'Lakukan kompres panas pada daerah yang cedera'
-            ],
-            [
-                'id_intervensi' => 10,
-                'id_parent' => 31,
-                'value' => 'Hindari penggunaan kompres pada jaringan yang terpapar terapi radiasi'
-            ],
-            
-            // Edukasi
-            [
-                'id_intervensi' => 10,
-                'id_parent' => 32,
-                'value' => 'Jelaskan prosedur penggunaan kompres panas'
-            ],
-            [
-                'id_intervensi' => 10,
-                'id_parent' => 32,
-                'value' => 'Anjurkan tidak menyesuaikan pengaturan suhu secara mandiri tanpa pemberitahuan sebelumnya'
-            ],
-            [
-                'id_intervensi' => 10,
-                'id_parent' => 32,
-                'value' => 'Ajarkan cara menghindari kerusakan jaringan akibat panas '
-            ],
-
-            // Id parent 33-35
-            // Id intervensi 11 Teknik Distraksi
-
-            // Observasi
-            [
-                'id_intervensi' => 11,
-                'id_parent' => 33,
-                'value' => 'Identifiaksi pilihan Teknik distraksi yang diinginkan'
-            ],
-            
-            // Terapeutik
-            [
-                'id_intervensi' => 11,
-                'id_parent' => 34,
-                'value' => 'Gunakan Teknik distraksi (mis. Membaca buku, menonton televisi, bermain, aktivitas terapi, membaca cerita, bernyanyi)'
-            ],
-            
-            // Edukasi
-            [
-                'id_intervensi' => 11,
-                'id_parent' => 35,
-                'value' => 'Jelaskan manfaat dan jenis distraksi bagi pancaindera (mis. musik, penghitungan, televisi, baca, video/permainan genggam)'
-            ],
-            [
-                'id_intervensi' => 11,
-                'id_parent' => 35,
-                'value' => 'Anjurkan menggunakan Teknik sesuai dengan tingkat energi, kemampuan, usia, tingkat perkembangan'
-            ],
-            [
-                'id_intervensi' => 11,
-                'id_parent' => 35,
-                'value' => 'Anjurkan membuat daftar aktivitas yang menyenangkan'
-            ],
-            [
-                'id_intervensi' => 11,
-                'id_parent' => 35,
-                'value' => 'Anjurkan berlatih Teknik distraksi'
-            ],
-
-            // Id parent 36-38
-            // Id intervensi 12 Terapi Musik
-
-            // Observasi
-            [
-                'id_intervensi' => 12,
-                'id_parent' => 36,
-                'value' => 'Identifikasi perubahan fisiologis yang akan dicapai (mis, relaksasi, stimulasi, konsentrasi, pengurangan rasa sakit)'
-            ],
-            [
-                'id_intervensi' => 12,
-                'id_parent' => 36,
-                'value' => 'Identifikasi minat terhadap musik'
-            ],
-            [
-                'id_intervensi' => 12,
-                'id_parent' => 36,
-                'value' => 'Identifikasi musik yang di sukai'
-            ],
-            
-            // Terapeutik
-            [
-                'id_intervensi' => 12,
-                'id_parent' => 37,
-                'value' => 'Pilih musik yang disukai'
-            ],
-            [
-                'id_intervensi' => 12,
-                'id_parent' => 37,
-                'value' => 'Posisikan dalam posisi yang nyaman'
-            ],
-            [
-                'id_intervensi' => 12,
-                'id_parent' => 37,
-                'value' => 'Batasi ransangan eksternal selama terapi dilakukan (mis, lampu, suara, pengunjung)'
-            ],
-            [
-                'id_intervensi' => 12,
-                'id_parent' => 37,
-                'value' => 'Sediakan peralatan terapi musik'
-            ],
-            [
-                'id_intervensi' => 12,
-                'id_parent' => 37,
-                'value' => 'Berikan terapi musik sesuai indikasi'
-            ],
-            [
-                'id_intervensi' => 12,
-                'id_parent' => 37,
-                'value' => 'Hindari pemberian terapi musik dalam waktu yang lama'
-            ],
-            [
-                'id_intervensi' => 12,
-                'id_parent' => 37,
-                'value' => 'Hindari pemberian terapi musik saat cedera kepala akut'
-            ],
-            
-            // Edukasi
-            [
-                'id_intervensi' => 12,
-                'id_parent' => 38,
-                'value' => 'Jelaskan tujuan dan prosedur terapi musik'
-            ],
-            [
-                'id_intervensi' => 12,
-                'id_parent' => 38,
-                'value' => 'Anjurkan rikes selama mendengarkan musik'
-            ],
-
-            // Id parent 39-41
-            // Id intervensi 12 Terapi Musik
-
-            // Observasi
-            [
-                'id_intervensi' => 13,
-                'id_parent' => 39,
-                'value' => 'Identifikasi penurunan tingkat energi, ketidakmampuan berkonsentrasi, atau gejela lain yang mengganggu kemampuan'
-            ],
-            [
-                'id_intervensi' => 13,
-                'id_parent' => 39,
-                'value' => 'Identifikasi teknik relaksasi yang pernah efektif digunakan'
-            ],
-            [
-                'id_intervensi' => 13,
-                'id_parent' => 39,
-                'value' => 'Identifikasi ketersediaan, kemampuan, dan penggunaan teknik sebelumnya'
-            ],
-            [
-                'id_intervensi' => 13,
-                'id_parent' => 39,
-                'value' => 'Periksa ketegangan otot, frekuansi nadi, tekanan darah, suhu sebelum dan sesudah Latihan'
-            ],
-            [
-                'id_intervensi' => 13,
-                'id_parent' => 39,
-                'value' => 'Monitor respon terhadap terapi relaksasi'
-            ],
-
-            // Terapeutik
-            [
-                'id_intervensi' => 13,
-                'id_parent' => 40,
-                'value' => 'Ciptakan lingkungan terang dan tanpa gangguan dengan pencahayaan dan suhu ruang nyaman'
-            ],
-            [
-                'id_intervensi' => 13,
-                'id_parent' => 40,
-                'value' => 'Berikan informasi tertulis tentang persiapan dan prosedur teknik relaksasi'
-            ],
-            [
-                'id_intervensi' => 13,
-                'id_parent' => 40,
-                'value' => 'Gunakan pakaian longgar'
-            ],
-
-            // Edukasi
-            [
-                'id_intervensi' => 13,
-                'id_parent' => 41,
-                'value' => 'Jelaskan tujuan, manfaat, Batasan dan jenis relaksasi yang tersedia (mis, music, meditasi, napas dalam, relaksasi otot progresif)'
-            ],
-            [
-                'id_intervensi' => 13,
-                'id_parent' => 41,
-                'value' => 'Jelaskan secara rinci intervensi relaksasi yang dipilih'
-            ],
-            [
-                'id_intervensi' => 13,
-                'id_parent' => 41,
-                'value' => 'Anjurkan posisi nyaman'
-            ],
-            [
-                'id_intervensi' => 13,
-                'id_parent' => 41,
-                'value' => 'Anjurkan rileks dan merasakan sensasi relaksasi'
-            ],
-            [
-                'id_intervensi' => 13,
-                'id_parent' => 41,
-                'value' => 'Anjurkan sering mengulangi atau melatih teknik yang di pilih'
-            ],
-
-        ];
-
-        OpsiIntervensi::insert($opsi_intervensi);
-        OpsiIntervensi::insert($sub_option);
-
-
-
-        // foreach ($intervensi as $key => $value) {
-        //     $new_intervensi = Intervensi::updateOrCreate(['value' => $value['value']], $value);
-        //     $new_intervensi->refresh();
-        // }
     }
 }

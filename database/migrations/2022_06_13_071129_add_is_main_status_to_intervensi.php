@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUrlYoutubeToOpsiIntervensi extends Migration
+class AddIsMainStatusToIntervensi extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddUrlYoutubeToOpsiIntervensi extends Migration
      */
     public function up()
     {
-        Schema::table('opsi_intervensi', function (Blueprint $table) {
-            $table->string('url_youtube')->nullable();
+        Schema::table('intervensi', function (Blueprint $table) {
+            $table->boolean('is_main')->default(false);
         });
     }
 
@@ -25,8 +25,8 @@ class AddUrlYoutubeToOpsiIntervensi extends Migration
      */
     public function down()
     {
-        Schema::table('opsi_intervensi', function (Blueprint $table) {
-            $table->dropColumn('url_youtube');
+        Schema::table('intervensi', function (Blueprint $table) {
+            $table->dropColumn('is_main');
         });
     }
 }

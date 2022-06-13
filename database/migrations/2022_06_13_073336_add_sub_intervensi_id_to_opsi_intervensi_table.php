@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUrlYoutubeToIntervensi extends Migration
+class AddSubIntervensiIdToOpsiIntervensiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddUrlYoutubeToIntervensi extends Migration
      */
     public function up()
     {
-        Schema::table('intervensi', function (Blueprint $table) {
-            $table->string('url_youtube')->nullable();
+        Schema::table('opsi_intervensi', function (Blueprint $table) {
+            $table->unsignedBigInteger('sub_intervensi_id')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddUrlYoutubeToIntervensi extends Migration
      */
     public function down()
     {
-        Schema::table('intervensi', function (Blueprint $table) {
-            $table->dropColumn('url_youtube');
+        Schema::table('opsi_intervensi', function (Blueprint $table) {
+            $table->dropColumn('sub_intervensi_id');
         });
     }
 }

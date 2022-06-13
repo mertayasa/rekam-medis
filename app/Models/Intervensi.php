@@ -16,11 +16,21 @@ class Intervensi extends Model
     protected $fillable = [
         'value',
         'keterangan',
-        'url_youtube',
+        'is_main'
+        // 'url_youtube',
+    ];
+
+    protected $casts = [
+        'is_main' => 'boolean',
     ];
     
     public function opsi_intervensi()
     {
         return $this->hasMany(OpsiIntervensi::class, 'id_intervensi');
+    }
+
+    public function url_yt_intervensi()
+    {
+        return $this->hasMany(UrlYtIntervensi::class, 'id_intervensi');
     }
 }

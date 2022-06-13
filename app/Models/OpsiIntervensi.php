@@ -18,6 +18,7 @@ class OpsiIntervensi extends Model
         'id_intervensi',
         'id_parent',
         'url_youtube',
+        'sub_intervensi_id'
     ];
 
     public function intervensi()
@@ -28,10 +29,5 @@ class OpsiIntervensi extends Model
     public function opsi_child()
     {
         return $this->hasMany(OpsiIntervensi::class, 'id_parent');
-    }
-
-    public function opsi_parent()
-    {
-        return $this->belongsTo(OpsiIntervensi::class, 'id_parent');
     }
 }

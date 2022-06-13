@@ -199,7 +199,7 @@
                 }
             })
 
-            // Alpine.store('rmedis').validateCheckbox('check_only')
+            console.log(Alpine.store('rmedis').intervensi)
         })
     </script>
 @endpush

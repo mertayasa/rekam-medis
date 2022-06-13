@@ -191,7 +191,8 @@ class RekamMedisController extends Controller
         $tanda_minor = $common_data['tanda_minor'];
         $etiologi = $common_data['etiologi'];
         $etiologi = Etiologi::all();
-        $intervensi = Intervensi::with('opsi_intervensi', 'opsi_intervensi.opsi_child')->get(['id', 'value', 'keterangan', 'url_youtube']);
+        $intervensi = Intervensi::with('opsi_intervensi', 'opsi_intervensi.opsi_child')->get(['id', 'value', 'keterangan', 'is_main']);
+        // $intervensi = Intervensi::with('opsi_intervensi', 'opsi_intervensi.opsi_child')->get(['id', 'value', 'keterangan', 'url_youtube']);
 
         $etiologi = $etiologi->map(function ($etio) use($pengkajian) {
             if(isset($pengkajian['etiologi']) && in_array($etio->id, json_decode($pengkajian['etiologi']))){
@@ -223,10 +224,10 @@ class RekamMedisController extends Controller
                 }
             }
 
-            if($inter->url_youtube){
-                $url_yt = explode('/', $inter->url_youtube);
-                $inter->id_youtube = end($url_yt);
-            }
+            // if($inter->url_youtube){
+            //     $url_yt = explode('/', $inter->url_youtube);
+            //     $inter->id_youtube = end($url_yt);
+            // }
 
             return $inter;
         });
@@ -727,14 +728,14 @@ class RekamMedisController extends Controller
             return $opsi->whereIn('id', json_decode(($luaran['intervensi_child'] ?? "[]")));
         })->get();
 
-        $intervensi = $intervensi->map(function ($inter) use($luaran) {
-            if($inter->url_youtube){
-                $url_yt = explode('/', $inter->url_youtube);
-                $inter->id_youtube = end($url_yt);
-            }
+        // $intervensi = $intervensi->map(function ($inter) use($luaran) {
+        //     if($inter->url_youtube){
+        //         $url_yt = explode('/', $inter->url_youtube);
+        //         $inter->id_youtube = end($url_yt);
+        //     }
 
-            return $inter;
-        });
+        //     return $inter;
+        // });
 
         $data = [
             'pasien' => $pasien,
