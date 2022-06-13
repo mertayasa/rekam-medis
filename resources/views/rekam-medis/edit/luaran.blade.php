@@ -199,7 +199,7 @@
                 }
             })
 
-            console.log(Alpine.store('rmedis').intervensi)
+            // console.log(Alpine.store('rmedis').intervensi)
         })
     </script>
 @endpush

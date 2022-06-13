@@ -154,6 +154,17 @@ class IntervensiSeeder extends Seeder
                 'value' => 'Teknik Distraksi',
                 'keterangan' => 'Mengalihkan perhatian atau mengurangi emosi dan pikiran negatif terhadap sensasi yang tidak diinginkan',
                 'is_main' => false,
+                'url_yt' => [
+                    [
+                        'value' => 'https://youtu.be/OgbGCmbqCtU'
+                    ],
+                    [
+                        'value' => 'https://youtu.be/GRYn9Ub2BLM'
+                    ],
+                    [
+                        'value' => 'https://youtu.be/T6RgtIV8aQ0'
+                    ],
+                ],
                 'opsi' => [
                     [
                         'value' => 'Observasi',

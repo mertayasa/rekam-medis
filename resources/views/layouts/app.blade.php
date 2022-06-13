@@ -25,6 +25,9 @@
         .btn{
             font-weight: 600 !important;
         }
+        .container {
+            max-width: 1500px;
+        }
     </style>
     <link rel="stylesheet" type="text/css" href=" {{ asset('plugin/datatable/datatables.min.css') }}">
     <link href="{{ asset('plugin/sweetalert2/dist/sweetalert2.css') }}" rel="stylesheet">   
