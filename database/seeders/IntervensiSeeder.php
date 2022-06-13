@@ -29,6 +29,7 @@ class IntervensiSeeder extends Seeder
                 'value' => 'Kompres Dingin',
                 'keterangan' => 'Melakukan stimulasi kulit dan jaringan dengan dingin untuk mengurangi nyeri, peradangan dan mendapatkan efek terapeutik lainnya melalui paparan dingin. Kompres dingin bisa digunakan untuk cedera akut yang terjadi dalam 24-48 jam setelah cedera. ',
                 'is_main' => false,
+                'id_parent' => 9,
                 'url_yt' => [
                     [
                         'value' => 'https://youtu.be/RRGVdaCv31M '
@@ -94,6 +95,7 @@ class IntervensiSeeder extends Seeder
                 'value' => 'Kompres Panas',
                 'keterangan' => 'Melakukan stimulasi kulit dan jaringan dengan panas untuk mengurangi nyeri, spasme otot, dan mendapatkan efek terapeutik lainnya melalui paparan panas selama ± 2 menit.',
                 'is_main' => false,
+                'id_parent' => 9,
                 'opsi' => [
                     [
                         'value' => 'Observasi',
@@ -154,6 +156,7 @@ class IntervensiSeeder extends Seeder
                 'value' => 'Teknik Distraksi',
                 'keterangan' => 'Mengalihkan perhatian atau mengurangi emosi dan pikiran negatif terhadap sensasi yang tidak diinginkan',
                 'is_main' => false,
+                'id_parent' => 9,
                 'url_yt' => [
                     [
                         'value' => 'https://youtu.be/OgbGCmbqCtU'
@@ -199,6 +202,7 @@ class IntervensiSeeder extends Seeder
                 'value' => 'Terapi Relaksasi Otot Progresif',
                 'keterangan' => 'Menggunakan Teknik penegangan dan peregangan otot untuk meredakan ketegangan otot, ansietas, nyeri serta meningkatkan kenyamanan, konsentrasi dan kebugaran.',
                 'is_main' => false,
+                'id_parent' => 9,
                 'url_yt' => [
                     [
                         'value' => 'https://youtu.be/BdBFEV9dN6U'
@@ -273,6 +277,7 @@ class IntervensiSeeder extends Seeder
                 'value' => 'Latihan Relaksasi Napas Dalam',
                 'keterangan' => 'Latihan menggerakan dinding dada untuk meningkatkan bersihan jalan napas, meningkatkan pengembangan paru, menguatkan otot – otot napas, dan meningkatkan relaksasi atau rasa nyaman',
                 'is_main' => false,
+                'id_parent' => 9,
                 'url_yt' => [
                     [
                         'value' => 'https://youtu.be/Vs6rTwMsJGk'
@@ -332,6 +337,7 @@ class IntervensiSeeder extends Seeder
                 'value' => 'Terapi Musik',
                 'keterangan' => 'Menggunakan musik untuk membantu mengubah perilaku, perasaan atau fisiologis tubuh',
                 'is_main' => false,
+                'id_parent' => 9,
                 'url_yt' => [
                     [
                         'value' => 'https://youtu.be/OgbGCmbqCtU'
@@ -645,6 +651,7 @@ class IntervensiSeeder extends Seeder
                 'value' => $inter['value'],
                 'keterangan' => $inter['keterangan'],
                 'is_main' => $inter['is_main'] ?? false,
+                'id_parent' => $inter['id_parent'] ?? null
             ]);
 
             if(isset($inter['url_yt'])){

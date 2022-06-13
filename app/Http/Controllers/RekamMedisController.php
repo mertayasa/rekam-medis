@@ -181,18 +181,11 @@ class RekamMedisController extends Controller
 
         $common_data = $this->getCommonData($pasien);
         $pengkajian = $common_data['pengkajian'];
-        // if(isset($pengkajian['durasi_nyeri'])){
-        //     $pengkajian['durasi_nyeri'] = $pengkajian['durasi_nyeri'] == 'kurang_3' ? 'Nyeri < 3bulan' : 'Nyeri > 3bulan';
-        // }else{
-        //     $pengkajian['durasi_nyeri'] = 'Tidak ada keluhan tambahan';
-        // }
-
         $tanda_mayor = $common_data['tanda_mayor'];
         $tanda_minor = $common_data['tanda_minor'];
         $etiologi = $common_data['etiologi'];
         $etiologi = Etiologi::all();
-        $intervensi = Intervensi::with('opsi_intervensi', 'opsi_intervensi.opsi_child')->get(['id', 'value', 'keterangan', 'is_main']);
-        // $intervensi = Intervensi::with('opsi_intervensi', 'opsi_intervensi.opsi_child')->get(['id', 'value', 'keterangan', 'url_youtube']);
+        $intervensi = Intervensi::with('opsi_intervensi', 'opsi_intervensi.opsi_child')->get(['id', 'value', 'keterangan', 'is_main', 'id_parent']);
 
         $etiologi = $etiologi->map(function ($etio) use($pengkajian) {
             if(isset($pengkajian['etiologi']) && in_array($etio->id, json_decode($pengkajian['etiologi']))){
@@ -224,15 +217,8 @@ class RekamMedisController extends Controller
                 }
             }
 
-            // if($inter->url_youtube){
-            //     $url_yt = explode('/', $inter->url_youtube);
-            //     $inter->id_youtube = end($url_yt);
-            // }
-
             return $inter;
         });
-
-        // dd($intervensi);
 
         $luaran['intervensi_child'] = json_decode($luaran['intervensi_child']);
         
@@ -258,6 +244,15 @@ class RekamMedisController extends Controller
     {
         try{
             $data = $request->validated();
+
+            // $selected_intervensi = [];
+            // foreach ($data['intervensi'] as $key => $intervensi) {
+            //     if($intervensi['is_checked']){
+            //         $selected_intervensi[] = $intervensi['id'];
+            //     }
+            // }
+
+            // return response($selected_intervensi);
             $to_update = [
                 'diaphores' => $data['data']['diaphores'] ?? '',
                 'frekuensi_nadi' => $data['data']['frekuensi_nadi'] ?? '',
@@ -280,6 +275,8 @@ class RekamMedisController extends Controller
                 'tekanan_darah' => $data['data']['tekanan_darah'] ?? '',
                 'intervensi_child' => $data['data']['intervensi_child'] ?? [],
             ];
+
+            // return response($to_update);
 
             $to_update_pengkajian = [
                 'durasi_nyeri' => $data['data']['durasi_nyeri'] ?? '',
@@ -356,7 +353,6 @@ class RekamMedisController extends Controller
     {
         $pasien_all = Pasien::get()->pluck('nama_and_rm', 'id');
         $pasien_all->prepend('Cari pasien', '');
-        $implementasi = RekamMedis::getData('implementasi', $pasien->id);
         
         $data = [
             'prev_btn' => [
@@ -404,9 +400,19 @@ class RekamMedisController extends Controller
             return $inter;
         });
 
+        $intervensi = $intervensi->toArray();
+
+        foreach ($intervensi as $key => $inter) {
+            if($inter['id_parent'] != null){
+                $parent_inter = array_search($inter['id_parent'], array_column($intervensi, 'id'));
+                $intervensi[$parent_inter]['another_child'][] = $inter;
+            }
+        }
+
         $implementasi['intervensi_child'] = json_decode($implementasi['intervensi_child']);
         $implementasi['checked_intervensi_child'] = json_decode($implementasi['checked_intervensi_child'] ?? "[]");
 
+        // return view('includes.implementasi.intervensi', ['intervensi' => $intervensi]);
         $checkbox_intervensi = view('includes.implementasi.intervensi', ['intervensi' => $intervensi])->render();
 
         return response([
@@ -423,8 +429,6 @@ class RekamMedisController extends Controller
             $to_update = $request->validated();
             unset($to_update['data']['implementasi']);
             unset($to_update['data']['intervensi_child']);
-
-            // return response($to_update);
 
             foreach ($to_update['data'] as $key => $value) {
                 RekamMedis::updateOrCreate(
@@ -631,7 +635,6 @@ class RekamMedisController extends Controller
     public function lihatDetail(Pasien $pasien)
     {
         $data = $this->getDetailData($pasien);
-
         return view('rekam-medis.show.index', $data);
     }
     
@@ -682,8 +685,6 @@ class RekamMedisController extends Controller
             return $opsi->whereIn('id', json_decode(($rekam_medis['luaran']['intervensi_child'] ?? "[]")));
         })->get();
 
-        // dd($rekam_medis['implementasi']['checked_intervensi_child']);
-
         $intervensi->map(function($inter) use($rekam_medis, $pasien){
             $inter->opsi_intervensi = $inter->opsi_intervensi->map(function($opsi) use($rekam_medis){
                 $opsi->opsi_child->map(function($child) use($rekam_medis){
@@ -696,9 +697,12 @@ class RekamMedisController extends Controller
             return $inter;
         });
 
+        $intervensi = $intervensi->toArray();
+
         foreach ($intervensi as $key => $inter) {
-            if($inter->url_youtube){
-                $rekam_medis['luaran']['share_link'] = route('rekam_intervensi.share', $pasien->id);
+            if($inter['id_parent'] != null){
+                $parent_inter = array_search($inter['id_parent'], array_column($intervensi, 'id'));
+                $intervensi[$parent_inter]['another_child'][] = $inter;
             }
         }
 

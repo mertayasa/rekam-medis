@@ -16,7 +16,8 @@ class Intervensi extends Model
     protected $fillable = [
         'value',
         'keterangan',
-        'is_main'
+        'is_main',
+        'id_parent'
         // 'url_youtube',
     ];
 

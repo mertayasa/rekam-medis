@@ -51,6 +51,7 @@ class LuaranRequest extends FormRequest
             'etiologi' => ['nullable'],
             'tanda_mayor' => ['nullable'],
             'tanda_minor' => ['nullable'],
+            'intervensi' => ['nullable']
         ];
     }
 

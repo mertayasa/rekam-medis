@@ -150,8 +150,6 @@
                             this.data.checked_intervensi_child.splice(indexChild, 1);
                         }
                     }
-
-                    console.log(this.data.checked_intervensi_child);
                 },
                 store(event) {
                     clearFlash()

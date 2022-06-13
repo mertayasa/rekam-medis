@@ -67,17 +67,30 @@
                 etiologi: JSON.parse(`{!! json_encode($etiologi) !!}`),
                 intervensi: JSON.parse(`{!! json_encode($intervensi) !!}`),
                 selectedIntervensi: {},
+                selectedIdChild: null,
                 is_submitable: true,
                 showIntervensiOpt($event) {
                     const target = $event.target
                     if (target.checked == true || target.nodeName == 'BUTTON') {
                         const interIndex = target.getAttribute('value')
                         const intervensi = this.intervensi[interIndex]
+
+                        const selectedIdChild = target.getAttribute('data-id-child')
+                        this.selectedIdChild = selectedIdChild
+
                         const intervensiDiv = document.getElementsByClassName('intervensi-div')
                         for (let indexDiv = 0; indexDiv < intervensiDiv.length; indexDiv++) {
                             const element = intervensiDiv[indexDiv];
                             element.classList.add('d-none')
                         }
+
+                        const interSubIndex = target.getAttribute('value-sub')
+                        if(interSubIndex){
+                            const intervensiSub = this.intervensi[interSubIndex-1]
+                            const selectedSubInterDiv = document.getElementById('intervensi' + intervensiSub.id)
+                            selectedSubInterDiv.classList.remove('d-none')
+                        }
+
 
                         const selectedInterDiv = document.getElementById('intervensi' + intervensi.id)
                         selectedInterDiv.classList.remove('d-none')
@@ -93,17 +106,33 @@
                     const target = event.target
                     const indexIntervensi = target.getAttribute('data-index-intervensi')
                     const idChild = target.getAttribute('data-id-child')
+
+                    let selectedIntervensi = this.intervensi.find(intervensi => intervensi.id == indexIntervensi)
+
                     if (target.checked == true) {
-                        this.data.intervensi_child.push(parseInt(idChild))
-                        this.intervensi[indexIntervensi].is_checked = true
-                    } else {
-                        let indexChild = this.data.intervensi_child.indexOf(parseInt(idChild));
-                        if (indexChild !== -1) {
-                            this.data.intervensi_child.splice(indexChild, 1);
+                        selectedIntervensi.is_checked = true
+                    }
+
+                    const opsiSubIntervensi = document.getElementsByClassName('opsi-inter-sub' + indexIntervensi)
+
+                    let checkedCountSub = 0
+                    for (let indexOpsi = 0; indexOpsi < opsiSubIntervensi.length; indexOpsi++) {
+                        const element = opsiSubIntervensi[indexOpsi];
+                        if(element.checked == true){
+                            checkedCountSub++
                         }
                     }
 
-                    const opsiIntervensi = document.getElementsByClassName('opsi-inter' + indexIntervensi)
+                    const opsiIntervensiMain = document.getElementById('opsiInter' + this.selectedIdChild)
+                    if(checkedCountSub > 0){
+                        opsiIntervensiMain.checked = true
+                    }else{
+                        if(opsiIntervensiMain){
+                            opsiIntervensiMain.checked = false
+                        }
+                    }
+
+                    const opsiIntervensi = document.getElementsByClassName('opsi-inter' + selectedIntervensi.id)
                     let checkedCount = 0
                     for (let indexOpsi = 0; indexOpsi < opsiIntervensi.length; indexOpsi++) {
                         const element = opsiIntervensi[indexOpsi];
@@ -113,8 +142,28 @@
                     }
 
                     if(checkedCount < 1){
-                        this.intervensi[indexIntervensi].is_checked = false
+                        selectedIntervensi.is_checked = false
                     }
+
+                    const allCheckboxChild = document.getElementsByClassName('opsi-child')
+
+                    this.data.intervensi_child = []
+                    for (let checkbox = 0; checkbox < allCheckboxChild.length; checkbox++) {
+                        const element = allCheckboxChild[checkbox];
+                        if(element.checked == true){
+                            this.data.intervensi_child.push(parseInt(element.getAttribute('data-id-child'))) 
+                        }
+                    }
+
+                    // if (target.checked == true) {
+                    //     this.data.intervensi_child.push(parseInt(idChild))
+                    //     selectedIntervensi.is_checked = true
+                    // } else {
+                    //     let indexChild = this.data.intervensi_child.indexOf(parseInt(idChild));
+                    //     if (indexChild !== -1) {
+                    //         this.data.intervensi_child.splice(indexChild, 1);
+                    //     }
+                    // }
                 },
                 validateCheckbox(type) {
                     // const checkedLengthMayor = this.tanda_mayor.filter(item => item.is_checked == true)
@@ -169,6 +218,7 @@
                                 tanda_mayor: this.tanda_mayor,
                                 tanda_minor: this.tanda_minor,
                                 etiologi: this.etiologi,
+                                intervensi: this.intervensi
                             }),
                         })
                         .then(function(response) {
@@ -184,7 +234,7 @@
                             return data
                         })
                         .then(data => {
-                            // console.log(data);
+                            console.log(data);
                             const isEditRmedis = event.target.getAttribute('data-edit-rimplementasi')
                             if (isEditRmedis == 'true') {
                                 return window.location.href = data.redirect_to_rimplementasi
@@ -198,8 +248,6 @@
                         })
                 }
             })
-
-            // console.log(Alpine.store('rmedis').intervensi)
         })
     </script>
 @endpush

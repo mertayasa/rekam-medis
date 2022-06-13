@@ -314,43 +314,7 @@
             <h5><b>Intervensi</b></h5>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped table-secondary">
-                <thead>
-                    <tr>
-                        <th>Subjek</th>
-                        <th>Keterangan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($rekam_medis['intervensi'] as $inter)
-                        <tr>
-                            <td width="300">{{ $inter->value }}</td>
-                            <td>
-                                @forelse ($inter->opsi_intervensi as $opsi)
-                                    @if ($opsi->id_parent == null)
-                                        <b>{{ $opsi->value }}</b>
-                                        <ul class="mb-0">
-                                            @forelse ($opsi->opsi_child as $child)
-                                                @if ($child->is_checked == true)
-                                                    <li> {{ $child->value }} </li>
-                                                @endif
-                                            @empty
-                                                <li>Tidak Ada Opsi Yang dipilih</li>
-                                            @endforelse
-                                        </ul>
-                                    @endif        
-                                @empty
-                                    <p>Tidak Ada Opsi Yang Dipilih</p>
-                                @endforelse
-                            </td>
-                        </tr>
-                    @empty
-                        <td colspan="2">Tidak ada data intervensi</td>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+        @include('includes.implementasi.intervensi_list', ['intervensi' => $rekam_medis['intervensi'], 'disabled' => true])
 
         <div class="col-12 pb-3 pb-md-0 mt-4">
             <h5><b>Implementasi Keperawatan</b></h5>

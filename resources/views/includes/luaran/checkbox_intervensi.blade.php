@@ -26,7 +26,7 @@
             <div class="col-12 col-md-6">
                 @foreach ($intervensi as $key => $interven)
                     @if ($interven->is_main)
-                        <div id="intervensi{{ $interven->id }}" class=" intervensi-div">
+                        <div id="intervensi{{ $interven->id }}" class="d-none intervensi-div">
                             <p class="mb-1"><b>{{ $interven->value }}</b></p>
                             <p> <b>Definisi : </b> {{ $interven->keterangan }}</p>
                             @foreach ($interven->opsi_intervensi as $key_opsi => $opsi)
@@ -34,10 +34,10 @@
                                     <p class="mb-1"><b>{{ $key_opsi+1 }}</b> {{ $opsi->value }} </p>
                                     @foreach ($opsi->opsi_child as $child_key => $child)
                                         <div class="form-check">
-                                            <input class="form-check-input opsi-inter{{ $key }}" id="opsiInter{{ $child->id }}" type="checkbox" @if ($child->is_checked == true) checked @endif x-on:change="$store.rmedis.setCheckedIntervensi($event)" data-id-child="{{ $child->id }}" data-index-intervensi="{{ $key }}">
+                                            <input class="form-check-input opsi-child opsi-inter{{ $interven->id }}" id="opsiInter{{ $child->id }}" type="checkbox" @if ($child->is_checked == true) checked @endif x-on:change="$store.rmedis.setCheckedIntervensi($event)" data-id-child="{{ $child->id }}" data-index-intervensi="{{ $interven->id }}">
                                             <label class="form-check-label" for="opsiInter{{ $child->id }}">{{ $child->value }}</label>
                                             @if ($child->sub_intervensi_id != null)
-                                                <small> <button type="button" class="btn btn-sm text-primary" x-on:click="$store.rmedis.showIntervensiOpt($event)" value="{{ $key }}">Lihat Opsi</button> </small>
+                                                <small> <button type="button" class="btn btn-sm text-primary" x-on:click="$store.rmedis.showIntervensiOpt($event)" value="{{ $key }}" value-sub="{{ $child->sub_intervensi_id }}" data-id-child="{{ $child->id }}">Lihat Opsi</button> </small>
                                             @endif
                                         </div>
                                     @endforeach
@@ -56,7 +56,7 @@
             <div class="col-12 col-md-6">
                 @foreach ($intervensi as $key => $interven)
                     @if ($interven->is_main == false)
-                        <div id="intervensi{{ $interven->id }}" class="intervensi-div">
+                        <div id="intervensi{{ $interven->id }}" class="d-none intervensi-div">
                             <p class="mb-1"><b>{{ $interven->value }}</b></p>
                             <p> <b>Definisi : </b> {{ $interven->keterangan }}</p>
                             @foreach ($interven->opsi_intervensi as $key_opsi => $opsi)
@@ -64,7 +64,7 @@
                                     <p class="mb-1"><b>{{ $key_opsi+1 }}</b> {{ $opsi->value }} </p>
                                     @foreach ($opsi->opsi_child as $child_key => $child)
                                         <div class="form-check">
-                                            <input class="form-check-input opsi-inter{{ $key }}" id="opsiInter{{ $child->id }}" type="checkbox" @if ($child->is_checked == true) checked @endif x-on:change="$store.rmedis.setCheckedIntervensi($event)" data-id-child="{{ $child->id }}" data-index-intervensi="{{ $key }}">
+                                            <input class="form-check-input opsi-child opsi-inter-sub{{ $interven->id_parent }}" id="opsiInter{{ $child->id }}" type="checkbox" @if ($child->is_checked == true) checked @endif x-on:change="$store.rmedis.setCheckedIntervensi($event)" data-id-child="{{ $child->id }}" data-index-intervensi="{{  $interven->id_parent }}">
                                             <label class="form-check-label" for="opsiInter{{ $child->id }}">{{ $child->value }}</label>
                                         </div>
                                     @endforeach
