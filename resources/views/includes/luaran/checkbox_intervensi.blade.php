@@ -26,7 +26,7 @@
             <div class="col-12 col-md-6">
                 @foreach ($intervensi as $key => $interven)
                     @if ($interven->is_main)
-                        <div id="intervensi{{ $interven->id }}" class="d-none intervensi-div">
+                        <div id="intervensi{{ $interven->id }}" class=" intervensi-div">
                             <p class="mb-1"><b>{{ $interven->value }}</b></p>
                             <p> <b>Definisi : </b> {{ $interven->keterangan }}</p>
                             @foreach ($interven->opsi_intervensi as $key_opsi => $opsi)
@@ -36,6 +36,9 @@
                                         <div class="form-check">
                                             <input class="form-check-input opsi-inter{{ $key }}" id="opsiInter{{ $child->id }}" type="checkbox" @if ($child->is_checked == true) checked @endif x-on:change="$store.rmedis.setCheckedIntervensi($event)" data-id-child="{{ $child->id }}" data-index-intervensi="{{ $key }}">
                                             <label class="form-check-label" for="opsiInter{{ $child->id }}">{{ $child->value }}</label>
+                                            @if ($child->sub_intervensi_id != null)
+                                                <small> <button type="button" class="btn btn-sm text-primary" x-on:click="$store.rmedis.showIntervensiOpt($event)" value="{{ $key }}">Lihat Opsi</button> </small>
+                                            @endif
                                         </div>
                                     @endforeach
                                     <div class="mb-2"></div>
@@ -53,7 +56,7 @@
             <div class="col-12 col-md-6">
                 @foreach ($intervensi as $key => $interven)
                     @if ($interven->is_main == false)
-                        <div id="subintervensi{{ $interven->id }}" class="d-none sub-intervensi-div">
+                        <div id="intervensi{{ $interven->id }}" class="intervensi-div">
                             <p class="mb-1"><b>{{ $interven->value }}</b></p>
                             <p> <b>Definisi : </b> {{ $interven->keterangan }}</p>
                             @foreach ($interven->opsi_intervensi as $key_opsi => $opsi)
