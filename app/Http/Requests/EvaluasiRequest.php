@@ -37,7 +37,6 @@ class EvaluasiRequest extends FormRequest
             'data.durasi_nyeri' => ['required'],
             'data.region' => ['required'],
             'data.severity' => ['required'],
-            // 'data.tanda_objektif' => ['required'],
             'data.time' => ['required'],
             'data.time_periksa' => ['required'],
         ];
@@ -64,6 +63,7 @@ class EvaluasiRequest extends FormRequest
             'data.severity.required' => trans('validation.required', ['attribute' => 'severity']),
             'data.tanda_objektif.required' => trans('validation.required', ['attribute' => 'tanda_objektif']),
             'data.time.required' => trans('validation.required', ['attribute' => 'time']),
+            'data.time_periksa.required' => trans('validation.required', ['attribute' => 'time']),
         ];
     }
 }

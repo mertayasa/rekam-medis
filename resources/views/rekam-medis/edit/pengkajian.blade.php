@@ -78,6 +78,9 @@
                 <button type="button" x-bind:disabled="$store.rmedis.is_submitable == false" class="btn btn-sm btn-warning" data-edit-rdiagnosa="true" x-on:click="$store.rmedis.store($event)">
                     Simpan & Edit Diagnosa <i class="fas fa-arrow-alt-circle-right"></i>
                 </button>
+                <a href="{{ route('rekam.edit_diagnosa', $pasien->id) }}" class="btn btn-sm btn-info">
+                    Lewati <i class="fas fa-arrow-alt-circle-right"></i>
+                </a>
             </div>
         </div>
     </div>

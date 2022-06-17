@@ -75,9 +75,19 @@
                         <button type="button" class="btn btn-sm btn-warning" data-edit-revaluasi="true" x-on:click="$store.rmedis.store($event)">
                             Simpan & Edit Evaluasi <i class="fas fa-arrow-alt-circle-right"></i>
                         </button>
+                        <a href="{{ route('rekam.edit_evaluasi', $pasien->id) }}" class="btn btn-sm btn-info">
+                            Lewati <i class="fas fa-arrow-alt-circle-right"></i>
+                        </a>
                     @endif
                 </div>
             {!! Form::close() !!}
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header">Riwayat Implementasi</div>
+        <div class="card-body" id="historyContainer">
+
         </div>
     </div>
 @endsection
@@ -129,6 +139,10 @@
                             const intervensiCheckbox = document.getElementById('intervensiCheckbox')
                             intervensiCheckbox.innerHTML = ''
                             intervensiCheckbox.insertAdjacentHTML('beforeend', data.checkbox_intervensi)
+
+                            const historyContainer = document.getElementById('historyContainer')
+                            historyContainer.innerHTML = ''
+                            historyContainer.insertAdjacentHTML('beforeend', data.table_implementasi)
                         })
                         .catch((error) => {
                             console.log(error);
@@ -178,13 +192,15 @@
                             return data
                         })
                         .then(data => {
-                            console.log(data);
+                            // console.log(data);
                             const isEditRmedis = event.target.getAttribute('data-edit-revaluasi')
                             if (isEditRmedis == 'true') {
                                 return window.location.href = data.redirect_to_revaluasi
                             }
 
-                            return window.location.reload()
+                            showSwalAlert('success', 'Berhasil menyimpan data evaluasi')
+                            this.getImplementasi(this.pasien.id)
+                            window.location.href = '#historyContainer'
                         })
                         .catch((error) => {
                             Alpine.store('global').showFlash('Terjadi kesalahan pada sistem', 'error')

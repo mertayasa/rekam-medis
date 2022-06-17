@@ -2,17 +2,17 @@
 
 2. (DONE) Hubungan wali pilihan suami atau istri ditambahin
 
-3. Evaluasi keperawatan dibuatin tab baru (dibawah tab implementasi keperawatan)
+3. (DONE) Evaluasi keperawatan dibuatin tab baru (dibawah tab implementasi keperawatan)
 
 4. (DONE) Utk intervensi ditambah nama perawat dan tgl buat intervensinya
 
-5. Bagian tindakan keperawatan apa bisa dilihatin juga riwayat yg ngisi tindakan keeprawatan kak? Soalnya kalo diisi tindakan keperawatan yg baru, riwayat pengisian sebelumnya hilang (  ditambahkan biar bisa keliatan riwayat tindakan sebelumnya. Jadi dalam satu halaman bisa keliatan tindakan yg sudah dilakukan)
+5. (DONE) Bagian tindakan keperawatan apa bisa dilihatin juga riwayat yg ngisi tindakan keeprawatan kak? Soalnya kalo diisi tindakan keperawatan yg baru, riwayat pengisian sebelumnya hilang (  ditambahkan biar bisa keliatan riwayat tindakan sebelumnya. Jadi dalam satu halaman bisa keliatan tindakan yg sudah dilakukan)
 
-5. "Keluhan tambahan" dengan opsi lebih dari 3 bulan atau kurang dari 3 bulan dimasukkin ke time (tetep dibuat dlm bentuk opsi yg bisa dipilih salah satu aja"
+5. (DONE) "Keluhan tambahan" dengan opsi lebih dari 3 bulan atau kurang dari 3 bulan dimasukkin ke time (tetep dibuat dlm bentuk opsi yg bisa dipilih salah satu aja"
 Trus di bagian (DONE) "data mayor" lebih dari 3 bulan dihapus
 
 6. Trus wktu diprint diliatin juga diagnosa medis + riwayat tindakan keperawatannya
 
 7. Pas Print isi tdd : 1. Ttd perawat, 2. Ttd dokter penanggung jawab pasien
 
-8. Riwayat Evaluasi
+8. (DONE) Riwayat Evaluasi

@@ -142,6 +142,12 @@
                 <button type="button" class="btn btn-sm btn-primary" x-on:click="$store.rmedis.updateEvaluasi($event)">
                     Simpan <i class="fas fa-save"></i>
                 </button>
+
+                @if ($pasien->id != null)
+                    <a href="{{ route('pasien.index') }}" class="btn btn-sm btn-info">
+                        Lewati <i class="fas fa-arrow-alt-circle-right"></i>
+                    </a>
+                @endif
             </div>
             {!! Form::close() !!}
         </div>

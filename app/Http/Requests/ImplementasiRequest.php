@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ImplementasiRequest extends FormRequest
 {
@@ -26,9 +28,27 @@ class ImplementasiRequest extends FormRequest
         return [
             'data' => ['required', 'array'],
             'data.checked_intervensi_child' => ['nullable', 'array'],
-            'data.date' => ['nullable', 'date'],
+            'data.date' => ['required', 'date'],
             'data.time' => ['nullable'],
             'data.perawat_pelaksana' => ['required', 'max:255']
+        ];
+
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'message' => $validator->errors()
+            ], 422)
+        );
+    }
+
+    public function messages()
+    {
+        return [
+            'data.date.required' => trans('validation.required', ['attribute' => 'tanggal']),
+            'data.perawat_pelaksana.required' => trans('validation.required', ['attribute' => 'perawat pelaksana']),
         ];
     }
 }

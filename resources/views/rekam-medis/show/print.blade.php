@@ -8,7 +8,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <section class="content">
+    <section class="content mb-5">
+
         <div class="col-12 pb-3 pb-md-0">
             <h5><b>Biodata Pasien</b></h5>
         </div>
@@ -75,6 +76,7 @@
             </tr>
         </table>
 
+
         <hr>
 
         <div class="col-12 pb-3 pb-md-0 mt-4">
@@ -97,10 +99,6 @@
                     <tr>
                         <td>Pasien Mengeluh Nyeri</td>
                         <td>{{ isset($rekam_medis['pengkajian']['is_mengeluh_nyeri']) && $rekam_medis['pengkajian']['is_mengeluh_nyeri'] == true ? 'Ya' : 'Tidak' }}</td>
-                    </tr>
-                    <tr>
-                        <td>Keluhan Tambahan</td>
-                        <td>{{ $rekam_medis['pengkajian']['durasi_nyeri'] ?? '-' }}</td>
                     </tr>
                     <tr>
                         <td>Tanda Mayor</td>
@@ -162,7 +160,10 @@
                     </tr>
                     <tr>
                         <td>Time</td>
-                        <td>{{ $rekam_medis['pengkajian']['time'] ?? '-' }}</td>
+                        <td>
+                            {{ $rekam_medis['pengkajian']['durasi_nyeri'] ?? '-' }} <br>
+                            {{ $rekam_medis['pengkajian']['time'] ?? '-' }}
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -184,12 +185,14 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td width="200">Diagnosa Medis</td>
+                        <td width="200">Diagnosa Keperawatan</td>
                         <td>{{ $rekam_medis['diagnosa']['diagnosa'] ?? '-' }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
+        <hr>
 
         <div class="col-12 pb-3 pb-md-0 mt-4">
             <h5><b>Luaran</b></h5>
@@ -204,10 +207,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td width="200">Penyakit</td>
-                        <td>{{ $rekam_medis['luaran']['nama_penyakit'] ?? '-' }}</td>
-                    </tr>
                     <tr>
                         <td width="200">Penyakit</td>
                         <td>{{ $rekam_medis['luaran']['nama_penyakit'] ?? '-' }}</td>
@@ -310,97 +309,53 @@
             </table>
         </div>
 
-        <div class="col-12 pb-3 pb-md-0 mt-4">
-            <h5><b>Intervensi</b></h5>
+        <div class="col-12 pb-3 pb-md-0 mt-4 mb-2">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <h5><b>Intervensi</b></h5>
+                </div>
+            </div>
         </div>
 
         @include('includes.implementasi.intervensi_list', ['intervensi' => $rekam_medis['intervensi'], 'disabled' => true, 'hide_yt' => true])
 
-        <div class="col-12 pb-3 pb-md-0 mt-4">
-            <h5><b>Implementasi Keperawatan</b></h5>
-        </div>
-
-        @include('includes.implementasi.intervensi', ['intervensi' => $rekam_medis['intervensi'], 'disabled' => true])
+        <hr>
 
         <div class="col-12 pb-3 pb-md-0 mt-4">
-            <h5><b>Evaluasi</b></h5>
+            <h5><b>Riwayat Implementasi Keperawatan</b></h5>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped table-secondary">
-                <thead>
-                    <tr>
-                        <th>Subjek</th>
-                        <th>Keterangan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Rasa Nyeri</td>
-                        <td>{{ getRasaNyeri($rekam_medis['evaluasi']['rasa_nyeri'] ?? '-') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Keluhan Tambahan</td>
-                        <td>{{ $rekam_medis['evaluasi']['durasi_nyeri'] ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <td>Tanda Mayor</td>
-                        <td>
-                            <ul class="mb-0">
-                                @forelse ($rekam_medis['evaluasi']['tanda_mayor'] as $tanda_mayor)
-                                        @if ($tanda_mayor->is_checked == true)
-                                            <li> {{ $tanda_mayor->value }} </li>
-                                        @endif
-                                @empty
-                                    <li>Tidak Ada Tanda Mayor</li>
-                                @endforelse
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Tanda Minor</td>
-                        <td>
-                            <ul class="mb-0">
-                                @forelse ($rekam_medis['evaluasi']['tanda_minor'] as $tanda_minor)
-                                        @if ($tanda_minor->is_checked == true)
-                                            <li> {{ $tanda_minor->value }} </li>
-                                        @endif
-                                @empty
-                                    <li>Tidak Ada Tanda Minor</li>
-                                @endforelse
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Provoking</td>
-                        <td>{{ $rekam_medis['evaluasi']['provoking'] ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <td>Quality</td>
-                        <td>{{ $rekam_medis['evaluasi']['quality'] ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <td>Region</td>
-                        <td>{{ $rekam_medis['evaluasi']['region'] ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <td>Severity</td>
-                        <td>{{ $rekam_medis['evaluasi']['severity'] ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <td>Time</td>
-                        <td>{{ $rekam_medis['evaluasi']['time'] ?? '-' }}</td>
-                    </tr>
-                    <tr>
-                        <td>Analisa</td>
-                        <td>{{ getAnalisa($rekam_medis['evaluasi']['analisa'] ?? '-') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Planning</td>
-                        <td>{{ $rekam_medis['evaluasi']['planning'] ?? '-' }}</td>
-                    </tr>
-                </tbody>
-            </table>
+        @include('includes.history.implementasi', ['value_implementasi' => $history_implementasi ?? []])
+
+        <hr>
+
+        <div class="col-12 pb-3 pb-md-0 mt-4">
+            <h5><b>Riwayat Evaluasi</b></h5>
+        </div>
+
+        @include('includes.history.evaluasi', ['value_evaluasi' => $history_evaluasi ?? []])
+
+    </section>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <section class="container mt-5">
+        <div class="row">
+            <div class="col-4">
+                <h6 class="text-center pb-3">Perawat</h6>
+                <h5 class="mt-5 text-center">......................................</h5>
+            </div>
+            <div class="col-4">
+
+            </div>
+            <div class="col-4">
+                <h6 class="text-center pb-3">Dokter Penanggung Jawab</h6>
+                <h5 class="mt-5 text-center">......................................</h5>
+            </div>
         </div>
     </section>
 </body>

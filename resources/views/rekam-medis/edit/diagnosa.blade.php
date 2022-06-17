@@ -21,6 +21,9 @@
                     <button type="button" class="btn btn-sm btn-warning" data-edit-rluaran="true" x-on:click="$store.rmedis.store($event)">
                         Simpan & Edit Luaran <i class="fas fa-arrow-alt-circle-right"></i>
                     </button>
+                    <a href="{{ route('rekam.edit_luaran', $pasien->id) }}" class="btn btn-sm btn-info">
+                        Lewati <i class="fas fa-arrow-alt-circle-right"></i>
+                    </a>
                 </div>
             {!! Form::close() !!}
         </div>

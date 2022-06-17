@@ -24,7 +24,8 @@
                                         @foreach ($opsi['opsi_child'] as $child)
                                             @if ($child['is_checked'] == true)
                                                     <div class="form-check">
-                                                        <input class="form-check-input opsi-inter{{ $key }}" @if (isset($disabled) && $disabled == true) disabled @endif id="opsiInter{{ $child['id'] }}" type="checkbox" @if ($child['implementasi_is_checked'] == true) checked @endif x-on:change="$store.rmedis.setCheckedIntervensi($event)" data-id-child="{{ $child['id'] }}" data-index-intervensi="{{ $key }}">
+                                                        <input class="form-check-input opsi-inter{{ $key }}" @if (isset($disabled) && $disabled == true) disabled @endif id="opsiInter{{ $child['id'] }}" type="checkbox" @if ($child['implementasi_is_checked'] == true && (isset($set_checked) && $set_checked == true)) checked @endif x-on:change="$store.rmedis.setCheckedIntervensi($event)" data-id-child="{{ $child['id'] }}" data-index-intervensi="{{ $key }}">
+                                                        {{-- <input class="form-check-input opsi-inter{{ $key }}" @if (isset($disabled) && $disabled == true) disabled @endif id="opsiInter{{ $child['id'] }}" type="checkbox" x-on:change="$store.rmedis.setCheckedIntervensi($event)" data-id-child="{{ $child['id'] }}" data-index-intervensi="{{ $key }}"> --}}
                                                         <label class="form-check-label" for="opsiInter{{ $child['id'] }}">{{ $child['value'] }}</label>
                                                     </div>
                                                 @php
@@ -53,7 +54,8 @@
                                                 @foreach ($opsi['opsi_child'] as $child)
                                                     @if ($child['is_checked'] == true)
                                                             <div class="form-check">
-                                                                <input class="form-check-input opsi-inter{{ $key }}" @if (isset($disabled) && $disabled == true) disabled @endif id="opsiInter{{ $child['id'] }}" type="checkbox" @if ($child['implementasi_is_checked'] == true) checked @endif x-on:change="$store.rmedis.setCheckedIntervensi($event)" data-id-child="{{ $child['id'] }}" data-index-intervensi="{{ $key }}">
+                                                                <input class="form-check-input opsi-inter{{ $key }}" @if (isset($disabled) && $disabled == true) disabled @endif id="opsiInter{{ $child['id'] }}" type="checkbox" @if ($child['implementasi_is_checked'] == true && (isset($set_checked) && $set_checked == true)) checked @endif x-on:change="$store.rmedis.setCheckedIntervensi($event)" data-id-child="{{ $child['id'] }}" data-index-intervensi="{{ $key }}">
+                                                                {{-- <input class="form-check-input opsi-inter{{ $key }}" @if (isset($disabled) && $disabled == true) disabled @endif id="opsiInter{{ $child['id'] }}" type="checkbox" x-on:change="$store.rmedis.setCheckedIntervensi($event)" data-id-child="{{ $child['id'] }}" data-index-intervensi="{{ $key }}"> --}}
                                                                 <label class="form-check-label" for="opsiInter{{ $child['id'] }}">{{ $child['value'] }}</label>
                                                             </div>
                                                         @php
