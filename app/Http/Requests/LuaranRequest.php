@@ -48,6 +48,9 @@ class LuaranRequest extends FormRequest
             'data.tekanan_darah' => ['nullable'],
             'data.durasi_nyeri' => ['nullable'],
             'data.intervensi_child' => ['nullable'],
+            'data.perawat_pelaksana' => ['required'],
+            'data.date' => ['required'],
+            'data.time' => ['required'],
             'etiologi' => ['nullable'],
             'tanda_mayor' => ['nullable'],
             'tanda_minor' => ['nullable'],
@@ -88,6 +91,9 @@ class LuaranRequest extends FormRequest
             'data.tekanan_darah.required' => trans('validation.required', ['attribute' => 'tekanan darah']),
             'data.durasi_nyeri.required' => trans('validation.required', ['attribute' => 'durasi nyeri']),
             'data.intervensi_child.required' => trans('validation.required', ['attribute' => 'intervensi']),
+            'data.perawat_pelaksana.required' => trans('validation.required', ['attribute' => 'perawat']),
+            'data.date.required' => trans('validation.required', ['attribute' => 'tanggal']),
+            'data.time.required' => trans('validation.required', ['attribute' => 'jam']),
         ];
     }
 }

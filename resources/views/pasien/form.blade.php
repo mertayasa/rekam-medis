@@ -52,11 +52,13 @@
         {!! Form::text('kontak_wali', null, ['class' => 'form-control', 'id' => 'kontak_wali']) !!}
     </div>
     <div class="col-12 mt-2  pb-3 pb-md-0">
-        {!! Form::label('hubungan_wali', 'Kontak Wali', ['class' => 'mb-1']) !!}
+        {!! Form::label('hubungan_wali', 'Hubungan Wali', ['class' => 'mb-1']) !!}
         {!! Form::select( 'hubungan_wali',
             [
                 'Ayah' => 'Ayah',
                 'Ibu' => 'Ibu',
+                'Suami' => 'Suami',
+                'Istri' => 'Istri',
                 'Kakek' => 'Kakek',
                 'Nenek' => 'Nenek',
                 'Kakak' => 'Kakak',

@@ -274,6 +274,8 @@ class RekamMedisController extends Controller
                 'sikap_protektif' => $data['data']['sikap_protektif'] ?? '',
                 'tekanan_darah' => $data['data']['tekanan_darah'] ?? '',
                 'intervensi_child' => $data['data']['intervensi_child'] ?? [],
+                'perawat_pelaksana' => $data['data']['perawat_pelaksana'] ?? [],
+                'date' => $data['data']['date'] ?? [],
             ];
 
             // return response($to_update);
@@ -453,11 +455,40 @@ class RekamMedisController extends Controller
 
     public function editEvaluasi(Pasien $pasien)
     {
-        $evaluasi = RekamMedis::getData('evaluasi', $pasien->id);
-        if($evaluasi == []){
-            $evaluasi['evaluasi'] = '';
-        }
+        $pasien_all = Pasien::get()->pluck('nama_and_rm', 'id');
+        $pasien_all->prepend('Cari pasien', '');
 
+        $data = [
+            'prev_btn' => [
+                'url' => route('rekam.edit_implementasi', $pasien->id),
+                'label' => 'Kembali ke halaman implementasi'
+            ],
+            'pasien_all' => $pasien_all,
+            'pasien' => $pasien,
+            'tanda_mayor' => TandaMayor::all(),
+            'tanda_minor' => TandaMinor::all(),
+        ];
+
+        return view('rekam-medis.edit.evaluasi', $data);
+    }
+
+    public function getEvaluasi(Pasien $pasien)
+    {
+        return response([
+            'pasien' => $pasien,
+            'evaluasi' => [
+                'analisa' => '',
+                'planning' => '',
+                'provoking' => '',
+                'quality' => '',
+                'rasa_nyeri' => '',
+                'region' => '',
+                'severity' => '',
+                'time' => '',
+            ]
+        ]);
+        $evaluasi = RekamMedis::where('id_pasien', $pasien->id)->where('group', 'evaluasi')->get();
+        return response($evaluasi);
         $tanda_mayor = TandaMayor::all();
         $tanda_minor = TandaMinor::all();
         $tanda_mayor = $tanda_mayor->map(function ($tanda) use($evaluasi) {
@@ -479,24 +510,11 @@ class RekamMedisController extends Controller
 
             return $tanda;
         });
-
-        $data = [
-            'prev_btn' => [
-                'url' => route('rekam.edit_implementasi', $pasien->id),
-                'label' => 'Kembali ke halaman implementasi'
-            ],
-            'tanda_mayor' => $tanda_mayor,
-            'tanda_minor' => $tanda_minor,
-            'pasien' => $pasien,
-            'evaluasi' => $evaluasi
-        ];
-
-        return view('rekam-medis.edit.evaluasi', $data);
     }
 
     public function updateEvaluasi(EvaluasiRequest $request, Pasien $pasien)
     {
-        // return response($request->validated());
+        return response($request->validated());
 
         try{
             $data = $request->validated();

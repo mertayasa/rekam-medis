@@ -25,6 +25,11 @@ class RekamMedis extends Model
         return $this->belongsTo(Pasien::class, 'id_pasien');
     }
 
+    public function rekam_medis_history()
+    {
+        return $this->hasMany(RekamMedisHistory::class, 'id_rekam_medis');
+    }
+
     static function getData($group, $id_pasien, $value = null)
     {
         $result = [];

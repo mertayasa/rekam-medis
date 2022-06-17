@@ -49,7 +49,8 @@ Route::group(['middleware' => ['auth', 'verified']], function (){
             Route::get('luaran/{pasien}', [RekamMedisController::class, 'editLuaran'])->name('edit_luaran');
             Route::get('implementasi/{pasien?}', [RekamMedisController::class, 'editImplementasi'])->name('edit_implementasi');
             Route::get('get-implementasi/{pasien}', [RekamMedisController::class, 'getImplementasi'])->name('get_implementasi');
-            Route::get('evaluasi/{pasien}', [RekamMedisController::class, 'editEvaluasi'])->name('edit_evaluasi');
+            Route::get('evaluasi/{pasien?}', [RekamMedisController::class, 'editEvaluasi'])->name('edit_evaluasi');
+            Route::get('get-evaluasi/{pasien}', [RekamMedisController::class, 'getEvaluasi'])->name('get_evaluasi');
         });
         
         Route::group(['prefix' => 'show'], function () {

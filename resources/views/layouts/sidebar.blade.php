@@ -4,12 +4,16 @@
         <ul class="list-group">
             <a class="text-decoration-none" href="{{ route('pasien.index') }}">
                 <li
-                    class="list-group-item {{ Request::is('*pasien*') || Request::is('*rekam-medis*') ? 'bg-light' : '' }}">
+                    class="list-group-item {{ Request::is('*pasien*') ? 'bg-light' : '' }}">
                     Pasien</li>
             </a>
             <a class="text-decoration-none" href="{{ route('rekam.edit_implementasi') }}">
                 <li
-                    class="list-group-item {{ Request::is('*pasien*') || Request::is('*rekam-medis*') ? 'bg-light' : '' }}">Implementasi Keperawatan</li>
+                    class="list-group-item {{ Request::is('*implementasi*') ? 'bg-light' : '' }}">Implementasi Keperawatan</li>
+            </a>
+            <a class="text-decoration-none" href="{{ route('rekam.edit_evaluasi') }}">
+                <li
+                    class="list-group-item {{ Request::is('*evaluasi*') ? 'bg-light' : '' }}">Evaluasi</li>
             </a>
         </ul>
 

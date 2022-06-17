@@ -14,6 +14,22 @@
                             name="nama_penyakit" id=""> ditandai dengan : </h5>
                 </div>
 
+                <div class="col-12 mt-2  pb-3 pb-3">
+                    <p class="mb-0"> <b> Keluhan Tambahan : </b></p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="durasi_nyeri" id="durasi_nyeri1" value="lebih_3" x-model="$store.rmedis.data.durasi_nyeri">
+                        <label class="form-check-label" for="durasi_nyeri1">
+                            Nyeri > 3bulan
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="durasi_nyeri" id="durasi_nyeri2" value="kurang_3" x-model="$store.rmedis.data.durasi_nyeri">
+                        <label class="form-check-label" for="durasi_nyeri2">
+                            Nyeri < 3bulan
+                        </label>
+                      </div>
+                </div>
+
                 @include('includes.input.data_objektif')
 
                 <div class="col-12 pb-3 mt-3 pb-md-0">
@@ -32,6 +48,27 @@
 
                 <div class="col-12 pb-3 mt-3 pb-md-0">
                     <p class="mb-0"> <b>Intervensi :</b> </p>
+                    <div class="col-12 pb-3">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                {!! Form::label('date', 'Tanggal', ['class' => 'mb-1']) !!}
+                                {!! Form::date('date', null, ['class' => 'form-control', 'id' => 'date', 'x-model' => '$store.rmedis.data.date']) !!}
+                            </div>
+                            <div class="col-12 col-md-6">
+                                {!! Form::label('time', 'Jam', ['class' => 'mb-1']) !!}
+                                {!! Form::time('time', null, ['class' => 'form-control', 'id' => 'time', 'x-model' => '$store.rmedis.data.time']) !!}
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="col-12 pb-3">
+                        <div class="row">
+                            <div class="col-12 mt-2  pb-3 pb-md-0">
+                                {!! Form::label('perawatPelaksana', 'Perawat Pelaksana', ['class' => 'mb-1']) !!}
+                                {!! Form::text('perawat_pelaksana', null, ['class' => 'form-control', 'id' => 'perawatPelaksana', 'x-model' => '$store.rmedis.data.perawat_pelaksana']) !!}
+                            </div>
+                        </div>
+                    </div>
                     @include('includes.luaran.checkbox_intervensi')
                 </div>
             </div>

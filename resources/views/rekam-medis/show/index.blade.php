@@ -84,7 +84,7 @@
         <hr>
 
         <div class="col-12 pb-3 pb-md-0 mt-4">
-            <h5><b>Kajian</b></h5>
+            <h5><b>Pengkajian</b></h5>
         </div>
 
         <div class="table-responsive">

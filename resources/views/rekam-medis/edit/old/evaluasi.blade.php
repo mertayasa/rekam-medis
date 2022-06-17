@@ -1,7 +1,4 @@
 @extends('layouts.app')
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('plugin/select2/dist/css/select2.css') }}">
-@endpush
 
 @section('content')
     <div class="card">
@@ -53,11 +50,11 @@
                     <div class="row">
                         <div class="col-12 col-md-6">
                             {!! Form::label('date', 'Tanggal', ['class' => 'mb-1']) !!}
-                            {!! Form::date('date', null, ['class' => 'form-control', 'id' => 'date']) !!}
+                            {!! Form::date('date', null, ['class' => 'form-control', 'id' => 'date', 'x-model' => '$store.rmedis.data.date']) !!}
                         </div>
                         <div class="col-12 col-md-6">
                             {!! Form::label('time', 'Jam', ['class' => 'mb-1']) !!}
-                            {!! Form::time('time', null, ['class' => 'form-control', 'id' => 'time']) !!}
+                            {!! Form::time('time', null, ['class' => 'form-control', 'id' => 'time', 'x-model' => '$store.rmedis.data.time']) !!}
                         </div>
                     </div>
                 </div>
@@ -66,42 +63,44 @@
                     <div class="row">
                         <div class="col-12 mt-2  pb-3 pb-md-0">
                             {!! Form::label('perawatPelaksana', 'Perawat Pelaksana', ['class' => 'mb-1']) !!}
-                            {!! Form::text('perawat_pelaksana', null, ['class' => 'form-control', 'id' => 'perawatPelaksana']) !!}
+                            {!! Form::text('perawat_pelaksana', null, ['class' => 'form-control', 'id' => 'perawatPelaksana', 'x-model' => '$store.rmedis.data.perawat_pelaksana']) !!}
                         </div>
                     </div>
                 </div>
 
                 <div class="col-12 pb-3 pb-md-0">
                     {!! Form::label('provoking', 'Provoking', ['class' => 'mb-1']) !!}
-                    {!! Form::text('provoking', null, ['class' => 'form-control', 'id' => 'provoking']) !!}
+                    {!! Form::text('provoking', null, ['class' => 'form-control', 'id' => 'provoking', 'x-model' => '$store.rmedis.data.provoking']) !!}
                 </div>
                 <div class="col-12 mt-2  pb-3 pb-md-0">
                     {!! Form::label('quality', 'Quality', ['class' => 'mb-1']) !!}
-                    {!! Form::text('quality', null, ['class' => 'form-control', 'id' => 'quality']) !!}
+                    {!! Form::text('quality', null, ['class' => 'form-control', 'id' => 'quality', 'x-model' => '$store.rmedis.data.quality']) !!}
                 </div>
                 <div class="col-12 mt-2  pb-3 pb-md-0">
                     {!! Form::label('region', 'Region', ['class' => 'mb-1']) !!}
-                    {!! Form::text('region', null, ['class' => 'form-control', 'id' => 'region']) !!}
+                    {!! Form::text('region', null, ['class' => 'form-control', 'id' => 'region', 'x-model' => '$store.rmedis.data.region']) !!}
                 </div>
                 <div class="col-12 mt-2  pb-3 pb-md-0">
                     {!! Form::label('severity', 'Severity', ['class' => 'mb-1']) !!}
-                    {!! Form::text('severity', null, ['class' => 'form-control', 'id' => 'severity']) !!}
+                    {!! Form::text('severity', null, ['class' => 'form-control', 'id' => 'severity', 'x-model' => '$store.rmedis.data.severity']) !!}
                 </div>
                 <div class="col-12 mt-2  pb-3 pb-md-0">
                     {!! Form::label('time', 'Time', ['class' => 'mb-1']) !!}
-                    {!! Form::text('time', null, ['class' => 'form-control', 'id' => 'time']) !!}
+                    {!! Form::text('time', null, ['class' => 'form-control', 'id' => 'time', 'x-model' => '$store.rmedis.data.time']) !!}
                 </div>
 
                 <div class="col-12 mt-2  pb-3 pb-3">
                     {{-- <p class="mb-0"> <b> Keluhan Tambahan : </b></p> --}}
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="durasi_nyeri" id="durasi_nyeri1" value="lebih_3">
+                        <input class="form-check-input" type="radio" name="durasi_nyeri" id="durasi_nyeri1" value="lebih_3"
+                            x-model="$store.rmedis.data.durasi_nyeri">
                         <label class="form-check-label" for="durasi_nyeri1">
                             Nyeri > 3bulan
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="durasi_nyeri" id="durasi_nyeri2" value="kurang_3">
+                        <input class="form-check-input" type="radio" name="durasi_nyeri" id="durasi_nyeri2" value="kurang_3"
+                            x-model="$store.rmedis.data.durasi_nyeri">
                         <label class="form-check-label" for="durasi_nyeri2">
                             Nyeri < 3bulan </label>
                     </div>
@@ -112,19 +111,22 @@
                 <h5 class="mt-3">Analisa</h5>
                 <div class="col-12 mt-2  pb-3 pb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="analisa" id="analisa1" value="teratasi">
+                        <input class="form-check-input" type="radio" name="analisa" id="analisa1" value="teratasi"
+                            x-model="$store.rmedis.data.analisa">
                         <label class="form-check-label" for="analisa1">
                             Masalah Teratasi
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="analisa" id="analisa2" value="teratasi_sebagian">
+                        <input class="form-check-input" type="radio" name="analisa" id="analisa2" value="teratasi_sebagian"
+                            x-model="$store.rmedis.data.analisa">
                         <label class="form-check-label" for="analisa2">
                             Masalah Teratasi Sebagian
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="analisa" id="analisa2" value="belum_teratasi">
+                        <input class="form-check-input" type="radio" name="analisa" id="analisa2" value="belum_teratasi"
+                            x-model="$store.rmedis.data.analisa">
                         <label class="form-check-label" for="analisa2">
                             Masalah Belum Teratasi
                         </label>
@@ -215,38 +217,32 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('plugin/select2/dist/js/select2.js') }}"></script>
     <script>
-        $('select').select2();
-
-        function onChangePasien(value){
-            Alpine.store('rmedis').getEvaluasi(value)
-        }
-
         document.addEventListener('alpine:init', () => {
-            const selectPasien = document.getElementById('selectPasien')
             Alpine.store('rmedis', {
-                data: [],
-                pasien: {},
+                data: JSON.parse(`{!! json_encode($evaluasi) !!}`),
                 tanda_mayor: JSON.parse(`{!! json_encode($tanda_mayor) !!}`),
                 tanda_minor: JSON.parse(`{!! json_encode($tanda_minor) !!}`),
                 validateCheckbox(type) {
                     $('#tandaMayor').modal('hide')
                     $('#tandaMinor').modal('hide')
                 },
-                init(){
-                    this.getEvaluasi(selectPasien.value)
-                },
-                getEvaluasi(value){
-                    if(value != ''){
-                        console.log(value);
-                        fetch("{{ url('rekam-medis/edit/get-evaluasi') }}" + "/" + selectPasien.value, {
+                updateEvaluasi(event) {
+                    clearFlash()
+                    fetch("{{ url('rekam-medis/update/evaluasi') }}", {
                             headers: {
                                 'X-Requested-With': 'XMLHttpRequest',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                                'Content-Type': 'application/json',
                             },
-                            method: 'GET',
-                        }).then(function(response){
+                            method: 'PATCH',
+                            body: JSON.stringify({
+                                data: this.data,
+                                tanda_mayor: this.tanda_mayor,
+                                tanda_minor: this.tanda_minor,
+                            }),
+                        })
+                        .then(function(response) {
                             const data = response.json()
                             if (response.status != 200) {
                                 data.then((res) => {
@@ -255,67 +251,22 @@
                                 })
                                 throw new Error()
                             }
-    
+
                             return data
                         })
                         .then(data => {
-                            console.log(data);
-                            this.data = data.evaluasi
-                            // this.intervensi = data.intervensi
-                            this.pasien = data.pasien
+                            // console.log(data);
+                            // const isEditRmedis = event.target.getAttribute('data-edit-rluaran')
+                            // if (isEditRmedis == 'true') {
+                            //     return window.location.href = data.redirect_to_rluaran
+                            // }
 
-                            // const intervensiCheckbox = document.getElementById('intervensiCheckbox')
-                            // intervensiCheckbox.innerHTML = ''
-                            // intervensiCheckbox.insertAdjacentHTML('beforeend', data.checkbox_intervensi)
+                            return window.location.href = data.redirect_to
                         })
                         .catch((error) => {
-                            console.log(error);
                             Alpine.store('global').showFlash('Terjadi kesalahan pada sistem', 'error')
                             return showSwalAlert('error', 'Terjadi kesalahan pada sistem')
                         })
-                    }
-                },
-                updateEvaluasi(event) {
-                    clearFlash()
-                    console.log(this.data);
-                    // fetch("{{ url('rekam-medis/update/evaluasi') }}" + "/" + this.pasien.id, {
-                    //         headers: {
-                    //             'X-Requested-With': 'XMLHttpRequest',
-                    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    //             'Content-Type': 'application/json',
-                    //         },
-                    //         method: 'PATCH',
-                    //         body: JSON.stringify({
-                    //             data: this.data,
-                    //             tanda_mayor: this.tanda_mayor,
-                    //             tanda_minor: this.tanda_minor,
-                    //         }),
-                    //     })
-                    //     .then(function(response) {
-                    //         const data = response.json()
-                    //         if (response.status != 200) {
-                    //             data.then((res) => {
-                    //                 const message = res.message
-                    //                 Alpine.store('global').showFlash(res.message, 'error')
-                    //             })
-                    //             throw new Error()
-                    //         }
-
-                    //         return data
-                    //     })
-                    //     .then(data => {
-                    //         console.log(data);
-                    //         // const isEditRmedis = event.target.getAttribute('data-edit-rluaran')
-                    //         // if (isEditRmedis == 'true') {
-                    //         //     return window.location.href = data.redirect_to_rluaran
-                    //         // }
-
-                    //         // return window.location.href = data.redirect_to
-                    //     })
-                    //     .catch((error) => {
-                    //         Alpine.store('global').showFlash('Terjadi kesalahan pada sistem', 'error')
-                    //         return showSwalAlert('error', 'Terjadi kesalahan pada sistem')
-                    //     })
                 }
             })
         })

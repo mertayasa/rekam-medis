@@ -28,6 +28,10 @@
         .container {
             max-width: 1500px;
         }
+
+        .form-check-input:disabled~.form-check-label, .form-check-input[disabled]~.form-check-label {
+            opacity: 1;
+        }
     </style>
     <link rel="stylesheet" type="text/css" href=" {{ asset('plugin/datatable/datatables.min.css') }}">
     <link href="{{ asset('plugin/sweetalert2/dist/sweetalert2.css') }}" rel="stylesheet">   
