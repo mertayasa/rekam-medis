@@ -34,10 +34,12 @@ class EvaluasiRequest extends FormRequest
             'data.provoking' => ['required'],
             'data.quality' => ['required'],
             'data.rasa_nyeri' => ['required'],
+            'data.durasi_nyeri' => ['required'],
             'data.region' => ['required'],
             'data.severity' => ['required'],
             // 'data.tanda_objektif' => ['required'],
             'data.time' => ['required'],
+            'data.time_periksa' => ['required'],
         ];
     }
 

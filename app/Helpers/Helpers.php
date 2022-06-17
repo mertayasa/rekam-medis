@@ -52,6 +52,21 @@ function getRasaNyeri($value)
     }
 }
 
+function getDurasiNyeri($value)
+{
+    switch($value){
+        case 'lebih_3':
+            return 'Nyeri > 3 Bulan';
+        break;
+        case 'kurang_3':
+            return 'Nyeri < 3 Bulan';
+        break;
+        default :
+            return '-';
+        break;
+    }
+}
+
 function getAnalisa($value)
 {
     switch($value){

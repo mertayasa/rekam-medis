@@ -278,7 +278,6 @@ class RekamMedisController extends Controller
                 'date' => $data['data']['date'] ?? [],
             ];
 
-            // return response($to_update);
 
             $to_update_pengkajian = [
                 'durasi_nyeri' => $data['data']['durasi_nyeri'] ?? '',
@@ -458,6 +457,19 @@ class RekamMedisController extends Controller
         $pasien_all = Pasien::get()->pluck('nama_and_rm', 'id');
         $pasien_all->prepend('Cari pasien', '');
 
+        $tanda_mayor = TandaMayor::all();
+        $tanda_minor = TandaMinor::all();
+
+        $tanda_mayor->map(function($tanda){
+            $tanda->is_checked = false;
+            return $tanda;
+        });
+
+        $tanda_minor = $tanda_minor->map(function($minor){
+            $minor->is_checked = false;
+            return $minor;
+        });
+
         $data = [
             'prev_btn' => [
                 'url' => route('rekam.edit_implementasi', $pasien->id),
@@ -465,15 +477,49 @@ class RekamMedisController extends Controller
             ],
             'pasien_all' => $pasien_all,
             'pasien' => $pasien,
-            'tanda_mayor' => TandaMayor::all(),
-            'tanda_minor' => TandaMinor::all(),
+            'tanda_mayor' => $tanda_mayor,
+            'tanda_minor' => $tanda_minor,
         ];
 
         return view('rekam-medis.edit.evaluasi', $data);
     }
 
     public function getEvaluasi(Pasien $pasien)
-    {
+    {   
+        $evaluasi = RekamMedis::where('id_pasien', $pasien->id)->where('group', 'evaluasi')->get();
+
+        $value_evaluasi = [];
+
+        foreach ($evaluasi as $key => $evalua) {
+            $eval = $evalua->getHistory();
+            $tanda_mayor = TandaMayor::all();
+            $tanda_minor = TandaMinor::all();
+
+            $value_evaluasi[$key] = $eval;
+
+            $tanda_mayor_list = [];
+            $tanda_minor_list = [];
+
+            foreach ($tanda_mayor as $tanda) {
+                if(isset($eval['tanda_mayor']) && in_array($tanda->id, json_decode($eval['tanda_mayor']))){
+                    $tanda_mayor_list[] = $tanda->value;
+                }
+            }
+
+            foreach ($tanda_minor as $tanda) {
+                if(isset($eval['tanda_minor']) && in_array($tanda->id, json_decode($eval['tanda_minor']))){
+                    $tanda_minor_list[] = $tanda->value;
+                }
+            }
+
+            $value_evaluasi[$key]['tanda_mayor'] = $tanda_mayor_list;
+            $value_evaluasi[$key]['tanda_minor'] = $tanda_minor_list;
+
+            $value_evaluasi[$key]['analisa'] = getAnalisa($value_evaluasi[$key]['analisa'] ?? '');
+            $value_evaluasi[$key]['rasa_nyeri'] = getRasaNyeri($value_evaluasi[$key]['rasa_nyeri'] ?? '');
+            $value_evaluasi[$key]['durasi_nyeri'] = getDurasiNyeri($value_evaluasi[$key]['durasi_nyeri'] ?? '');
+        }
+
         return response([
             'pasien' => $pasien,
             'evaluasi' => [
@@ -485,37 +531,16 @@ class RekamMedisController extends Controller
                 'region' => '',
                 'severity' => '',
                 'time' => '',
-            ]
+                'time_periksa' => '',
+            ],
+            'table_evaluasi' => view('includes.history.evaluasi', ['value_evaluasi' => $value_evaluasi])->render(),
         ]);
-        $evaluasi = RekamMedis::where('id_pasien', $pasien->id)->where('group', 'evaluasi')->get();
-        return response($evaluasi);
-        $tanda_mayor = TandaMayor::all();
-        $tanda_minor = TandaMinor::all();
-        $tanda_mayor = $tanda_mayor->map(function ($tanda) use($evaluasi) {
-            if(isset($evaluasi['tanda_mayor']) && in_array($tanda->id, json_decode($evaluasi['tanda_mayor']))){
-                $tanda->is_checked = true;
-            }else{
-                $tanda->is_checked = false;
-            }
 
-            return $tanda;
-        });
-
-        $tanda_minor = $tanda_minor->map(function ($tanda) use($evaluasi) {
-            if(isset($evaluasi['tanda_minor']) && in_array($tanda->id, json_decode($evaluasi['tanda_minor']))){
-                $tanda->is_checked = true;
-            }else{
-                $tanda->is_checked = false;
-            }
-
-            return $tanda;
-        });
     }
 
     public function updateEvaluasi(EvaluasiRequest $request, Pasien $pasien)
     {
-        return response($request->validated());
-
+        
         try{
             $data = $request->validated();
             unset($data['data']['tanda_minor']);
@@ -535,16 +560,16 @@ class RekamMedisController extends Controller
             }
             
             DB::transaction(function () use($pasien, $to_update) {
+                $rekam_medis = RekamMedis::create([
+                    'id_pasien' => $pasien->id,
+                    'group' => 'evaluasi',
+                    'key' => 'dummy'
+                ]);
+
                 foreach ($to_update as $key => $value) {
                     if($value != null){
-                        RekamMedis::updateOrCreate(
+                        $rekam_medis->rekam_medis_history()->create(
                             [
-                                'id_pasien' => $pasien->id,
-                                'group' => 'evaluasi',
-                                'key' => $key
-                            ],
-                            [
-                                'id_pasien' => $pasien->id,
                                 'group' => 'evaluasi',
                                 'key' => $key,
                                 'value' => is_array($value) ? json_encode($value) : $value,

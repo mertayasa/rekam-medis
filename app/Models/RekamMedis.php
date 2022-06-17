@@ -54,4 +54,17 @@ class RekamMedis extends Model
 
         return $result;
     }
+
+    public function getHistory()
+    {
+        $data = $this->rekam_medis_history;
+
+        $result = [];
+
+        foreach ($data as $item) {
+            $result[$item->key] = $item->value == 'true' || $item->value == 'false' ? (bool) $item->value : $item->value;
+        }
+
+        return $result;
+    }
 }
