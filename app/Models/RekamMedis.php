@@ -57,7 +57,7 @@ class RekamMedis extends Model
 
     public function getHistory()
     {
-        $data = $this->rekam_medis_history;
+        $data = $this->rekam_medis_history()->where('id_rekam_medis', $this->id)->get();
 
         $result = [];
 
