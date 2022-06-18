@@ -13,10 +13,10 @@ services:
             - ./docker-config/nginx.conf:/etc/nginx/nginx.conf
             - ./docker-config/php.ini:/etc/php7/conf.d/custom.ini
         networks:
-            - docker_main
-            # - mainapp
+            # - docker_main
+            - mainapp
         ports:
-            - 8482:8080
+            - 8083:8080
 
     npm:
         image: node:17-alpine
@@ -29,10 +29,10 @@ services:
         volumes:
         - ./:/var/www/html
             
-networks:
-    docker_main:
-        name: docker_main
-
 # networks:
-#     mainapp:
-#         name: mainapp
+#     docker_main:
+#         name: docker_main
+
+networks:
+    mainapp:
+        name: mainapp

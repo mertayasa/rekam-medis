@@ -353,8 +353,8 @@
 
             </div>
             <div class="col-4">
-                <h6 class="text-center pb-3">Dokter Penanggung Jawab</h6>
-                <h5 class="mt-5 text-center">......................................</h5>
+                {{-- <h6 class="text-center pb-3">Dokter Penanggung Jawab</h6>
+                <h5 class="mt-5 text-center">......................................</h5> --}}
             </div>
         </div>
     </section>

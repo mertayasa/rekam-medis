@@ -30,9 +30,9 @@ class TandaMayorSeeder extends Seeder
             [
                 'value' => 'Sulit tidur'
             ],
-            [
-                'value' => 'Nyeri <3 bulan'
-            ],
+            // [
+            //     'value' => 'Nyeri <3 bulan'
+            // ],
             [
                 'value' => 'Merasa depresi (tertekan)'
             ],
