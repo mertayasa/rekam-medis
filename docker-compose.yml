@@ -2,7 +2,14 @@ version: '3'
 
 services:
     app:
+        deploy:
+         resources:
+          limits:
+           memory: 512M
         build:
+            args:
+             uid: ${DOCKER_UID}
+             gid: ${DOCKER_GID}
             context: ./
             dockerfile: Dockerfile
         image: laravel-rekam-medis
@@ -17,22 +24,11 @@ services:
             - mainapp
         ports:
             - 8083:8080
-
-    npm:
-        image: node:17-alpine
-        container_name: npm-rekam-medis
-        restart: unless-stopped
-        working_dir: /var/www/html
-        entrypoint: ["npm"]
-        depends_on:
-        - app
-        volumes:
-        - ./:/var/www/html
             
-# networks:
-#     docker_main:
-#         name: docker_main
-
 networks:
-    mainapp:
-        name: mainapp
+     docker_main:
+         name: docker_main
+
+#networks:
+#    mainapp:
+#        name: mainapp
